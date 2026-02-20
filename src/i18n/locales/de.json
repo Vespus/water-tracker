@@ -1,0 +1,58 @@
+{
+  "app": {
+    "title": "Water Tracker"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "history": "Verlauf",
+    "stats": "Statistik",
+    "settings": "Einstellungen"
+  },
+  "dashboard": {
+    "today": "Heute",
+    "goal": "Tagesziel",
+    "remaining": "Noch {{amount}} ml"
+  },
+  "beverage": {
+    "water": "Wasser",
+    "sparkling_water": "Sprudelwasser",
+    "tea_herbal": "Kräutertee",
+    "tea_black": "Schwarztee",
+    "tea_green": "Grüner Tee",
+    "coffee": "Kaffee",
+    "milk_skim": "Magermilch",
+    "milk_whole": "Vollmilch",
+    "orange_juice": "Orangensaft",
+    "apple_juice": "Apfelsaft",
+    "cola": "Cola",
+    "cola_diet": "Cola light/zero",
+    "sports_drink": "Sportgetränk",
+    "lemonade": "Limonade",
+    "smoothie": "Smoothie",
+    "soup": "Suppe/Brühe",
+    "beer": "Bier",
+    "wine": "Wein",
+    "champagne": "Sekt/Prosecco",
+    "spirits": "Spirituosen",
+    "cocktail": "Cocktail",
+    "energy_drink": "Energy Drink"
+  },
+  "warning": {
+    "mild_alcohol": "Alkoholische Getränke dehydrieren — zählt nur teilweise",
+    "strong_alcohol": "Spirituosen wirken dehydrierend!",
+    "energy_drink": "Hoher Koffeingehalt"
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "dailyGoal": "Tagesziel",
+    "language": "Sprache",
+    "goalHint": "Empfohlen: 1500–2500 ml je nach Körpergewicht und Aktivität"
+  },
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "ml": "ml"
+  }
+}

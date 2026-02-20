@@ -1,0 +1,21 @@
+{
+  "app": { "title": "Water Tracker" },
+  "nav": { "dashboard": "Ana Sayfa", "history": "Geçmiş", "stats": "İstatistik", "settings": "Ayarlar" },
+  "dashboard": { "today": "Bugün", "goal": "Günlük Hedef", "remaining": "{{amount}} ml kaldı" },
+  "beverage": {
+    "water": "Su", "sparkling_water": "Maden suyu", "tea_herbal": "Bitki çayı",
+    "tea_black": "Siyah çay", "tea_green": "Yeşil çay", "coffee": "Kahve",
+    "milk_skim": "Yağsız süt", "milk_whole": "Tam yağlı süt", "orange_juice": "Portakal suyu",
+    "apple_juice": "Elma suyu", "cola": "Kola", "cola_diet": "Diyet kola",
+    "sports_drink": "Spor içeceği", "lemonade": "Limonata", "smoothie": "Smoothie",
+    "soup": "Çorba", "beer": "Bira", "wine": "Şarap", "champagne": "Şampanya/Prosecco",
+    "spirits": "Sert içki", "cocktail": "Kokteyl", "energy_drink": "Enerji içeceği"
+  },
+  "warning": {
+    "mild_alcohol": "Alkollü içecekler dehidrate eder — sadece kısmen sayılır",
+    "strong_alcohol": "Sert içkiler dehidrate edicidir!",
+    "energy_drink": "Yüksek kafein içeriği"
+  },
+  "settings": { "title": "Ayarlar", "dailyGoal": "Günlük Hedef", "language": "Dil", "goalHint": "Önerilen: Vücut ağırlığına ve aktiviteye göre 1500–2500 ml" },
+  "common": { "save": "Kaydet", "cancel": "İptal", "delete": "Sil", "edit": "Düzenle", "ml": "ml" }
+}

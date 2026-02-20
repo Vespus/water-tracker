@@ -1,0 +1,21 @@
+{
+  "app": { "title": "Water Tracker" },
+  "nav": { "dashboard": "Dashboard", "history": "Cronologia", "stats": "Statistiche", "settings": "Impostazioni" },
+  "dashboard": { "today": "Oggi", "goal": "Obiettivo giornaliero", "remaining": "{{amount}} ml rimanenti" },
+  "beverage": {
+    "water": "Acqua", "sparkling_water": "Acqua frizzante", "tea_herbal": "Tisana",
+    "tea_black": "Tè nero", "tea_green": "Tè verde", "coffee": "Caffè",
+    "milk_skim": "Latte scremato", "milk_whole": "Latte intero", "orange_juice": "Succo d'arancia",
+    "apple_juice": "Succo di mela", "cola": "Cola", "cola_diet": "Cola light/zero",
+    "sports_drink": "Bevanda sportiva", "lemonade": "Limonata", "smoothie": "Smoothie",
+    "soup": "Zuppa/Brodo", "beer": "Birra", "wine": "Vino", "champagne": "Spumante/Prosecco",
+    "spirits": "Superalcolici", "cocktail": "Cocktail", "energy_drink": "Bevanda energetica"
+  },
+  "warning": {
+    "mild_alcohol": "Le bevande alcoliche disidratano — conta solo parzialmente",
+    "strong_alcohol": "I superalcolici disidratano!",
+    "energy_drink": "Alto contenuto di caffeina"
+  },
+  "settings": { "title": "Impostazioni", "dailyGoal": "Obiettivo giornaliero", "language": "Lingua", "goalHint": "Consigliato: 1500–2500 ml in base al peso corporeo e all'attività" },
+  "common": { "save": "Salva", "cancel": "Annulla", "delete": "Elimina", "edit": "Modifica", "ml": "ml" }
+}

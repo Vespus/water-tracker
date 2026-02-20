@@ -1,0 +1,21 @@
+{
+  "app": { "title": "Water Tracker" },
+  "nav": { "dashboard": "Dashboard", "history": "History", "stats": "Statistics", "settings": "Settings" },
+  "dashboard": { "today": "Today", "goal": "Daily Goal", "remaining": "{{amount}} ml remaining" },
+  "beverage": {
+    "water": "Water", "sparkling_water": "Sparkling Water", "tea_herbal": "Herbal Tea",
+    "tea_black": "Black Tea", "tea_green": "Green Tea", "coffee": "Coffee",
+    "milk_skim": "Skim Milk", "milk_whole": "Whole Milk", "orange_juice": "Orange Juice",
+    "apple_juice": "Apple Juice", "cola": "Cola", "cola_diet": "Diet Cola",
+    "sports_drink": "Sports Drink", "lemonade": "Lemonade", "smoothie": "Smoothie",
+    "soup": "Soup/Broth", "beer": "Beer", "wine": "Wine", "champagne": "Champagne/Prosecco",
+    "spirits": "Spirits", "cocktail": "Cocktail", "energy_drink": "Energy Drink"
+  },
+  "warning": {
+    "mild_alcohol": "Alcoholic beverages dehydrate — counts only partially",
+    "strong_alcohol": "Spirits are dehydrating!",
+    "energy_drink": "High caffeine content"
+  },
+  "settings": { "title": "Settings", "dailyGoal": "Daily Goal", "language": "Language", "goalHint": "Recommended: 1500–2500 ml depending on body weight and activity" },
+  "common": { "save": "Save", "cancel": "Cancel", "delete": "Delete", "edit": "Edit", "ml": "ml" }
+}

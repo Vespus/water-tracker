@@ -1,0 +1,26 @@
+import type { BeverageType } from '../types';
+
+export const defaultBeverages: BeverageType[] = [
+  { id: 'water', nameKey: 'beverage.water', icon: '💧', hydrationFactor: 1.0, warningLevel: 'none', warningTextKey: null, category: 'water', isCustom: false, sortOrder: 1 },
+  { id: 'sparkling_water', nameKey: 'beverage.sparkling_water', icon: '🫧', hydrationFactor: 1.0, warningLevel: 'none', warningTextKey: null, category: 'water', isCustom: false, sortOrder: 2 },
+  { id: 'tea_herbal', nameKey: 'beverage.tea_herbal', icon: '🍵', hydrationFactor: 1.0, warningLevel: 'none', warningTextKey: null, category: 'hot', isCustom: false, sortOrder: 3 },
+  { id: 'tea_black', nameKey: 'beverage.tea_black', icon: '🫖', hydrationFactor: 0.95, warningLevel: 'none', warningTextKey: null, category: 'hot', isCustom: false, sortOrder: 4 },
+  { id: 'tea_green', nameKey: 'beverage.tea_green', icon: '🍵', hydrationFactor: 0.95, warningLevel: 'none', warningTextKey: null, category: 'hot', isCustom: false, sortOrder: 5 },
+  { id: 'coffee', nameKey: 'beverage.coffee', icon: '☕', hydrationFactor: 0.95, warningLevel: 'none', warningTextKey: null, category: 'hot', isCustom: false, sortOrder: 6 },
+  { id: 'milk_skim', nameKey: 'beverage.milk_skim', icon: '🥛', hydrationFactor: 1.1, warningLevel: 'none', warningTextKey: null, category: 'cold', isCustom: false, sortOrder: 7 },
+  { id: 'milk_whole', nameKey: 'beverage.milk_whole', icon: '🥛', hydrationFactor: 1.1, warningLevel: 'none', warningTextKey: null, category: 'cold', isCustom: false, sortOrder: 8 },
+  { id: 'orange_juice', nameKey: 'beverage.orange_juice', icon: '🍊', hydrationFactor: 1.05, warningLevel: 'none', warningTextKey: null, category: 'cold', isCustom: false, sortOrder: 9 },
+  { id: 'apple_juice', nameKey: 'beverage.apple_juice', icon: '🍎', hydrationFactor: 1.0, warningLevel: 'none', warningTextKey: null, category: 'cold', isCustom: false, sortOrder: 10 },
+  { id: 'cola', nameKey: 'beverage.cola', icon: '🥤', hydrationFactor: 0.95, warningLevel: 'none', warningTextKey: null, category: 'cold', isCustom: false, sortOrder: 11 },
+  { id: 'cola_diet', nameKey: 'beverage.cola_diet', icon: '🥤', hydrationFactor: 0.95, warningLevel: 'none', warningTextKey: null, category: 'cold', isCustom: false, sortOrder: 12 },
+  { id: 'sports_drink', nameKey: 'beverage.sports_drink', icon: '⚡', hydrationFactor: 1.0, warningLevel: 'none', warningTextKey: null, category: 'cold', isCustom: false, sortOrder: 13 },
+  { id: 'lemonade', nameKey: 'beverage.lemonade', icon: '🍋', hydrationFactor: 0.95, warningLevel: 'none', warningTextKey: null, category: 'cold', isCustom: false, sortOrder: 14 },
+  { id: 'smoothie', nameKey: 'beverage.smoothie', icon: '🥤', hydrationFactor: 1.0, warningLevel: 'none', warningTextKey: null, category: 'cold', isCustom: false, sortOrder: 15 },
+  { id: 'soup', nameKey: 'beverage.soup', icon: '🍲', hydrationFactor: 1.05, warningLevel: 'none', warningTextKey: null, category: 'other', isCustom: false, sortOrder: 16 },
+  { id: 'beer', nameKey: 'beverage.beer', icon: '🍺', hydrationFactor: 0.6, warningLevel: 'mild', warningTextKey: 'warning.mild_alcohol', category: 'alcohol', isCustom: false, sortOrder: 17 },
+  { id: 'wine', nameKey: 'beverage.wine', icon: '🍷', hydrationFactor: 0.4, warningLevel: 'mild', warningTextKey: 'warning.mild_alcohol', category: 'alcohol', isCustom: false, sortOrder: 18 },
+  { id: 'champagne', nameKey: 'beverage.champagne', icon: '🥂', hydrationFactor: 0.4, warningLevel: 'mild', warningTextKey: 'warning.mild_alcohol', category: 'alcohol', isCustom: false, sortOrder: 19 },
+  { id: 'spirits', nameKey: 'beverage.spirits', icon: '🥃', hydrationFactor: -0.1, warningLevel: 'strong', warningTextKey: 'warning.strong_alcohol', category: 'alcohol', isCustom: false, sortOrder: 20 },
+  { id: 'cocktail', nameKey: 'beverage.cocktail', icon: '🍹', hydrationFactor: 0.3, warningLevel: 'mild', warningTextKey: 'warning.mild_alcohol', category: 'alcohol', isCustom: false, sortOrder: 21 },
+  { id: 'energy_drink', nameKey: 'beverage.energy_drink', icon: '⚡', hydrationFactor: 0.85, warningLevel: 'mild', warningTextKey: 'warning.energy_drink', category: 'cold', isCustom: false, sortOrder: 22 },
+];
