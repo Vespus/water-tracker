@@ -1,6 +1,13 @@
 {
-  "app": { "title": "Water Tracker" },
-  "nav": { "dashboard": "Ana Sayfa", "history": "Geçmiş", "stats": "İstatistik", "settings": "Ayarlar" },
+  "app": {
+    "title": "Water Tracker"
+  },
+  "nav": {
+    "dashboard": "Ana Sayfa",
+    "history": "Geçmiş",
+    "stats": "İstatistik",
+    "settings": "Ayarlar"
+  },
   "dashboard": {
     "today": "Bugün",
     "goal": "Günlük Hedef",
@@ -22,22 +29,100 @@
     "todayEntries": "Bugünkü Kayıtlar",
     "waterEq": "Su Eşd."
   },
-  "amount": { "glass": "Bardak", "cup": "Kupa", "bottle": "Şişe", "large_bottle": "Büyük Şişe" },
-  "category": { "water": "Su", "hot": "Sıcak İçecekler", "cold": "Soğuk İçecekler", "alcohol": "Alkol", "other": "Diğer" },
+  "amount": {
+    "glass": "Bardak",
+    "cup": "Kupa",
+    "bottle": "Şişe",
+    "large_bottle": "Büyük Şişe"
+  },
+  "category": {
+    "water": "Su",
+    "hot": "Sıcak İçecekler",
+    "cold": "Soğuk İçecekler",
+    "alcohol": "Alkol",
+    "other": "Diğer"
+  },
   "beverage": {
-    "water": "Su", "sparkling_water": "Maden Suyu", "tea_herbal": "Bitki Çayı",
-    "tea_black": "Siyah Çay", "tea_green": "Yeşil Çay", "coffee": "Kahve",
-    "milk_skim": "Yağsız Süt", "milk_whole": "Tam Yağlı Süt", "orange_juice": "Portakal Suyu",
-    "apple_juice": "Elma Suyu", "cola": "Kola", "cola_diet": "Diyet Kola",
-    "sports_drink": "Spor İçeceği", "lemonade": "Limonata", "smoothie": "Smoothie",
-    "soup": "Çorba", "beer": "Bira", "wine": "Şarap", "champagne": "Şampanya/Prosecco",
-    "spirits": "Distile İçki", "cocktail": "Kokteyl", "energy_drink": "Enerji İçeceği"
+    "water": "Su",
+    "sparkling_water": "Maden Suyu",
+    "tea_herbal": "Bitki Çayı",
+    "tea_black": "Siyah Çay",
+    "tea_green": "Yeşil Çay",
+    "coffee": "Kahve",
+    "milk_skim": "Yağsız Süt",
+    "milk_whole": "Tam Yağlı Süt",
+    "orange_juice": "Portakal Suyu",
+    "apple_juice": "Elma Suyu",
+    "cola": "Kola",
+    "cola_diet": "Diyet Kola",
+    "sports_drink": "Spor İçeceği",
+    "lemonade": "Limonata",
+    "smoothie": "Smoothie",
+    "soup": "Çorba",
+    "beer": "Bira",
+    "wine": "Şarap",
+    "champagne": "Şampanya/Prosecco",
+    "spirits": "Distile İçki",
+    "cocktail": "Kokteyl",
+    "energy_drink": "Enerji İçeceği"
   },
   "warning": {
     "mild_alcohol": "Alkollü içecekler dehidrate eder — sadece kısmen sayılır",
     "strong_alcohol": "Distile içkiler dehidrate edici!",
     "energy_drink": "Yüksek kafein içeriği"
   },
-  "settings": { "title": "Ayarlar", "dailyGoal": "Günlük Hedef", "language": "Dil", "goalHint": "Önerilen: Vücut ağırlığı ve aktiviteye göre 1500–2500 ml" },
-  "common": { "save": "Kaydet", "cancel": "İptal", "delete": "Sil", "edit": "Düzenle", "ml": "ml" }
+  "settings": {
+    "title": "Ayarlar",
+    "dailyGoal": "Günlük Hedef",
+    "language": "Dil",
+    "goalHint": "Önerilen: Vücut ağırlığı ve aktiviteye göre 1500–2500 ml"
+  },
+  "common": {
+    "save": "Kaydet",
+    "cancel": "İptal",
+    "delete": "Sil",
+    "edit": "Düzenle",
+    "ml": "ml"
+  },
+  "history": {
+    "mon": "Pzt",
+    "tue": "Sal",
+    "wed": "Çar",
+    "thu": "Per",
+    "fri": "Cum",
+    "sat": "Cmt",
+    "sun": "Paz",
+    "months": [
+      "Ocak",
+      "Şubat",
+      "Mart",
+      "Nisan",
+      "Mayıs",
+      "Haziran",
+      "Temmuz",
+      "Ağustos",
+      "Eylül",
+      "Ekim",
+      "Kasım",
+      "Aralık"
+    ],
+    "goalReached": "Hedef ulaşıldı",
+    "goalMissed": "Hedef kaçırıldı",
+    "noData": "Veri yok",
+    "goalDays": "Hedef günleri",
+    "trackedDays": "Takip edilen günler",
+    "today": "Bugün"
+  },
+  "stats": {
+    "weekAvg": "Ø Hafta",
+    "monthAvg": "Ø Ay",
+    "vsLastWeek": "vs. geçen hafta",
+    "comparison_better": "Daha iyi",
+    "comparison_worse": "Daha kötü",
+    "comparison_equal": "Aynı",
+    "streakLabel": "Gün üst üste hedefe ulaşıldı 🔥",
+    "thisWeek": "Bu hafta",
+    "backToThisWeek": "Bu haftaya dön",
+    "goal": "Hedef"
+  }
 }

@@ -1,6 +1,13 @@
 {
-  "app": { "title": "Water Tracker" },
-  "nav": { "dashboard": "Tableau de bord", "history": "Historique", "stats": "Statistiques", "settings": "Paramètres" },
+  "app": {
+    "title": "Water Tracker"
+  },
+  "nav": {
+    "dashboard": "Tableau de bord",
+    "history": "Historique",
+    "stats": "Statistiques",
+    "settings": "Paramètres"
+  },
   "dashboard": {
     "today": "Aujourd'hui",
     "goal": "Objectif quotidien",
@@ -22,22 +29,100 @@
     "todayEntries": "Entrées du jour",
     "waterEq": "Éq. eau"
   },
-  "amount": { "glass": "Verre", "cup": "Tasse", "bottle": "Bouteille", "large_bottle": "Grande bouteille" },
-  "category": { "water": "Eau", "hot": "Boissons chaudes", "cold": "Boissons froides", "alcohol": "Alcool", "other": "Autre" },
+  "amount": {
+    "glass": "Verre",
+    "cup": "Tasse",
+    "bottle": "Bouteille",
+    "large_bottle": "Grande bouteille"
+  },
+  "category": {
+    "water": "Eau",
+    "hot": "Boissons chaudes",
+    "cold": "Boissons froides",
+    "alcohol": "Alcool",
+    "other": "Autre"
+  },
   "beverage": {
-    "water": "Eau", "sparkling_water": "Eau pétillante", "tea_herbal": "Tisane",
-    "tea_black": "Thé noir", "tea_green": "Thé vert", "coffee": "Café",
-    "milk_skim": "Lait écrémé", "milk_whole": "Lait entier", "orange_juice": "Jus d'orange",
-    "apple_juice": "Jus de pomme", "cola": "Cola", "cola_diet": "Cola light",
-    "sports_drink": "Boisson sportive", "lemonade": "Limonade", "smoothie": "Smoothie",
-    "soup": "Soupe/Bouillon", "beer": "Bière", "wine": "Vin", "champagne": "Champagne/Prosecco",
-    "spirits": "Spiritueux", "cocktail": "Cocktail", "energy_drink": "Boisson énergétique"
+    "water": "Eau",
+    "sparkling_water": "Eau pétillante",
+    "tea_herbal": "Tisane",
+    "tea_black": "Thé noir",
+    "tea_green": "Thé vert",
+    "coffee": "Café",
+    "milk_skim": "Lait écrémé",
+    "milk_whole": "Lait entier",
+    "orange_juice": "Jus d'orange",
+    "apple_juice": "Jus de pomme",
+    "cola": "Cola",
+    "cola_diet": "Cola light",
+    "sports_drink": "Boisson sportive",
+    "lemonade": "Limonade",
+    "smoothie": "Smoothie",
+    "soup": "Soupe/Bouillon",
+    "beer": "Bière",
+    "wine": "Vin",
+    "champagne": "Champagne/Prosecco",
+    "spirits": "Spiritueux",
+    "cocktail": "Cocktail",
+    "energy_drink": "Boisson énergétique"
   },
   "warning": {
     "mild_alcohol": "Les boissons alcoolisées déshydratent — ne compte que partiellement",
     "strong_alcohol": "Les spiritueux sont déshydratants !",
     "energy_drink": "Forte teneur en caféine"
   },
-  "settings": { "title": "Paramètres", "dailyGoal": "Objectif quotidien", "language": "Langue", "goalHint": "Recommandé : 1500–2500 ml selon le poids et l'activité" },
-  "common": { "save": "Enregistrer", "cancel": "Annuler", "delete": "Supprimer", "edit": "Modifier", "ml": "ml" }
+  "settings": {
+    "title": "Paramètres",
+    "dailyGoal": "Objectif quotidien",
+    "language": "Langue",
+    "goalHint": "Recommandé : 1500–2500 ml selon le poids et l'activité"
+  },
+  "common": {
+    "save": "Enregistrer",
+    "cancel": "Annuler",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "ml": "ml"
+  },
+  "history": {
+    "mon": "Lun",
+    "tue": "Mar",
+    "wed": "Mer",
+    "thu": "Jeu",
+    "fri": "Ven",
+    "sat": "Sam",
+    "sun": "Dim",
+    "months": [
+      "Janvier",
+      "Février",
+      "Mars",
+      "Avril",
+      "Mai",
+      "Juin",
+      "Juillet",
+      "Août",
+      "Septembre",
+      "Octobre",
+      "Novembre",
+      "Décembre"
+    ],
+    "goalReached": "Objectif atteint",
+    "goalMissed": "Objectif manqué",
+    "noData": "Aucune donnée",
+    "goalDays": "Jours objectif",
+    "trackedDays": "Jours suivis",
+    "today": "Aujourd'hui"
+  },
+  "stats": {
+    "weekAvg": "Ø Semaine",
+    "monthAvg": "Ø Mois",
+    "vsLastWeek": "vs. semaine dernière",
+    "comparison_better": "Mieux",
+    "comparison_worse": "Pire",
+    "comparison_equal": "Égal",
+    "streakLabel": "Jours consécutifs objectif atteint 🔥",
+    "thisWeek": "Cette semaine",
+    "backToThisWeek": "Retour à cette semaine",
+    "goal": "Objectif"
+  }
 }

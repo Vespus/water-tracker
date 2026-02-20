@@ -53,5 +53,27 @@
     "title": "Einstellungen", "dailyGoal": "Tagesziel", "language": "Sprache",
     "goalHint": "Empfohlen: 1500–2500 ml je nach Körpergewicht und Aktivität"
   },
+  "history": {
+    "mon": "Mo", "tue": "Di", "wed": "Mi", "thu": "Do", "fri": "Fr", "sat": "Sa", "sun": "So",
+    "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+    "goalReached": "Ziel erreicht",
+    "goalMissed": "Ziel verfehlt",
+    "noData": "Keine Daten",
+    "goalDays": "Zieltage",
+    "trackedDays": "Erfasste Tage",
+    "today": "Heute"
+  },
+  "stats": {
+    "weekAvg": "Ø Woche",
+    "monthAvg": "Ø Monat",
+    "vsLastWeek": "vs. letzte Woche",
+    "comparison_better": "Besser",
+    "comparison_worse": "Schlechter",
+    "comparison_equal": "Gleich",
+    "streakLabel": "Tage in Folge Ziel erreicht 🔥",
+    "thisWeek": "Diese Woche",
+    "backToThisWeek": "Zurück zu dieser Woche",
+    "goal": "Ziel"
+  },
   "common": { "save": "Speichern", "cancel": "Abbrechen", "delete": "Löschen", "edit": "Bearbeiten", "ml": "ml" }
 }

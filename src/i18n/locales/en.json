@@ -50,5 +50,27 @@
     "energy_drink": "High caffeine content"
   },
   "settings": { "title": "Settings", "dailyGoal": "Daily Goal", "language": "Language", "goalHint": "Recommended: 1500–2500 ml depending on body weight and activity" },
+  "history": {
+    "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat", "sun": "Sun",
+    "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "goalReached": "Goal reached",
+    "goalMissed": "Goal missed",
+    "noData": "No data",
+    "goalDays": "Goal days",
+    "trackedDays": "Tracked days",
+    "today": "Today"
+  },
+  "stats": {
+    "weekAvg": "Ø Week",
+    "monthAvg": "Ø Month",
+    "vsLastWeek": "vs. last week",
+    "comparison_better": "Better",
+    "comparison_worse": "Worse",
+    "comparison_equal": "Same",
+    "streakLabel": "Days in a row goal reached 🔥",
+    "thisWeek": "This week",
+    "backToThisWeek": "Back to this week",
+    "goal": "Goal"
+  },
   "common": { "save": "Save", "cancel": "Cancel", "delete": "Delete", "edit": "Edit", "ml": "ml" }
 }
