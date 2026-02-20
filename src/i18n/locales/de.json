@@ -1,41 +1,48 @@
 {
-  "app": {
-    "title": "Water Tracker"
-  },
-  "nav": {
-    "dashboard": "Dashboard",
-    "history": "Verlauf",
-    "stats": "Statistik",
-    "settings": "Einstellungen"
-  },
+  "app": { "title": "Water Tracker" },
+  "nav": { "dashboard": "Dashboard", "history": "Verlauf", "stats": "Statistik", "settings": "Einstellungen" },
   "dashboard": {
     "today": "Heute",
     "goal": "Tagesziel",
-    "remaining": "Noch {{amount}} ml"
+    "remaining": "Noch {{amount}} ml",
+    "totalMl": "Gesamt (ml)",
+    "waterEquivalent": "Wasser-Äquivalent",
+    "entries": "Einträge"
+  },
+  "drink": {
+    "chooseBeverage": "Getränk wählen",
+    "chooseAmount": "Menge wählen",
+    "hydrationFactor": "{{factor}}× Wasser",
+    "customAmount": "Eigene Menge (ml)",
+    "back": "Zurück",
+    "added": "Hinzugefügt!",
+    "addDrink": "Getränk hinzufügen",
+    "quickAdd": "Schnelleingabe",
+    "noEntries": "Noch keine Einträge heute",
+    "todayEntries": "Heutige Einträge",
+    "waterEq": "Wasser-Äq."
+  },
+  "amount": {
+    "glass": "Glas",
+    "cup": "Becher",
+    "bottle": "Flasche",
+    "large_bottle": "Große Flasche"
+  },
+  "category": {
+    "water": "Wasser",
+    "hot": "Heißgetränke",
+    "cold": "Kaltgetränke",
+    "alcohol": "Alkohol",
+    "other": "Sonstiges"
   },
   "beverage": {
-    "water": "Wasser",
-    "sparkling_water": "Sprudelwasser",
-    "tea_herbal": "Kräutertee",
-    "tea_black": "Schwarztee",
-    "tea_green": "Grüner Tee",
-    "coffee": "Kaffee",
-    "milk_skim": "Magermilch",
-    "milk_whole": "Vollmilch",
-    "orange_juice": "Orangensaft",
-    "apple_juice": "Apfelsaft",
-    "cola": "Cola",
-    "cola_diet": "Cola light/zero",
-    "sports_drink": "Sportgetränk",
-    "lemonade": "Limonade",
-    "smoothie": "Smoothie",
-    "soup": "Suppe/Brühe",
-    "beer": "Bier",
-    "wine": "Wein",
-    "champagne": "Sekt/Prosecco",
-    "spirits": "Spirituosen",
-    "cocktail": "Cocktail",
-    "energy_drink": "Energy Drink"
+    "water": "Wasser", "sparkling_water": "Sprudelwasser", "tea_herbal": "Kräutertee",
+    "tea_black": "Schwarztee", "tea_green": "Grüner Tee", "coffee": "Kaffee",
+    "milk_skim": "Magermilch", "milk_whole": "Vollmilch", "orange_juice": "Orangensaft",
+    "apple_juice": "Apfelsaft", "cola": "Cola", "cola_diet": "Cola light/zero",
+    "sports_drink": "Sportgetränk", "lemonade": "Limonade", "smoothie": "Smoothie",
+    "soup": "Suppe/Brühe", "beer": "Bier", "wine": "Wein", "champagne": "Sekt/Prosecco",
+    "spirits": "Spirituosen", "cocktail": "Cocktail", "energy_drink": "Energy Drink"
   },
   "warning": {
     "mild_alcohol": "Alkoholische Getränke dehydrieren — zählt nur teilweise",
@@ -43,16 +50,8 @@
     "energy_drink": "Hoher Koffeingehalt"
   },
   "settings": {
-    "title": "Einstellungen",
-    "dailyGoal": "Tagesziel",
-    "language": "Sprache",
+    "title": "Einstellungen", "dailyGoal": "Tagesziel", "language": "Sprache",
     "goalHint": "Empfohlen: 1500–2500 ml je nach Körpergewicht und Aktivität"
   },
-  "common": {
-    "save": "Speichern",
-    "cancel": "Abbrechen",
-    "delete": "Löschen",
-    "edit": "Bearbeiten",
-    "ml": "ml"
-  }
+  "common": { "save": "Speichern", "cancel": "Abbrechen", "delete": "Löschen", "edit": "Bearbeiten", "ml": "ml" }
 }

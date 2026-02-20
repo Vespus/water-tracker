@@ -1,2 +1,67 @@
-// TODO: Hook for drink entry CRUD operations
-export {};
+import { useLiveQuery } from 'dexie-react-hooks';
+import { useCallback } from 'react';
+import { db } from '../data/db';
+import { todayString } from '../utils/date';
+import { calcWaterEquivalent } from '../utils/hydration';
+import { defaultBeverages } from '../data/beverages';
+import type { DrinkEntry } from '../types';
+
+export function useTodayDrinks() {
+  const today = todayString();
+  const entries = useLiveQuery(() =>
+    db.drinkEntries.where('date').equals(today).sortBy('timestamp'),
+    [], []
+  );
+  return entries ?? [];
+}
+
+export function useTodaySummary() {
+  const entries = useTodayDrinks();
+  const totalMl = entries.reduce((s, e) => s + e.amountMl, 0);
+  const totalWaterEquivalentMl = entries.reduce((s, e) => s + e.waterEquivalentMl, 0);
+  return { totalMl, totalWaterEquivalentMl, entryCount: entries.length };
+}
+
+export function useAddDrink() {
+  return useCallback(async (beverageTypeId: string, amountMl: number) => {
+    const bev = defaultBeverages.find(b => b.id === beverageTypeId);
+    if (!bev) throw new Error(`Unknown beverage: ${beverageTypeId}`);
+    const now = new Date().toISOString();
+    const entry: DrinkEntry = {
+      id: crypto.randomUUID(),
+      beverageTypeId,
+      amountMl,
+      hydrationFactor: bev.hydrationFactor,
+      waterEquivalentMl: calcWaterEquivalent(amountMl, bev.hydrationFactor),
+      date: todayString(),
+      timestamp: now,
+      createdAt: now,
+      updatedAt: now,
+    };
+    await db.drinkEntries.add(entry);
+    return entry;
+  }, []);
+}
+
+export function useDeleteDrink() {
+  return useCallback(async (id: string) => {
+    await db.drinkEntries.delete(id);
+  }, []);
+}
+
+/** Get top 3 most used beverages (all-time frequency) */
+export function useFrequentBeverages() {
+  const entries = useLiveQuery(async () => {
+    const all = await db.drinkEntries.toArray();
+    const freq: Record<string, number> = {};
+    for (const e of all) {
+      freq[e.beverageTypeId] = (freq[e.beverageTypeId] || 0) + 1;
+    }
+    const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 3);
+    return sorted.map(([id]) => id);
+  }, [], []);
+
+  // Default quick buttons if no history
+  const ids = entries && entries.length > 0 ? entries : ['water', 'coffee', 'tea_herbal'];
+  return ids.map(id => defaultBeverages.find(b => b.id === id)!).filter(Boolean);
+}

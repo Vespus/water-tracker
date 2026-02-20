@@ -1,21 +1,43 @@
 {
   "app": { "title": "Water Tracker" },
   "nav": { "dashboard": "Tableau de bord", "history": "Historique", "stats": "Statistiques", "settings": "Paramètres" },
-  "dashboard": { "today": "Aujourd'hui", "goal": "Objectif journalier", "remaining": "{{amount}} ml restants" },
+  "dashboard": {
+    "today": "Aujourd'hui",
+    "goal": "Objectif quotidien",
+    "remaining": "{{amount}} ml restants",
+    "totalMl": "Total (ml)",
+    "waterEquivalent": "Équivalent eau",
+    "entries": "Entrées"
+  },
+  "drink": {
+    "chooseBeverage": "Choisir une boisson",
+    "chooseAmount": "Choisir la quantité",
+    "hydrationFactor": "{{factor}}× Eau",
+    "customAmount": "Quantité personnalisée (ml)",
+    "back": "Retour",
+    "added": "Ajouté !",
+    "addDrink": "Ajouter une boisson",
+    "quickAdd": "Ajout rapide",
+    "noEntries": "Aucune entrée aujourd'hui",
+    "todayEntries": "Entrées du jour",
+    "waterEq": "Éq. eau"
+  },
+  "amount": { "glass": "Verre", "cup": "Tasse", "bottle": "Bouteille", "large_bottle": "Grande bouteille" },
+  "category": { "water": "Eau", "hot": "Boissons chaudes", "cold": "Boissons froides", "alcohol": "Alcool", "other": "Autre" },
   "beverage": {
-    "water": "Eau", "sparkling_water": "Eau gazeuse", "tea_herbal": "Tisane",
+    "water": "Eau", "sparkling_water": "Eau pétillante", "tea_herbal": "Tisane",
     "tea_black": "Thé noir", "tea_green": "Thé vert", "coffee": "Café",
     "milk_skim": "Lait écrémé", "milk_whole": "Lait entier", "orange_juice": "Jus d'orange",
-    "apple_juice": "Jus de pomme", "cola": "Cola", "cola_diet": "Cola light/zéro",
+    "apple_juice": "Jus de pomme", "cola": "Cola", "cola_diet": "Cola light",
     "sports_drink": "Boisson sportive", "lemonade": "Limonade", "smoothie": "Smoothie",
     "soup": "Soupe/Bouillon", "beer": "Bière", "wine": "Vin", "champagne": "Champagne/Prosecco",
-    "spirits": "Spiritueux", "cocktail": "Cocktail", "energy_drink": "Boisson énergisante"
+    "spirits": "Spiritueux", "cocktail": "Cocktail", "energy_drink": "Boisson énergétique"
   },
   "warning": {
     "mild_alcohol": "Les boissons alcoolisées déshydratent — ne compte que partiellement",
-    "strong_alcohol": "Les spiritueux déshydratent !",
-    "energy_drink": "Teneur élevée en caféine"
+    "strong_alcohol": "Les spiritueux sont déshydratants !",
+    "energy_drink": "Forte teneur en caféine"
   },
-  "settings": { "title": "Paramètres", "dailyGoal": "Objectif journalier", "language": "Langue", "goalHint": "Recommandé : 1500–2500 ml selon le poids et l'activité" },
+  "settings": { "title": "Paramètres", "dailyGoal": "Objectif quotidien", "language": "Langue", "goalHint": "Recommandé : 1500–2500 ml selon le poids et l'activité" },
   "common": { "save": "Enregistrer", "cancel": "Annuler", "delete": "Supprimer", "edit": "Modifier", "ml": "ml" }
 }

@@ -1,7 +1,40 @@
 {
   "app": { "title": "Water Tracker" },
   "nav": { "dashboard": "Dashboard", "history": "History", "stats": "Statistics", "settings": "Settings" },
-  "dashboard": { "today": "Today", "goal": "Daily Goal", "remaining": "{{amount}} ml remaining" },
+  "dashboard": {
+    "today": "Today",
+    "goal": "Daily Goal",
+    "remaining": "{{amount}} ml remaining",
+    "totalMl": "Total (ml)",
+    "waterEquivalent": "Water Equivalent",
+    "entries": "Entries"
+  },
+  "drink": {
+    "chooseBeverage": "Choose Beverage",
+    "chooseAmount": "Choose Amount",
+    "hydrationFactor": "{{factor}}× Water",
+    "customAmount": "Custom amount (ml)",
+    "back": "Back",
+    "added": "Added!",
+    "addDrink": "Add Drink",
+    "quickAdd": "Quick Add",
+    "noEntries": "No entries yet today",
+    "todayEntries": "Today's Entries",
+    "waterEq": "Water Eq."
+  },
+  "amount": {
+    "glass": "Glass",
+    "cup": "Cup",
+    "bottle": "Bottle",
+    "large_bottle": "Large Bottle"
+  },
+  "category": {
+    "water": "Water",
+    "hot": "Hot Drinks",
+    "cold": "Cold Drinks",
+    "alcohol": "Alcohol",
+    "other": "Other"
+  },
   "beverage": {
     "water": "Water", "sparkling_water": "Sparkling Water", "tea_herbal": "Herbal Tea",
     "tea_black": "Black Tea", "tea_green": "Green Tea", "coffee": "Coffee",
