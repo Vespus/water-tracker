@@ -1,7 +1,7 @@
 import { useLiveQuery } from 'dexie-react-hooks';
 import { db } from '../data/db';
 import type { UserSettings } from '../types';
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 
 const DEFAULT_SETTINGS: UserSettings = {
   id: 'default',
@@ -13,14 +13,14 @@ const DEFAULT_SETTINGS: UserSettings = {
 };
 
 export function useSettings() {
-  const settings = useLiveQuery(async () => {
-    const s = await db.settings.get('default');
-    if (!s) {
-      await db.settings.put(DEFAULT_SETTINGS);
-      return DEFAULT_SETTINGS;
-    }
-    return s;
-  });
+  const settings = useLiveQuery(() => db.settings.get('default'));
+
+  // Seed default settings if none exist (outside liveQuery to avoid ReadOnlyError)
+  useEffect(() => {
+    db.settings.get('default').then(s => {
+      if (!s) db.settings.put(DEFAULT_SETTINGS);
+    });
+  }, []);
 
   const updateSettings = useCallback(async (patch: Partial<UserSettings>) => {
     await db.settings.update('default', { ...patch, updatedAt: new Date().toISOString() });

@@ -1,5 +1,17 @@
+import { Component, type ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../stores/appStore';
+
+class ErrorBoundary extends Component<{children: ReactNode}, {error: string|null}> {
+  state = { error: null as string|null };
+  static getDerivedStateFromError(error: any) {
+    return { error: `${error?.name || 'Error'}: ${error?.message || String(error)}${error?.inner ? ' | inner: ' + error.inner.message : ''}` };
+  }
+  render() {
+    if (this.state.error) return <pre style={{padding: 20, color: 'red', whiteSpace: 'pre-wrap'}}>{this.state.error}</pre>;
+    return this.props.children;
+  }
+}
 import { LayoutDashboard, History, BarChart3, Settings } from 'lucide-react';
 import Dashboard from '../pages/Dashboard';
 import HistoryPage from '../pages/History';
@@ -30,7 +42,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col">
       <main className="flex-1 max-w-lg mx-auto w-full">
-        <Page />
+        <ErrorBoundary><Page /></ErrorBoundary>
       </main>
       <nav className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky bottom-0">
         <div className="max-w-lg mx-auto flex justify-around py-2">
