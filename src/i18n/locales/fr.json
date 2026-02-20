@@ -27,7 +27,9 @@
     "quickAdd": "Ajout rapide",
     "noEntries": "Aucune entrée aujourd'hui",
     "todayEntries": "Entrées du jour",
-    "waterEq": "Éq. eau"
+    "waterEq": "Éq. eau",
+    "deleted": "Entrée supprimée",
+    "undo": "Annuler"
   },
   "amount": {
     "glass": "Verre",
@@ -124,5 +126,14 @@
     "thisWeek": "Cette semaine",
     "backToThisWeek": "Retour à cette semaine",
     "goal": "Objectif"
+  },
+  "onboarding": {
+    "welcome": "Bienvenue !",
+    "welcomeText": "Suivez votre consommation de liquides et restez hydraté.",
+    "setGoal": "Votre objectif quotidien",
+    "chooseLanguage": "Choisir la langue",
+    "next": "Suivant",
+    "skip": "Passer",
+    "letsGo": "C'est parti"
   }
 }

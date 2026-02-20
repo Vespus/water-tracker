@@ -1,6 +1,13 @@
 {
-  "app": { "title": "Water Tracker" },
-  "nav": { "dashboard": "Dashboard", "history": "Verlauf", "stats": "Statistik", "settings": "Einstellungen" },
+  "app": {
+    "title": "Water Tracker"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "history": "Verlauf",
+    "stats": "Statistik",
+    "settings": "Einstellungen"
+  },
   "dashboard": {
     "today": "Heute",
     "goal": "Tagesziel",
@@ -20,7 +27,9 @@
     "quickAdd": "Schnelleingabe",
     "noEntries": "Noch keine Einträge heute",
     "todayEntries": "Heutige Einträge",
-    "waterEq": "Wasser-Äq."
+    "waterEq": "Wasser-Äq.",
+    "deleted": "Eintrag gelöscht",
+    "undo": "Rückgängig"
   },
   "amount": {
     "glass": "Glas",
@@ -36,13 +45,28 @@
     "other": "Sonstiges"
   },
   "beverage": {
-    "water": "Wasser", "sparkling_water": "Sprudelwasser", "tea_herbal": "Kräutertee",
-    "tea_black": "Schwarztee", "tea_green": "Grüner Tee", "coffee": "Kaffee",
-    "milk_skim": "Magermilch", "milk_whole": "Vollmilch", "orange_juice": "Orangensaft",
-    "apple_juice": "Apfelsaft", "cola": "Cola", "cola_diet": "Cola light/zero",
-    "sports_drink": "Sportgetränk", "lemonade": "Limonade", "smoothie": "Smoothie",
-    "soup": "Suppe/Brühe", "beer": "Bier", "wine": "Wein", "champagne": "Sekt/Prosecco",
-    "spirits": "Spirituosen", "cocktail": "Cocktail", "energy_drink": "Energy Drink"
+    "water": "Wasser",
+    "sparkling_water": "Sprudelwasser",
+    "tea_herbal": "Kräutertee",
+    "tea_black": "Schwarztee",
+    "tea_green": "Grüner Tee",
+    "coffee": "Kaffee",
+    "milk_skim": "Magermilch",
+    "milk_whole": "Vollmilch",
+    "orange_juice": "Orangensaft",
+    "apple_juice": "Apfelsaft",
+    "cola": "Cola",
+    "cola_diet": "Cola light/zero",
+    "sports_drink": "Sportgetränk",
+    "lemonade": "Limonade",
+    "smoothie": "Smoothie",
+    "soup": "Suppe/Brühe",
+    "beer": "Bier",
+    "wine": "Wein",
+    "champagne": "Sekt/Prosecco",
+    "spirits": "Spirituosen",
+    "cocktail": "Cocktail",
+    "energy_drink": "Energy Drink"
   },
   "warning": {
     "mild_alcohol": "Alkoholische Getränke dehydrieren — zählt nur teilweise",
@@ -50,12 +74,33 @@
     "energy_drink": "Hoher Koffeingehalt"
   },
   "settings": {
-    "title": "Einstellungen", "dailyGoal": "Tagesziel", "language": "Sprache",
+    "title": "Einstellungen",
+    "dailyGoal": "Tagesziel",
+    "language": "Sprache",
     "goalHint": "Empfohlen: 1500–2500 ml je nach Körpergewicht und Aktivität"
   },
   "history": {
-    "mon": "Mo", "tue": "Di", "wed": "Mi", "thu": "Do", "fri": "Fr", "sat": "Sa", "sun": "So",
-    "months": ["Januar", "Februar", "März", "April", "Mai", "Juni", "Juli", "August", "September", "Oktober", "November", "Dezember"],
+    "mon": "Mo",
+    "tue": "Di",
+    "wed": "Mi",
+    "thu": "Do",
+    "fri": "Fr",
+    "sat": "Sa",
+    "sun": "So",
+    "months": [
+      "Januar",
+      "Februar",
+      "März",
+      "April",
+      "Mai",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Dezember"
+    ],
     "goalReached": "Ziel erreicht",
     "goalMissed": "Ziel verfehlt",
     "noData": "Keine Daten",
@@ -75,5 +120,20 @@
     "backToThisWeek": "Zurück zu dieser Woche",
     "goal": "Ziel"
   },
-  "common": { "save": "Speichern", "cancel": "Abbrechen", "delete": "Löschen", "edit": "Bearbeiten", "ml": "ml" }
+  "common": {
+    "save": "Speichern",
+    "cancel": "Abbrechen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "ml": "ml"
+  },
+  "onboarding": {
+    "welcome": "Willkommen!",
+    "welcomeText": "Behalte deine Flüssigkeitsaufnahme im Blick und bleibe hydriert.",
+    "setGoal": "Dein Tagesziel",
+    "chooseLanguage": "Sprache wählen",
+    "next": "Weiter",
+    "skip": "Überspringen",
+    "letsGo": "Los geht's"
+  }
 }

@@ -27,7 +27,9 @@
     "quickAdd": "Aggiunta rapida",
     "noEntries": "Nessuna voce oggi",
     "todayEntries": "Voci di oggi",
-    "waterEq": "Eq. acqua"
+    "waterEq": "Eq. acqua",
+    "deleted": "Voce eliminata",
+    "undo": "Annulla"
   },
   "amount": {
     "glass": "Bicchiere",
@@ -124,5 +126,14 @@
     "thisWeek": "Questa settimana",
     "backToThisWeek": "Torna a questa settimana",
     "goal": "Obiettivo"
+  },
+  "onboarding": {
+    "welcome": "Benvenuto!",
+    "welcomeText": "Monitora la tua assunzione di liquidi e rimani idratato.",
+    "setGoal": "Il tuo obiettivo giornaliero",
+    "chooseLanguage": "Scegli la lingua",
+    "next": "Avanti",
+    "skip": "Salta",
+    "letsGo": "Iniziamo"
   }
 }

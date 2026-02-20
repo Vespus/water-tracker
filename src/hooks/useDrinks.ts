@@ -49,6 +49,20 @@ export function useDeleteDrink() {
   }, []);
 }
 
+export function useUpdateDrink() {
+  return useCallback(async (id: string, beverageTypeId: string, amountMl: number) => {
+    const bev = defaultBeverages.find(b => b.id === beverageTypeId);
+    if (!bev) throw new Error(`Unknown beverage: ${beverageTypeId}`);
+    await db.drinkEntries.update(id, {
+      beverageTypeId,
+      amountMl,
+      hydrationFactor: bev.hydrationFactor,
+      waterEquivalentMl: calcWaterEquivalent(amountMl, bev.hydrationFactor),
+      updatedAt: new Date().toISOString(),
+    });
+  }, []);
+}
+
 /** Get top 3 most used beverages (all-time frequency) */
 export function useFrequentBeverages() {
   const entries = useLiveQuery(async () => {

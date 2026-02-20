@@ -27,7 +27,9 @@
     "quickAdd": "Hızlı Ekle",
     "noEntries": "Bugün henüz kayıt yok",
     "todayEntries": "Bugünkü Kayıtlar",
-    "waterEq": "Su Eşd."
+    "waterEq": "Su Eşd.",
+    "deleted": "Kayıt silindi",
+    "undo": "Geri al"
   },
   "amount": {
     "glass": "Bardak",
@@ -124,5 +126,14 @@
     "thisWeek": "Bu hafta",
     "backToThisWeek": "Bu haftaya dön",
     "goal": "Hedef"
+  },
+  "onboarding": {
+    "welcome": "Hoş geldiniz!",
+    "welcomeText": "Sıvı alımınızı takip edin ve hidrate kalın.",
+    "setGoal": "Günlük Hedefiniz",
+    "chooseLanguage": "Dil Seçin",
+    "next": "İleri",
+    "skip": "Atla",
+    "letsGo": "Hadi başlayalım"
   }
 }

@@ -1,6 +1,13 @@
 {
-  "app": { "title": "Water Tracker" },
-  "nav": { "dashboard": "Dashboard", "history": "History", "stats": "Statistics", "settings": "Settings" },
+  "app": {
+    "title": "Water Tracker"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "history": "History",
+    "stats": "Statistics",
+    "settings": "Settings"
+  },
   "dashboard": {
     "today": "Today",
     "goal": "Daily Goal",
@@ -20,7 +27,9 @@
     "quickAdd": "Quick Add",
     "noEntries": "No entries yet today",
     "todayEntries": "Today's Entries",
-    "waterEq": "Water Eq."
+    "waterEq": "Water Eq.",
+    "deleted": "Entry deleted",
+    "undo": "Undo"
   },
   "amount": {
     "glass": "Glass",
@@ -36,23 +45,62 @@
     "other": "Other"
   },
   "beverage": {
-    "water": "Water", "sparkling_water": "Sparkling Water", "tea_herbal": "Herbal Tea",
-    "tea_black": "Black Tea", "tea_green": "Green Tea", "coffee": "Coffee",
-    "milk_skim": "Skim Milk", "milk_whole": "Whole Milk", "orange_juice": "Orange Juice",
-    "apple_juice": "Apple Juice", "cola": "Cola", "cola_diet": "Diet Cola",
-    "sports_drink": "Sports Drink", "lemonade": "Lemonade", "smoothie": "Smoothie",
-    "soup": "Soup/Broth", "beer": "Beer", "wine": "Wine", "champagne": "Champagne/Prosecco",
-    "spirits": "Spirits", "cocktail": "Cocktail", "energy_drink": "Energy Drink"
+    "water": "Water",
+    "sparkling_water": "Sparkling Water",
+    "tea_herbal": "Herbal Tea",
+    "tea_black": "Black Tea",
+    "tea_green": "Green Tea",
+    "coffee": "Coffee",
+    "milk_skim": "Skim Milk",
+    "milk_whole": "Whole Milk",
+    "orange_juice": "Orange Juice",
+    "apple_juice": "Apple Juice",
+    "cola": "Cola",
+    "cola_diet": "Diet Cola",
+    "sports_drink": "Sports Drink",
+    "lemonade": "Lemonade",
+    "smoothie": "Smoothie",
+    "soup": "Soup/Broth",
+    "beer": "Beer",
+    "wine": "Wine",
+    "champagne": "Champagne/Prosecco",
+    "spirits": "Spirits",
+    "cocktail": "Cocktail",
+    "energy_drink": "Energy Drink"
   },
   "warning": {
     "mild_alcohol": "Alcoholic beverages dehydrate — counts only partially",
     "strong_alcohol": "Spirits are dehydrating!",
     "energy_drink": "High caffeine content"
   },
-  "settings": { "title": "Settings", "dailyGoal": "Daily Goal", "language": "Language", "goalHint": "Recommended: 1500–2500 ml depending on body weight and activity" },
+  "settings": {
+    "title": "Settings",
+    "dailyGoal": "Daily Goal",
+    "language": "Language",
+    "goalHint": "Recommended: 1500–2500 ml depending on body weight and activity"
+  },
   "history": {
-    "mon": "Mon", "tue": "Tue", "wed": "Wed", "thu": "Thu", "fri": "Fri", "sat": "Sat", "sun": "Sun",
-    "months": ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+    "mon": "Mon",
+    "tue": "Tue",
+    "wed": "Wed",
+    "thu": "Thu",
+    "fri": "Fri",
+    "sat": "Sat",
+    "sun": "Sun",
+    "months": [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December"
+    ],
     "goalReached": "Goal reached",
     "goalMissed": "Goal missed",
     "noData": "No data",
@@ -72,5 +120,20 @@
     "backToThisWeek": "Back to this week",
     "goal": "Goal"
   },
-  "common": { "save": "Save", "cancel": "Cancel", "delete": "Delete", "edit": "Edit", "ml": "ml" }
+  "common": {
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "ml": "ml"
+  },
+  "onboarding": {
+    "welcome": "Welcome!",
+    "welcomeText": "Track your fluid intake and stay hydrated.",
+    "setGoal": "Your Daily Goal",
+    "chooseLanguage": "Choose Language",
+    "next": "Next",
+    "skip": "Skip",
+    "letsGo": "Let's go"
+  }
 }

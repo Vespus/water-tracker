@@ -18,6 +18,7 @@ import HistoryPage from '../pages/History';
 import Stats from '../pages/Stats';
 import SettingsPage from '../pages/Settings';
 import Onboarding from '../pages/Onboarding';
+import { useSettings } from '../hooks/useSettings';
 
 const pages = {
   dashboard: Dashboard,
@@ -37,14 +38,18 @@ const navItems = [
 export default function App() {
   const { t } = useTranslation();
   const { currentPage, setCurrentPage } = useAppStore();
-  const Page = pages[currentPage];
+  const { settings } = useSettings();
+
+  // Show onboarding on first start
+  const showOnboarding = !settings.onboardingCompleted && currentPage !== 'onboarding';
+  const Page = showOnboarding ? Onboarding : pages[currentPage];
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col">
       <main className="flex-1 max-w-lg mx-auto w-full">
         <ErrorBoundary><Page /></ErrorBoundary>
       </main>
-      <nav className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky bottom-0">
+      {!showOnboarding && <nav className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky bottom-0">
         <div className="max-w-lg mx-auto flex justify-around py-2">
           {navItems.map(({ id, icon: Icon, labelKey }) => (
             <button
@@ -61,7 +66,7 @@ export default function App() {
             </button>
           ))}
         </div>
-      </nav>
+      </nav>}
     </div>
   );
 }
