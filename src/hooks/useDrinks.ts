@@ -64,6 +64,32 @@ export function useUpdateDrink() {
 }
 
 /**
+ * Returns the last N distinct beverages used (by timestamp, deduplicated).
+ * Returns empty array if no entries yet.
+ */
+export function useRecentBeverages(limit = 5): BeverageType[] {
+  const result = useLiveQuery(async () => {
+    const all = await db.drinkEntries.orderBy('timestamp').reverse().toArray();
+    const seen = new Set<string>();
+    const recentIds: string[] = [];
+    for (const entry of all) {
+      if (!seen.has(entry.beverageTypeId)) {
+        seen.add(entry.beverageTypeId);
+        recentIds.push(entry.beverageTypeId);
+        if (recentIds.length >= limit) break;
+      }
+    }
+    return recentIds;
+  }, [], null);
+
+  if (result === null) return []; // still loading
+
+  return result
+    .map(id => defaultBeverages.find(b => b.id === id))
+    .filter((b): b is BeverageType => Boolean(b));
+}
+
+/**
  * Returns beverages for quick access:
  * - If user has set favorites → returns all favorites (in the order they were added)
  * - Fallback: top 3 most used beverages by all-time frequency

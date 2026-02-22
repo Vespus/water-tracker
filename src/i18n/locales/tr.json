@@ -34,7 +34,8 @@
     "removeFromFavorites": "Favorilerden kaldır",
     "favorites": "Favoriler",
     "noFavorites": "Henüz favori yok — bir içeceğe ⭐ dokunun",
-    "sliderLabel": "ml cinsinden miktar"
+    "sliderLabel": "ml cinsinden miktar",
+    "search": "Ara..."
   },
   "quickAdd": {
     "setAmount": "Hızlı ekleme miktarı",
@@ -51,7 +52,8 @@
     "hot": "Sıcak İçecekler",
     "cold": "Soğuk İçecekler",
     "alcohol": "Alkol",
-    "other": "Diğer"
+    "other": "Diğer",
+    "recent": "Son kullanılanlar"
   },
   "beverage": {
     "water": "Su",

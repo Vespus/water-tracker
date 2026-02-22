@@ -34,7 +34,8 @@
     "removeFromFavorites": "Remove from favorites",
     "favorites": "Favorites",
     "noFavorites": "No favorites yet — tap ⭐ on a beverage",
-    "sliderLabel": "Amount in ml"
+    "sliderLabel": "Amount in ml",
+    "search": "Search..."
   },
   "quickAdd": {
     "setAmount": "Quick-add amount",
@@ -51,7 +52,8 @@
     "hot": "Hot Drinks",
     "cold": "Cold Drinks",
     "alcohol": "Alcohol",
-    "other": "Other"
+    "other": "Other",
+    "recent": "Recently used"
   },
   "beverage": {
     "water": "Water",

@@ -1,8 +1,8 @@
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, AlertTriangle, AlertOctagon, Check, ChevronLeft, Star } from 'lucide-react';
+import { X, AlertTriangle, AlertOctagon, Check, ChevronLeft, Star, Search } from 'lucide-react';
 import { defaultBeverages } from '../../data/beverages';
-import { useAddDrink } from '../../hooks/useDrinks';
+import { useAddDrink, useRecentBeverages } from '../../hooks/useDrinks';
 import { useSettings } from '../../hooks/useSettings';
 import type { BeverageType } from '../../types';
 
@@ -25,6 +25,54 @@ interface Props {
   onAdded: () => void;
 }
 
+/** Reusable beverage card used in the grid (normal, search, recent) */
+function BevCard({
+  bev,
+  isFav,
+  onSelect,
+  onToggleFav,
+  t,
+}: {
+  bev: BeverageType;
+  isFav: boolean;
+  onSelect: (bev: BeverageType) => void;
+  onToggleFav: (e: React.MouseEvent, id: string) => void;
+  t: (key: string) => string;
+}) {
+  return (
+    <div className="relative">
+      <button
+        onClick={() => onSelect(bev)}
+        className={[
+          'w-full flex flex-col items-center gap-1.5 p-2.5 pt-4 rounded-2xl',
+          'hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:scale-105 active:scale-95',
+          'transition-all duration-150',
+          isFav
+            ? 'bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-600/60'
+            : 'bg-gray-50 dark:bg-gray-800/60 border border-transparent hover:border-blue-200 dark:hover:border-blue-700',
+        ].join(' ')}
+      >
+        <span className="text-2xl leading-none">{bev.icon}</span>
+        <span className="text-[10px] text-center leading-tight font-medium text-gray-600 dark:text-gray-300">
+          {t(bev.nameKey)}
+        </span>
+      </button>
+      <button
+        onClick={(e) => onToggleFav(e, bev.id)}
+        title={isFav ? t('drink.removeFromFavorites') : t('drink.addToFavorites')}
+        className="absolute top-1 right-1 p-0.5 rounded-full transition-colors z-10"
+      >
+        <Star
+          size={11}
+          className={isFav
+            ? 'fill-amber-400 text-amber-400'
+            : 'fill-transparent text-gray-300 dark:text-gray-600 hover:text-amber-400'}
+        />
+      </button>
+    </div>
+  );
+}
+
 function hapticTick() {
   if ('vibrate' in navigator) {
     navigator.vibrate(8);
@@ -40,8 +88,10 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
   const [sliderVal, setSliderVal] = useState(250);
   const [inputVal, setInputVal] = useState('250');
   const [success, setSuccess] = useState(false);
+  const [search, setSearch] = useState('');
 
   const favorites = settings.favoriteBeverageIds ?? [];
+  const recentBeverages = useRecentBeverages(5);
 
   const handleToggleFavorite = async (e: React.MouseEvent, bevId: string) => {
     e.stopPropagation();
@@ -74,6 +124,7 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
       setSelected(null);
       setSliderVal(250);
       setInputVal('250');
+      setSearch('');
       onClose();
     }, 800);
   }, [selected, addDrink, saveLastAmount, onAdded, onClose]);
@@ -118,8 +169,18 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
     setSelected(null);
     setSliderVal(250);
     setInputVal('250');
+    setSearch('');
     onClose();
   };
+
+  const searchTrimmed = search.trim().toLowerCase();
+
+  // Filtered beverage list for search mode
+  const searchResults = searchTrimmed
+    ? defaultBeverages.filter(b =>
+        t(b.nameKey).toLowerCase().includes(searchTrimmed)
+      )
+    : [];
 
   const grouped = CATEGORIES.map(cat => ({
     cat,
@@ -182,41 +243,62 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
           {/* Step 1: Beverage */}
           {step === 'beverage' && (
             <div className="space-y-5">
-              {grouped.map(({ cat, labelKey, items }) => (
-                <div key={cat}>
-                  <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2.5">
-                    {t(labelKey)}
-                  </p>
-                  <div className="grid grid-cols-4 gap-2">
-                    {items.map(bev => {
-                      const isFav = favorites.includes(bev.id);
-                      return (
-                        <div key={bev.id} className="relative">
-                          <button
-                            onClick={() => handleSelect(bev)}
-                            className="w-full flex flex-col items-center gap-1.5 p-2.5 pt-4 rounded-2xl bg-gray-50 dark:bg-gray-800/60 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:scale-105 active:scale-95 transition-all duration-150 border border-transparent hover:border-blue-200 dark:hover:border-blue-700"
-                          >
-                            <span className="text-2xl leading-none">{bev.icon}</span>
-                            <span className="text-[10px] text-center leading-tight font-medium text-gray-600 dark:text-gray-300">{t(bev.nameKey)}</span>
-                          </button>
-                          <button
-                            onClick={(e) => handleToggleFavorite(e, bev.id)}
-                            title={isFav ? t('drink.removeFromFavorites') : t('drink.addToFavorites')}
-                            className="absolute top-1 right-1 p-0.5 rounded-full transition-colors z-10"
-                          >
-                            <Star
-                              size={11}
-                              className={isFav
-                                ? 'fill-amber-400 text-amber-400'
-                                : 'fill-transparent text-gray-300 dark:text-gray-600 hover:text-amber-400'}
-                            />
-                          </button>
-                        </div>
-                      );
-                    })}
-                  </div>
+              {/* A) Search field */}
+              <div className="relative">
+                <Search
+                  size={15}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 pointer-events-none"
+                />
+                <input
+                  type="text"
+                  value={search}
+                  onChange={e => setSearch(e.target.value)}
+                  placeholder={t('drink.search')}
+                  className="w-full pl-9 pr-4 py-2.5 rounded-2xl border border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 text-sm focus:outline-none focus:border-blue-400 dark:focus:border-blue-500 transition-colors placeholder:text-gray-400 dark:placeholder:text-gray-500"
+                />
+              </div>
+
+              {/* Search results */}
+              {searchTrimmed && (
+                <div>
+                  {searchResults.length === 0 ? (
+                    <p className="text-sm text-center text-gray-400 dark:text-gray-500 py-4">—</p>
+                  ) : (
+                    <div className="grid grid-cols-4 gap-2">
+                      {searchResults.map(bev => <BevCard key={bev.id} bev={bev} isFav={favorites.includes(bev.id)} onSelect={handleSelect} onToggleFav={handleToggleFavorite} t={t} />)}
+                    </div>
+                  )}
                 </div>
-              ))}
+              )}
+
+              {/* Normal grid (hidden when searching) */}
+              {!searchTrimmed && (
+                <>
+                  {/* B) "Zuletzt verwendet" category */}
+                  {recentBeverages.length > 0 && (
+                    <div>
+                      <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2.5">
+                        {t('category.recent')}
+                      </p>
+                      <div className="grid grid-cols-4 gap-2">
+                        {recentBeverages.map(bev => <BevCard key={bev.id} bev={bev} isFav={favorites.includes(bev.id)} onSelect={handleSelect} onToggleFav={handleToggleFavorite} t={t} />)}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Standard categories */}
+                  {grouped.map(({ cat, labelKey, items }) => (
+                    <div key={cat}>
+                      <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2.5">
+                        {t(labelKey)}
+                      </p>
+                      <div className="grid grid-cols-4 gap-2">
+                        {items.map(bev => <BevCard key={bev.id} bev={bev} isFav={favorites.includes(bev.id)} onSelect={handleSelect} onToggleFav={handleToggleFavorite} t={t} />)}
+                      </div>
+                    </div>
+                  ))}
+                </>
+              )}
             </div>
           )}
 
