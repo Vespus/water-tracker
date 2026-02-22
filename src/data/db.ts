@@ -35,4 +35,16 @@ db.version(3).stores({
   });
 });
 
+// v4: Add lastAmounts + favoriteAmounts (UX-04, UX-05)
+db.version(4).stores({
+  settings: 'id',
+  drinkEntries: 'id, beverageTypeId, date, timestamp',
+  dailySummaries: 'date',
+}).upgrade(async tx => {
+  await tx.table('settings').toCollection().modify(s => {
+    if (!s.lastAmounts) s.lastAmounts = {};
+    if (!s.favoriteAmounts) s.favoriteAmounts = {};
+  });
+});
+
 export { db };

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, AlertTriangle, AlertOctagon, Check, ChevronLeft, Star } from 'lucide-react';
 import { defaultBeverages } from '../../data/beverages';
@@ -15,19 +15,30 @@ const PRESETS = [
 
 const CATEGORIES = ['water', 'hot', 'cold', 'alcohol', 'other'] as const;
 
+const SLIDER_MIN = 50;
+const SLIDER_MAX = 2000;
+const SLIDER_STEP = 25;
+
 interface Props {
   open: boolean;
   onClose: () => void;
   onAdded: () => void;
 }
 
+function hapticTick() {
+  if ('vibrate' in navigator) {
+    navigator.vibrate(8);
+  }
+}
+
 export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
   const { t } = useTranslation();
   const addDrink = useAddDrink();
-  const { settings, toggleFavorite } = useSettings();
+  const { settings, toggleFavorite, saveLastAmount } = useSettings();
   const [step, setStep] = useState<'beverage' | 'amount' | 'done'>('beverage');
   const [selected, setSelected] = useState<BeverageType | null>(null);
-  const [customMl, setCustomMl] = useState('');
+  const [sliderVal, setSliderVal] = useState(250);
+  const [inputVal, setInputVal] = useState('250');
   const [success, setSuccess] = useState(false);
 
   const favorites = settings.favoriteBeverageIds ?? [];
@@ -41,12 +52,19 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
 
   const handleSelect = (bev: BeverageType) => {
     setSelected(bev);
+    // UX-04: pre-fill with last amount or fallback 250
+    const last = settings.lastAmounts?.[bev.id] ?? 250;
+    const clamped = Math.max(SLIDER_MIN, Math.min(SLIDER_MAX, last));
+    setSliderVal(clamped);
+    setInputVal(String(clamped));
     setStep('amount');
   };
 
-  const handleAdd = async (ml: number) => {
+  const handleAdd = useCallback(async (ml: number) => {
     if (!selected || ml <= 0) return;
     await addDrink(selected.id, ml);
+    // UX-04: persist last amount
+    await saveLastAmount(selected.id, ml);
     setSuccess(true);
     setStep('done');
     onAdded();
@@ -54,15 +72,52 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
       setSuccess(false);
       setStep('beverage');
       setSelected(null);
-      setCustomMl('');
+      setSliderVal(250);
+      setInputVal('250');
       onClose();
     }, 800);
+  }, [selected, addDrink, saveLastAmount, onAdded, onClose]);
+
+  const handlePresetClick = (ml: number) => {
+    const clamped = Math.max(SLIDER_MIN, Math.min(SLIDER_MAX, ml));
+    setSliderVal(clamped);
+    setInputVal(String(ml));
+    handleAdd(ml);
+  };
+
+  const handleSliderChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = Number(e.target.value);
+    setSliderVal(val);
+    setInputVal(String(val));
+    hapticTick();
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const raw = e.target.value;
+    setInputVal(raw);
+    const parsed = parseInt(raw);
+    if (!isNaN(parsed)) {
+      const clamped = Math.max(SLIDER_MIN, Math.min(SLIDER_MAX, parsed));
+      setSliderVal(clamped);
+    }
+  };
+
+  const handleInputBlur = () => {
+    const parsed = parseInt(inputVal);
+    if (isNaN(parsed) || parsed <= 0) {
+      setInputVal(String(sliderVal));
+    } else {
+      const clamped = Math.max(SLIDER_MIN, Math.min(SLIDER_MAX, parsed));
+      setSliderVal(clamped);
+      setInputVal(String(clamped));
+    }
   };
 
   const reset = () => {
     setStep('beverage');
     setSelected(null);
-    setCustomMl('');
+    setSliderVal(250);
+    setInputVal('250');
     onClose();
   };
 
@@ -71,6 +126,9 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
     labelKey: `category.${cat}`,
     items: defaultBeverages.filter(b => b.category === cat),
   }));
+
+  // Slider fill percentage for styling
+  const sliderPercent = ((sliderVal - SLIDER_MIN) / (SLIDER_MAX - SLIDER_MIN)) * 100;
 
   return (
     <div
@@ -195,7 +253,7 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
                 {PRESETS.map(p => (
                   <button
                     key={p.ml}
-                    onClick={() => handleAdd(p.ml)}
+                    onClick={() => handlePresetClick(p.ml)}
                     className="py-3.5 px-4 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/60 hover:border-blue-400 dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 active:scale-[0.97] transition-all duration-150 font-semibold text-sm shadow-sm"
                   >
                     {t(p.labelKey)}
@@ -204,20 +262,71 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
                 ))}
               </div>
 
-              {/* Custom input */}
+              {/* Slider — UX-03 */}
+              <div className="px-1 py-2">
+                <div className="flex justify-between items-center mb-3">
+                  <span className="text-xs font-medium text-gray-400 dark:text-gray-500">{SLIDER_MIN} {t('common.ml')}</span>
+                  <span className="text-lg font-bold text-blue-500 tabular-nums">{sliderVal} {t('common.ml')}</span>
+                  <span className="text-xs font-medium text-gray-400 dark:text-gray-500">{SLIDER_MAX} {t('common.ml')}</span>
+                </div>
+
+                <div className="relative h-6 flex items-center">
+                  {/* Track background */}
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full h-2 rounded-full bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                      <div
+                        className="h-full rounded-full bg-gradient-to-r from-blue-400 to-blue-600 transition-none"
+                        style={{ width: `${sliderPercent}%` }}
+                      />
+                    </div>
+                  </div>
+                  <input
+                    type="range"
+                    min={SLIDER_MIN}
+                    max={SLIDER_MAX}
+                    step={SLIDER_STEP}
+                    value={sliderVal}
+                    onChange={handleSliderChange}
+                    className="relative w-full h-6 appearance-none bg-transparent cursor-pointer
+                      [&::-webkit-slider-thumb]:appearance-none
+                      [&::-webkit-slider-thumb]:w-6
+                      [&::-webkit-slider-thumb]:h-6
+                      [&::-webkit-slider-thumb]:rounded-full
+                      [&::-webkit-slider-thumb]:bg-white
+                      [&::-webkit-slider-thumb]:border-2
+                      [&::-webkit-slider-thumb]:border-blue-500
+                      [&::-webkit-slider-thumb]:shadow-md
+                      [&::-webkit-slider-thumb]:shadow-blue-500/30
+                      [&::-webkit-slider-thumb]:transition-transform
+                      [&::-webkit-slider-thumb]:active:scale-125
+                      [&::-moz-range-thumb]:w-6
+                      [&::-moz-range-thumb]:h-6
+                      [&::-moz-range-thumb]:rounded-full
+                      [&::-moz-range-thumb]:bg-white
+                      [&::-moz-range-thumb]:border-2
+                      [&::-moz-range-thumb]:border-blue-500
+                      [&::-moz-range-thumb]:shadow-md
+                      [&::-moz-range-thumb]:cursor-pointer"
+                    aria-label={t('drink.sliderLabel')}
+                  />
+                </div>
+              </div>
+
+              {/* Custom input + confirm */}
               <div className="flex gap-2">
                 <input
                   type="number"
-                  min="1"
-                  max="5000"
+                  min={SLIDER_MIN}
+                  max={SLIDER_MAX}
                   placeholder={t('drink.customAmount')}
-                  value={customMl}
-                  onChange={e => setCustomMl(e.target.value)}
+                  value={inputVal}
+                  onChange={handleInputChange}
+                  onBlur={handleInputBlur}
                   className="flex-1 px-4 py-3 rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm focus:outline-none focus:border-blue-400 dark:focus:border-blue-500 transition-colors placeholder:text-gray-300 dark:placeholder:text-gray-600"
                 />
                 <button
-                  onClick={() => handleAdd(parseInt(customMl) || 0)}
-                  disabled={!customMl || parseInt(customMl) <= 0}
+                  onClick={() => handleAdd(sliderVal)}
+                  disabled={sliderVal <= 0}
                   className="px-5 py-3 rounded-2xl bg-blue-500 text-white font-semibold text-sm disabled:opacity-40 hover:bg-blue-600 active:scale-95 transition-all duration-150 shadow-md shadow-blue-500/20"
                 >
                   {t('common.save')}

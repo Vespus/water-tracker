@@ -33,7 +33,12 @@
     "addToFavorites": "Aggiungi ai preferiti",
     "removeFromFavorites": "Rimuovi dai preferiti",
     "favorites": "Preferiti",
-    "noFavorites": "Nessun preferito ancora — tocca ⭐ su una bevanda"
+    "noFavorites": "Nessun preferito ancora — tocca ⭐ su una bevanda",
+    "sliderLabel": "Quantità in ml"
+  },
+  "quickAdd": {
+    "setAmount": "Quantità aggiunta rapida",
+    "longPressHint": "Premi a lungo per cambiare la quantità"
   },
   "amount": {
     "glass": "Bicchiere",

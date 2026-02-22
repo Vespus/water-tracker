@@ -9,6 +9,8 @@ export interface UserSettings {
   theme: ThemePreference;
   onboardingCompleted: boolean;
   favoriteBeverageIds: string[];
+  lastAmounts: Record<string, number>;      // UX-04: last used amount per beverage
+  favoriteAmounts: Record<string, number>;  // UX-05: quick-add amount per favorite
   createdAt: string;
   updatedAt: string;
 }

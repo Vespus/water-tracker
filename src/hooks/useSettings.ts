@@ -10,6 +10,8 @@ const DEFAULT_SETTINGS: UserSettings = {
   theme: 'system',
   onboardingCompleted: false,
   favoriteBeverageIds: [],
+  lastAmounts: {},
+  favoriteAmounts: {},
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };
@@ -37,5 +39,25 @@ export function useSettings() {
     await db.settings.update('default', { favoriteBeverageIds: next, updatedAt: new Date().toISOString() });
   }, []);
 
-  return { settings: settings ?? DEFAULT_SETTINGS, updateSettings, toggleFavorite };
+  // UX-04: save last amount per beverage
+  const saveLastAmount = useCallback(async (beverageId: string, ml: number) => {
+    const current = await db.settings.get('default');
+    const lastAmounts = { ...(current?.lastAmounts ?? {}), [beverageId]: ml };
+    await db.settings.update('default', { lastAmounts, updatedAt: new Date().toISOString() });
+  }, []);
+
+  // UX-05: set quick-add amount for a favorite
+  const setFavoriteAmount = useCallback(async (beverageId: string, ml: number) => {
+    const current = await db.settings.get('default');
+    const favoriteAmounts = { ...(current?.favoriteAmounts ?? {}), [beverageId]: ml };
+    await db.settings.update('default', { favoriteAmounts, updatedAt: new Date().toISOString() });
+  }, []);
+
+  return {
+    settings: settings ?? DEFAULT_SETTINGS,
+    updateSettings,
+    toggleFavorite,
+    saveLastAmount,
+    setFavoriteAmount,
+  };
 }

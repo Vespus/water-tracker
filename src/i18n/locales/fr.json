@@ -33,7 +33,12 @@
     "addToFavorites": "Ajouter aux favoris",
     "removeFromFavorites": "Retirer des favoris",
     "favorites": "Favoris",
-    "noFavorites": "Pas encore de favoris — appuyez sur ⭐ d'une boisson"
+    "noFavorites": "Pas encore de favoris — appuyez sur ⭐ d'une boisson",
+    "sliderLabel": "Quantité en ml"
+  },
+  "quickAdd": {
+    "setAmount": "Quantité d'ajout rapide",
+    "longPressHint": "Appui long pour modifier la quantité"
   },
   "amount": {
     "glass": "Verre",

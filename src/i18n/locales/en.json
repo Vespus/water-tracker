@@ -33,7 +33,12 @@
     "addToFavorites": "Add to favorites",
     "removeFromFavorites": "Remove from favorites",
     "favorites": "Favorites",
-    "noFavorites": "No favorites yet — tap ⭐ on a beverage"
+    "noFavorites": "No favorites yet — tap ⭐ on a beverage",
+    "sliderLabel": "Amount in ml"
+  },
+  "quickAdd": {
+    "setAmount": "Quick-add amount",
+    "longPressHint": "Long press to change amount"
   },
   "amount": {
     "glass": "Glass",

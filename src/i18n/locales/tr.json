@@ -33,7 +33,12 @@
     "addToFavorites": "Favorilere ekle",
     "removeFromFavorites": "Favorilerden kaldır",
     "favorites": "Favoriler",
-    "noFavorites": "Henüz favori yok — bir içeceğe ⭐ dokunun"
+    "noFavorites": "Henüz favori yok — bir içeceğe ⭐ dokunun",
+    "sliderLabel": "ml cinsinden miktar"
+  },
+  "quickAdd": {
+    "setAmount": "Hızlı ekleme miktarı",
+    "longPressHint": "Miktarı değiştirmek için uzun basın"
   },
   "amount": {
     "glass": "Bardak",
