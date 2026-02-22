@@ -29,7 +29,11 @@
     "todayEntries": "Bugünkü Kayıtlar",
     "waterEq": "Su Eşd.",
     "deleted": "Kayıt silindi",
-    "undo": "Geri al"
+    "undo": "Geri al",
+    "addToFavorites": "Favorilere ekle",
+    "removeFromFavorites": "Favorilerden kaldır",
+    "favorites": "Favoriler",
+    "noFavorites": "Henüz favori yok — bir içeceğe ⭐ dokunun"
   },
   "amount": {
     "glass": "Bardak",

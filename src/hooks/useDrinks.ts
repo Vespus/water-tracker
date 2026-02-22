@@ -4,7 +4,7 @@ import { db } from '../data/db';
 import { todayString } from '../utils/date';
 import { calcWaterEquivalent } from '../utils/hydration';
 import { defaultBeverages } from '../data/beverages';
-import type { DrinkEntry } from '../types';
+import type { DrinkEntry, BeverageType } from '../types';
 
 export function useTodayDrinks() {
   const today = todayString();
@@ -63,9 +63,23 @@ export function useUpdateDrink() {
   }, []);
 }
 
-/** Get top 3 most used beverages (all-time frequency) */
-export function useFrequentBeverages() {
-  const entries = useLiveQuery(async () => {
+/**
+ * Returns beverages for quick access:
+ * - If user has set favorites → returns all favorites (in the order they were added)
+ * - Fallback: top 3 most used beverages by all-time frequency
+ * - Absolute fallback: water, coffee, herbal tea
+ */
+export function useFrequentBeverages(): BeverageType[] {
+  const result = useLiveQuery(async () => {
+    const settings = await db.settings.get('default');
+    const favorites = settings?.favoriteBeverageIds ?? [];
+
+    if (favorites.length > 0) {
+      // Return all user-defined favorites in saved order
+      return favorites;
+    }
+
+    // Fallback: top 3 by frequency
     const all = await db.drinkEntries.toArray();
     const freq: Record<string, number> = {};
     for (const e of all) {
@@ -73,9 +87,10 @@ export function useFrequentBeverages() {
     }
     const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 3);
     return sorted.map(([id]) => id);
-  }, [], []);
+  }, [], null);
 
-  // Default quick buttons if no history
-  const ids = entries && entries.length > 0 ? entries : ['water', 'coffee', 'tea_herbal'];
+  if (result === null) return []; // still loading
+
+  const ids = result.length > 0 ? result : ['water', 'coffee', 'tea_herbal'];
   return ids.map(id => defaultBeverages.find(b => b.id === id)!).filter(Boolean);
 }

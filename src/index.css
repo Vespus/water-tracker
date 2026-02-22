@@ -65,3 +65,8 @@ html {
 .list-enter {
   animation: slideInRight 0.2s ease-out;
 }
+
+/* Hide scrollbar for quick-access swipe rows */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

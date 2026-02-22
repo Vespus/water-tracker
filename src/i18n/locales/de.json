@@ -29,7 +29,11 @@
     "todayEntries": "Heutige Einträge",
     "waterEq": "Wasser-Äq.",
     "deleted": "Eintrag gelöscht",
-    "undo": "Rückgängig"
+    "undo": "Rückgängig",
+    "addToFavorites": "Zu Favoriten hinzufügen",
+    "removeFromFavorites": "Aus Favoriten entfernen",
+    "favorites": "Favoriten",
+    "noFavorites": "Noch keine Favoriten — tippe auf ⭐ bei einem Getränk"
   },
   "amount": {
     "glass": "Glas",

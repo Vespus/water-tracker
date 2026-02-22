@@ -9,6 +9,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   language: 'de',
   theme: 'system',
   onboardingCompleted: false,
+  favoriteBeverageIds: [],
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };
@@ -27,5 +28,14 @@ export function useSettings() {
     await db.settings.update('default', { ...patch, updatedAt: new Date().toISOString() });
   }, []);
 
-  return { settings: settings ?? DEFAULT_SETTINGS, updateSettings };
+  const toggleFavorite = useCallback(async (beverageId: string) => {
+    const current = await db.settings.get('default');
+    const favorites = current?.favoriteBeverageIds ?? [];
+    const next = favorites.includes(beverageId)
+      ? favorites.filter(id => id !== beverageId)
+      : [...favorites, beverageId];
+    await db.settings.update('default', { favoriteBeverageIds: next, updatedAt: new Date().toISOString() });
+  }, []);
+
+  return { settings: settings ?? DEFAULT_SETTINGS, updateSettings, toggleFavorite };
 }

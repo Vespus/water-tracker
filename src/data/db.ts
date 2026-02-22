@@ -24,4 +24,15 @@ db.version(2).stores({
   });
 });
 
+// v3: Add favoriteBeverageIds field (default: []) to existing settings
+db.version(3).stores({
+  settings: 'id',
+  drinkEntries: 'id, beverageTypeId, date, timestamp',
+  dailySummaries: 'date',
+}).upgrade(async tx => {
+  await tx.table('settings').toCollection().modify(s => {
+    if (!s.favoriteBeverageIds) s.favoriteBeverageIds = [];
+  });
+});
+
 export { db };

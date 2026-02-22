@@ -8,6 +8,7 @@ export interface UserSettings {
   language: 'de' | 'en' | 'fr' | 'tr' | 'it';
   theme: ThemePreference;
   onboardingCompleted: boolean;
+  favoriteBeverageIds: string[];
   createdAt: string;
   updatedAt: string;
 }

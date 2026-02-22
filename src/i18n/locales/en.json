@@ -29,7 +29,11 @@
     "todayEntries": "Today's Entries",
     "waterEq": "Water Eq.",
     "deleted": "Entry deleted",
-    "undo": "Undo"
+    "undo": "Undo",
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites",
+    "favorites": "Favorites",
+    "noFavorites": "No favorites yet — tap ⭐ on a beverage"
   },
   "amount": {
     "glass": "Glass",

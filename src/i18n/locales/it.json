@@ -29,7 +29,11 @@
     "todayEntries": "Voci di oggi",
     "waterEq": "Eq. acqua",
     "deleted": "Voce eliminata",
-    "undo": "Annulla"
+    "undo": "Annulla",
+    "addToFavorites": "Aggiungi ai preferiti",
+    "removeFromFavorites": "Rimuovi dai preferiti",
+    "favorites": "Preferiti",
+    "noFavorites": "Nessun preferito ancora — tocca ⭐ su una bevanda"
   },
   "amount": {
     "glass": "Bicchiere",

@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, AlertTriangle, AlertOctagon, Check, ChevronLeft } from 'lucide-react';
+import { X, AlertTriangle, AlertOctagon, Check, ChevronLeft, Star } from 'lucide-react';
 import { defaultBeverages } from '../../data/beverages';
 import { useAddDrink } from '../../hooks/useDrinks';
+import { useSettings } from '../../hooks/useSettings';
 import type { BeverageType } from '../../types';
 
 const PRESETS = [
@@ -23,10 +24,18 @@ interface Props {
 export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
   const { t } = useTranslation();
   const addDrink = useAddDrink();
+  const { settings, toggleFavorite } = useSettings();
   const [step, setStep] = useState<'beverage' | 'amount' | 'done'>('beverage');
   const [selected, setSelected] = useState<BeverageType | null>(null);
   const [customMl, setCustomMl] = useState('');
   const [success, setSuccess] = useState(false);
+
+  const favorites = settings.favoriteBeverageIds ?? [];
+
+  const handleToggleFavorite = async (e: React.MouseEvent, bevId: string) => {
+    e.stopPropagation();
+    await toggleFavorite(bevId);
+  };
 
   if (!open) return null;
 
@@ -121,16 +130,32 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
                     {t(labelKey)}
                   </p>
                   <div className="grid grid-cols-4 gap-2">
-                    {items.map(bev => (
-                      <button
-                        key={bev.id}
-                        onClick={() => handleSelect(bev)}
-                        className="flex flex-col items-center gap-1.5 p-2.5 rounded-2xl bg-gray-50 dark:bg-gray-800/60 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:scale-105 active:scale-95 transition-all duration-150 border border-transparent hover:border-blue-200 dark:hover:border-blue-700"
-                      >
-                        <span className="text-2xl leading-none">{bev.icon}</span>
-                        <span className="text-[10px] text-center leading-tight font-medium text-gray-600 dark:text-gray-300">{t(bev.nameKey)}</span>
-                      </button>
-                    ))}
+                    {items.map(bev => {
+                      const isFav = favorites.includes(bev.id);
+                      return (
+                        <div key={bev.id} className="relative">
+                          <button
+                            onClick={() => handleSelect(bev)}
+                            className="w-full flex flex-col items-center gap-1.5 p-2.5 pt-4 rounded-2xl bg-gray-50 dark:bg-gray-800/60 hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:scale-105 active:scale-95 transition-all duration-150 border border-transparent hover:border-blue-200 dark:hover:border-blue-700"
+                          >
+                            <span className="text-2xl leading-none">{bev.icon}</span>
+                            <span className="text-[10px] text-center leading-tight font-medium text-gray-600 dark:text-gray-300">{t(bev.nameKey)}</span>
+                          </button>
+                          <button
+                            onClick={(e) => handleToggleFavorite(e, bev.id)}
+                            title={isFav ? t('drink.removeFromFavorites') : t('drink.addToFavorites')}
+                            className="absolute top-1 right-1 p-0.5 rounded-full transition-colors z-10"
+                          >
+                            <Star
+                              size={11}
+                              className={isFav
+                                ? 'fill-amber-400 text-amber-400'
+                                : 'fill-transparent text-gray-300 dark:text-gray-600 hover:text-amber-400'}
+                            />
+                          </button>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
               ))}

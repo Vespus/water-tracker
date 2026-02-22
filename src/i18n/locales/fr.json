@@ -29,7 +29,11 @@
     "todayEntries": "Entrées du jour",
     "waterEq": "Éq. eau",
     "deleted": "Entrée supprimée",
-    "undo": "Annuler"
+    "undo": "Annuler",
+    "addToFavorites": "Ajouter aux favoris",
+    "removeFromFavorites": "Retirer des favoris",
+    "favorites": "Favoris",
+    "noFavorites": "Pas encore de favoris — appuyez sur ⭐ d'une boisson"
   },
   "amount": {
     "glass": "Verre",
