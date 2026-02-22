@@ -98,18 +98,7 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
     await toggleFavorite(bevId);
   };
 
-  if (!open) return null;
-
-  const handleSelect = (bev: BeverageType) => {
-    setSelected(bev);
-    // UX-04: pre-fill with last amount or fallback 250
-    const last = settings.lastAmounts?.[bev.id] ?? 250;
-    const clamped = Math.max(SLIDER_MIN, Math.min(SLIDER_MAX, last));
-    setSliderVal(clamped);
-    setInputVal(String(clamped));
-    setStep('amount');
-  };
-
+  // IMPORTANT: useCallback MUST be before any early returns (Rules of Hooks)
   const handleAdd = useCallback(async (ml: number) => {
     if (!selected || ml <= 0) return;
     await addDrink(selected.id, ml);
@@ -128,6 +117,18 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
       onClose();
     }, 800);
   }, [selected, addDrink, saveLastAmount, onAdded, onClose]);
+
+  if (!open) return null;
+
+  const handleSelect = (bev: BeverageType) => {
+    setSelected(bev);
+    // UX-04: pre-fill with last amount or fallback 250
+    const last = settings.lastAmounts?.[bev.id] ?? 250;
+    const clamped = Math.max(SLIDER_MIN, Math.min(SLIDER_MAX, last));
+    setSliderVal(clamped);
+    setInputVal(String(clamped));
+    setStep('amount');
+  };
 
   const handlePresetClick = (ml: number) => {
     const clamped = Math.max(SLIDER_MIN, Math.min(SLIDER_MAX, ml));
