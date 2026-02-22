@@ -32,3 +32,35 @@ npm install -D @tailwindcss/vite tailwindcss vite-plugin-pwa vitest @testing-lib
 ```
 
 Dann die generischen Config-Dateien aus einem bestehenden Projekt kopieren und die projektspezifischen anpassen.
+
+## Context Discipline — Projektplanung
+
+### Milestone-Sizing-Regel
+Ein Coordinator-Auftrag darf max. **6-8 Sub-Agent-Roundtrips** erzeugen (inkl. erwartbare Bug-Loops).
+- **Einfache Features (nur UI oder nur Backend):** 2-3 Stories pro Auftrag
+- **Komplexe Features (UI + Backend + erwartbare Bugs):** 1 Story pro Auftrag
+- **Concept-Phase IMMER separat** vom Build-Auftrag
+
+### Concept-Qualitäts-Gate
+Bevor ein Build-Auftrag an den Coordinator geht, muss das Concept enthalten:
+- [ ] Datenmodell (Felder, Typen, Relationen)
+- [ ] Komponenten-Struktur (welche Komponenten, wo)
+- [ ] i18n-Keys (alle UI-Strings als Keys definiert)
+- [ ] Akzeptanzkriterien pro User Story
+- [ ] Edge Cases dokumentiert
+
+Je präziser das Concept, desto weniger Bug-Loops → weniger Kontext-Verbrauch.
+
+### Operative Regeln (im Coordinator verankert)
+- Ein Task = Ein Fokus (kein paralleles Sub-Agent-Spawning)
+- Fail-Fast bei Bug-Loops (max 2 Zyklen, dann Zwischenbericht)
+- Trello als externes Gedächtnis (nicht auf Kontext verlassen)
+- Sub-Agenten zu kompakten Antworten anweisen
+
+### Token-Budget-Empfehlung (OpenClaw `contextTokens`)
+| Agent | contextTokens | Begründung |
+|---|---|---|
+| Coordinator | Default (200k) | Braucht am meisten wg. Roundtrips |
+| UI / Backend | 80.000 | Klare Einzelaufträge |
+| Concept | 100.000 | Docs lesen + schreiben |
+| Tester | 60.000 | Abgegrenzter Job |

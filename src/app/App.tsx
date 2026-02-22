@@ -1,6 +1,7 @@
-import { Component, type ReactNode } from 'react';
+import { Component, type ReactNode, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useAppStore } from '../stores/appStore';
+import type { ThemePreference } from '../types';
 
 class ErrorBoundary extends Component<{children: ReactNode}, {error: string|null}> {
   state = { error: null as string|null };
@@ -35,10 +36,38 @@ const navItems = [
   { id: 'settings' as const, icon: Settings, labelKey: 'nav.settings' },
 ];
 
+function useTheme(theme: ThemePreference) {
+  useEffect(() => {
+    const root = document.documentElement;
+
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      return;
+    }
+    if (theme === 'light') {
+      root.classList.remove('dark');
+      return;
+    }
+
+    // 'system': follow OS preference
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    const applySystem = (dark: boolean) => {
+      if (dark) root.classList.add('dark');
+      else root.classList.remove('dark');
+    };
+    applySystem(mediaQuery.matches);
+    const handler = (e: MediaQueryListEvent) => applySystem(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, [theme]);
+}
+
 export default function App() {
   const { t } = useTranslation();
   const { currentPage, setCurrentPage } = useAppStore();
   const { settings } = useSettings();
+
+  useTheme(settings.theme ?? 'system');
 
   // Show onboarding on first start
   const showOnboarding = !settings.onboardingCompleted && currentPage !== 'onboarding';

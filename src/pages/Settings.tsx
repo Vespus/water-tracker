@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
-import { Minus, Plus } from 'lucide-react';
+import { Minus, Plus, Monitor, Sun, Moon } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
+import type { ThemePreference } from '../types';
 import i18n from '../i18n';
 
 const languages = [
@@ -9,6 +10,12 @@ const languages = [
   { code: 'fr' as const, label: 'Français' },
   { code: 'tr' as const, label: 'Türkçe' },
   { code: 'it' as const, label: 'Italiano' },
+];
+
+const themeOptions: { value: ThemePreference; icon: typeof Monitor; labelKey: string }[] = [
+  { value: 'system', icon: Monitor, labelKey: 'settings.themeSystem' },
+  { value: 'light',  icon: Sun,     labelKey: 'settings.themeLight'  },
+  { value: 'dark',   icon: Moon,    labelKey: 'settings.themeDark'   },
 ];
 
 export default function Settings() {
@@ -24,6 +31,12 @@ export default function Settings() {
     updateSettings({ language: lang });
     i18n.changeLanguage(lang);
   };
+
+  const setTheme = (theme: ThemePreference) => {
+    updateSettings({ theme });
+  };
+
+  const currentTheme = settings.theme ?? 'system';
 
   return (
     <div className="p-4 space-y-6">
@@ -62,6 +75,27 @@ export default function Settings() {
           className="w-full accent-blue-500"
         />
         <p className="text-xs text-gray-400 text-center">{t('settings.goalHint')}</p>
+      </div>
+
+      {/* Theme */}
+      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 space-y-3">
+        <h2 className="font-semibold">{t('settings.theme')}</h2>
+        <div className="grid grid-cols-3 gap-2">
+          {themeOptions.map(({ value, icon: Icon, labelKey }) => (
+            <button
+              key={value}
+              onClick={() => setTheme(value)}
+              className={`flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl text-sm font-medium transition-all ${
+                currentTheme === value
+                  ? 'bg-blue-500 text-white shadow-sm'
+                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+              }`}
+            >
+              <Icon size={18} />
+              <span>{t(labelKey)}</span>
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Language */}

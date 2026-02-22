@@ -7,6 +7,7 @@ const DEFAULT_SETTINGS: UserSettings = {
   id: 'default',
   dailyGoalMl: 2000,
   language: 'de',
+  theme: 'system',
   onboardingCompleted: false,
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),

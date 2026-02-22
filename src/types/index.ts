@@ -1,9 +1,12 @@
 // Water Tracker — Type Definitions
 
+export type ThemePreference = 'system' | 'light' | 'dark';
+
 export interface UserSettings {
   id: string;
   dailyGoalMl: number;
   language: 'de' | 'en' | 'fr' | 'tr' | 'it';
+  theme: ThemePreference;
   onboardingCompleted: boolean;
   createdAt: string;
   updatedAt: string;

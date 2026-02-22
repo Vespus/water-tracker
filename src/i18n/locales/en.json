@@ -77,7 +77,11 @@
     "title": "Settings",
     "dailyGoal": "Daily Goal",
     "language": "Language",
-    "goalHint": "Recommended: 1500–2500 ml depending on body weight and activity"
+    "goalHint": "Recommended: 1500–2500 ml depending on body weight and activity",
+    "theme": "Appearance",
+    "themeSystem": "System",
+    "themeLight": "Light",
+    "themeDark": "Dark"
   },
   "history": {
     "mon": "Mon",

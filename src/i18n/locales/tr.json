@@ -77,7 +77,11 @@
     "title": "Ayarlar",
     "dailyGoal": "Günlük Hedef",
     "language": "Dil",
-    "goalHint": "Önerilen: Vücut ağırlığı ve aktiviteye göre 1500–2500 ml"
+    "goalHint": "Önerilen: Vücut ağırlığı ve aktiviteye göre 1500–2500 ml",
+    "theme": "Görünüm",
+    "themeSystem": "Sistem",
+    "themeLight": "Açık",
+    "themeDark": "Koyu"
   },
   "common": {
     "save": "Kaydet",
