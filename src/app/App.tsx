@@ -74,28 +74,37 @@ export default function App() {
   const Page = showOnboarding ? Onboarding : pages[currentPage];
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col">
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950 text-gray-900 dark:text-gray-100 flex flex-col">
       <main className="flex-1 max-w-lg mx-auto w-full">
         <ErrorBoundary><Page /></ErrorBoundary>
       </main>
-      {!showOnboarding && <nav className="border-t border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 sticky bottom-0">
-        <div className="max-w-lg mx-auto flex justify-around py-2">
-          {navItems.map(({ id, icon: Icon, labelKey }) => (
-            <button
-              key={id}
-              onClick={() => setCurrentPage(id)}
-              className={`flex flex-col items-center gap-1 px-3 py-1 text-xs transition-colors ${
-                currentPage === id
-                  ? 'text-blue-600 dark:text-blue-400'
-                  : 'text-gray-500 dark:text-gray-400'
-              }`}
-            >
-              <Icon size={20} />
-              <span>{t(labelKey)}</span>
-            </button>
-          ))}
-        </div>
-      </nav>}
+
+      {!showOnboarding && (
+        <nav className="border-t border-gray-100 dark:border-gray-800 bg-white/90 dark:bg-gray-900/90 backdrop-blur-md sticky bottom-0 safe-area-bottom">
+          <div className="max-w-lg mx-auto flex justify-around py-1.5 px-2">
+            {navItems.map(({ id, icon: Icon, labelKey }) => {
+              const active = currentPage === id;
+              return (
+                <button
+                  key={id}
+                  onClick={() => setCurrentPage(id)}
+                  className={`relative flex flex-col items-center gap-1 px-5 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 ${
+                    active
+                      ? 'text-blue-600 dark:text-blue-400'
+                      : 'text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300'
+                  }`}
+                >
+                  {active && (
+                    <span className="absolute inset-0 rounded-xl bg-blue-50 dark:bg-blue-500/10 transition-all duration-200" />
+                  )}
+                  <Icon size={20} className="relative" />
+                  <span className="relative">{t(labelKey)}</span>
+                </button>
+              );
+            })}
+          </div>
+        </nav>
+      )}
     </div>
   );
 }

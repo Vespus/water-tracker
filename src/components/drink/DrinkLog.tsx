@@ -36,9 +36,7 @@ export default function DrinkLog() {
   }, [undo?.entry.id]);
 
   const handleDelete = useCallback(async (entry: DrinkEntry) => {
-    // Clear previous undo
     if (undo) clearTimeout(undo.timer);
-
     await deleteDrink(entry.id);
     const timer = setTimeout(() => setUndo(null), 5000);
     setUndo({ entry, timer, remaining: 5 });
@@ -67,23 +65,27 @@ export default function DrinkLog() {
 
   if (entries.length === 0 && !undo) {
     return (
-      <p className="text-center text-gray-400 dark:text-gray-500 py-6 text-sm">
-        {t('drink.noEntries')}
-      </p>
+      <div className="text-center py-10">
+        <p className="text-3xl mb-2">💧</p>
+        <p className="text-sm text-gray-400 dark:text-gray-500">{t('drink.noEntries')}</p>
+      </div>
     );
   }
 
   return (
-    <div className="space-y-2">
-      <h3 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase">
+    <div className="space-y-3">
+      <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider">
         {t('drink.todayEntries')}
       </h3>
 
       {/* Undo bar */}
       {undo && (
-        <div className="flex items-center gap-3 p-3 bg-yellow-50 dark:bg-yellow-900/30 border border-yellow-200 dark:border-yellow-800 rounded-xl text-sm">
-          <span className="flex-1">{t('drink.deleted')} ({undo.remaining}s)</span>
-          <button onClick={handleUndo} className="font-semibold text-blue-600 dark:text-blue-400">
+        <div className="flex items-center gap-3 px-4 py-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/50 rounded-2xl text-sm">
+          <span className="flex-1 text-amber-800 dark:text-amber-300">{t('drink.deleted')} ({undo.remaining}s)</span>
+          <button
+            onClick={handleUndo}
+            className="font-semibold text-blue-600 dark:text-blue-400 hover:text-blue-700 transition-colors"
+          >
             {t('drink.undo')}
           </button>
         </div>
@@ -95,40 +97,74 @@ export default function DrinkLog() {
 
         if (editingId === entry.id) {
           return (
-            <div key={entry.id} className="p-3 bg-white dark:bg-gray-800 rounded-xl space-y-2">
-              <select value={editBeverage} onChange={e => setEditBeverage(e.target.value)}
-                className="w-full p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-sm">
+            <div key={entry.id} className="p-4 bg-white dark:bg-gray-800/80 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700/50 space-y-3">
+              <select
+                value={editBeverage}
+                onChange={e => setEditBeverage(e.target.value)}
+                className="w-full p-2.5 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-sm focus:outline-none focus:border-blue-400"
+              >
                 {defaultBeverages.map(b => (
                   <option key={b.id} value={b.id}>{b.icon} {t(b.nameKey)}</option>
                 ))}
               </select>
               <div className="flex items-center gap-2">
-                <input type="number" value={editAmount} onChange={e => setEditAmount(Number(e.target.value))}
+                <input
+                  type="number"
+                  value={editAmount}
+                  onChange={e => setEditAmount(Number(e.target.value))}
                   min={1} max={5000} step={10}
-                  className="flex-1 p-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-sm" />
-                <span className="text-xs text-gray-400">{t('common.ml')}</span>
-                <button onClick={saveEdit} className="p-2 text-green-500"><Check size={18} /></button>
-                <button onClick={() => setEditingId(null)} className="p-2 text-gray-400"><X size={18} /></button>
+                  className="flex-1 p-2.5 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-sm focus:outline-none focus:border-blue-400"
+                />
+                <span className="text-xs text-gray-400 font-medium">{t('common.ml')}</span>
+                <button
+                  onClick={saveEdit}
+                  className="p-2 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-600 hover:bg-green-100 transition-colors"
+                >
+                  <Check size={18} />
+                </button>
+                <button
+                  onClick={() => setEditingId(null)}
+                  className="p-2 rounded-xl bg-gray-50 dark:bg-gray-700 text-gray-400 hover:bg-gray-100 transition-colors"
+                >
+                  <X size={18} />
+                </button>
               </div>
             </div>
           );
         }
 
         return (
-          <div key={entry.id} className="flex items-center gap-3 p-3 bg-white dark:bg-gray-800 rounded-xl">
-            <span className="text-xl">{bev?.icon ?? '🥤'}</span>
+          <div
+            key={entry.id}
+            className="list-enter flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-800/80 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700/50 transition-all duration-150"
+          >
+            <span className="text-2xl leading-none">{bev?.icon ?? '🥤'}</span>
             <div className="flex-1 min-w-0">
-              <p className="font-medium text-sm">{bev ? t(bev.nameKey) : entry.beverageTypeId}</p>
-              <p className="text-xs text-gray-400">
-                {entry.amountMl} {t('common.ml')} · {entry.waterEquivalentMl} {t('common.ml')} {t('drink.waterEq')} · {time}
+              <p className="font-semibold text-sm text-gray-800 dark:text-gray-100 truncate">
+                {bev ? t(bev.nameKey) : entry.beverageTypeId}
+              </p>
+              <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
+                {entry.amountMl} {t('common.ml')}
+                <span className="mx-1 opacity-40">·</span>
+                {entry.waterEquivalentMl} {t('common.ml')} {t('drink.waterEq')}
+                <span className="mx-1 opacity-40">·</span>
+                {time}
               </p>
             </div>
-            <button onClick={() => startEdit(entry)} className="p-2 text-gray-300 hover:text-blue-500 transition-colors">
-              <Pencil size={16} />
-            </button>
-            <button onClick={() => handleDelete(entry)} className="p-2 text-gray-300 hover:text-red-500 transition-colors">
-              <Trash2 size={16} />
-            </button>
+            <div className="flex items-center gap-0.5">
+              <button
+                onClick={() => startEdit(entry)}
+                className="p-2 text-gray-300 dark:text-gray-600 hover:text-blue-500 dark:hover:text-blue-400 rounded-xl transition-colors"
+              >
+                <Pencil size={15} />
+              </button>
+              <button
+                onClick={() => handleDelete(entry)}
+                className="p-2 text-gray-300 dark:text-gray-600 hover:text-red-500 dark:hover:text-red-400 rounded-xl transition-colors"
+              >
+                <Trash2 size={15} />
+              </button>
+            </div>
           </div>
         );
       })}

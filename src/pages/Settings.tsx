@@ -1,15 +1,15 @@
 import { useTranslation } from 'react-i18next';
-import { Minus, Plus, Monitor, Sun, Moon } from 'lucide-react';
+import { Minus, Plus, Monitor, Sun, Moon, Settings2 } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
 import type { ThemePreference } from '../types';
 import i18n from '../i18n';
 
 const languages = [
-  { code: 'de' as const, label: 'Deutsch' },
-  { code: 'en' as const, label: 'English' },
-  { code: 'fr' as const, label: 'Français' },
-  { code: 'tr' as const, label: 'Türkçe' },
-  { code: 'it' as const, label: 'Italiano' },
+  { code: 'de' as const, label: 'Deutsch', flag: '🇩🇪' },
+  { code: 'en' as const, label: 'English', flag: '🇬🇧' },
+  { code: 'fr' as const, label: 'Français', flag: '🇫🇷' },
+  { code: 'tr' as const, label: 'Türkçe', flag: '🇹🇷' },
+  { code: 'it' as const, label: 'Italiano', flag: '🇮🇹' },
 ];
 
 const themeOptions: { value: ThemePreference; icon: typeof Monitor; labelKey: string }[] = [
@@ -39,82 +39,105 @@ export default function Settings() {
   const currentTheme = settings.theme ?? 'system';
 
   return (
-    <div className="p-4 space-y-6">
-      <h1 className="text-2xl font-bold">{t('settings.title')}</h1>
-
-      {/* Daily Goal */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 space-y-3">
-        <h2 className="font-semibold">{t('settings.dailyGoal')}</h2>
-        <div className="flex items-center justify-center gap-4">
-          <button
-            onClick={() => setGoal(settings.dailyGoalMl - 100)}
-            disabled={settings.dailyGoalMl <= 500}
-            className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 flex items-center justify-center disabled:opacity-30"
-          >
-            <Minus size={20} />
-          </button>
-          <span className="text-3xl font-bold tabular-nums w-28 text-center">
-            {settings.dailyGoalMl}
-          </span>
-          <span className="text-gray-400">{t('common.ml')}</span>
-          <button
-            onClick={() => setGoal(settings.dailyGoalMl + 100)}
-            disabled={settings.dailyGoalMl >= 5000}
-            className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 flex items-center justify-center disabled:opacity-30"
-          >
-            <Plus size={20} />
-          </button>
-        </div>
-        <input
-          type="range"
-          min={500}
-          max={5000}
-          step={100}
-          value={settings.dailyGoalMl}
-          onChange={e => setGoal(Number(e.target.value))}
-          className="w-full accent-blue-500"
-        />
-        <p className="text-xs text-gray-400 text-center">{t('settings.goalHint')}</p>
-      </div>
-
-      {/* Theme */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 space-y-3">
-        <h2 className="font-semibold">{t('settings.theme')}</h2>
-        <div className="grid grid-cols-3 gap-2">
-          {themeOptions.map(({ value, icon: Icon, labelKey }) => (
-            <button
-              key={value}
-              onClick={() => setTheme(value)}
-              className={`flex flex-col items-center gap-1.5 py-3 px-2 rounded-xl text-sm font-medium transition-all ${
-                currentTheme === value
-                  ? 'bg-blue-500 text-white shadow-sm'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
-              }`}
-            >
-              <Icon size={18} />
-              <span>{t(labelKey)}</span>
-            </button>
-          ))}
+    <div className="page-enter pb-8">
+      {/* Header */}
+      <div className="px-5 pt-6 pb-5">
+        <div className="flex items-center gap-2">
+          <Settings2 size={22} className="text-blue-500" />
+          <h1 className="text-2xl font-bold tracking-tight">{t('settings.title')}</h1>
         </div>
       </div>
 
-      {/* Language */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl p-4 space-y-3">
-        <h2 className="font-semibold">{t('settings.language')}</h2>
-        <div className="grid grid-cols-2 gap-2">
-          {languages.map(lang => (
+      <div className="px-5 space-y-4">
+        {/* Daily Goal */}
+        <div className="bg-white dark:bg-gray-800/60 rounded-3xl p-5 shadow-sm border border-gray-100 dark:border-gray-700/50">
+          <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+            {t('settings.dailyGoal')}
+          </h2>
+          <div className="flex items-center justify-center gap-4 mb-4">
             <button
-              key={lang.code}
-              onClick={() => setLanguage(lang.code)}
-              className={`py-2 px-3 rounded-lg text-sm font-medium transition-colors ${
-                settings.language === lang.code
-                  ? 'bg-blue-500 text-white'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-              }`}
+              onClick={() => setGoal(settings.dailyGoalMl - 100)}
+              disabled={settings.dailyGoalMl <= 500}
+              className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center disabled:opacity-30 hover:bg-blue-100 dark:hover:bg-blue-900/50 active:scale-95 transition-all"
             >
-              {lang.label}
+              <Minus size={20} strokeWidth={2.5} />
             </button>
-          ))}
+            <div className="text-center">
+              <span className="text-4xl font-bold tabular-nums text-blue-600 dark:text-blue-400">
+                {settings.dailyGoalMl}
+              </span>
+              <span className="text-lg text-gray-400 ml-1.5">{t('common.ml')}</span>
+            </div>
+            <button
+              onClick={() => setGoal(settings.dailyGoalMl + 100)}
+              disabled={settings.dailyGoalMl >= 5000}
+              className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center disabled:opacity-30 hover:bg-blue-100 dark:hover:bg-blue-900/50 active:scale-95 transition-all"
+            >
+              <Plus size={20} strokeWidth={2.5} />
+            </button>
+          </div>
+          <input
+            type="range"
+            min={500}
+            max={5000}
+            step={100}
+            value={settings.dailyGoalMl}
+            onChange={e => setGoal(Number(e.target.value))}
+            className="w-full accent-blue-500 h-1.5"
+          />
+          <p className="text-xs text-gray-400 text-center mt-3">{t('settings.goalHint')}</p>
+        </div>
+
+        {/* Theme */}
+        <div className="bg-white dark:bg-gray-800/60 rounded-3xl p-5 shadow-sm border border-gray-100 dark:border-gray-700/50">
+          <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+            {t('settings.theme')}
+          </h2>
+          <div className="grid grid-cols-3 gap-2.5">
+            {themeOptions.map(({ value, icon: Icon, labelKey }) => {
+              const active = currentTheme === value;
+              return (
+                <button
+                  key={value}
+                  onClick={() => setTheme(value)}
+                  className={`flex flex-col items-center gap-2 py-3.5 px-2 rounded-2xl text-sm font-semibold transition-all duration-150 ${
+                    active
+                      ? 'bg-blue-500 text-white shadow-md shadow-blue-500/25'
+                      : 'bg-gray-50 dark:bg-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-transparent hover:border-gray-200 dark:hover:border-gray-600'
+                  }`}
+                >
+                  <Icon size={20} strokeWidth={active ? 2.5 : 2} />
+                  <span>{t(labelKey)}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Language */}
+        <div className="bg-white dark:bg-gray-800/60 rounded-3xl p-5 shadow-sm border border-gray-100 dark:border-gray-700/50">
+          <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+            {t('settings.language')}
+          </h2>
+          <div className="grid grid-cols-2 gap-2.5">
+            {languages.map(lang => {
+              const active = settings.language === lang.code;
+              return (
+                <button
+                  key={lang.code}
+                  onClick={() => setLanguage(lang.code)}
+                  className={`flex items-center gap-2.5 py-3 px-4 rounded-2xl text-sm font-semibold transition-all duration-150 ${
+                    active
+                      ? 'bg-blue-500 text-white shadow-md shadow-blue-500/25'
+                      : 'bg-gray-50 dark:bg-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-transparent hover:border-gray-200 dark:hover:border-gray-600'
+                  }`}
+                >
+                  <span className="text-lg leading-none">{lang.flag}</span>
+                  <span>{lang.label}</span>
+                </button>
+              );
+            })}
+          </div>
         </div>
       </div>
     </div>
