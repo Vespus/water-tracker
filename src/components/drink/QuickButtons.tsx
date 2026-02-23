@@ -215,7 +215,11 @@ export default function QuickButtons({ onAdded, grid = false, maxItems }: Props)
             : 'bg-white/10 border-white/15 hover:bg-white/20 hover:border-white/25'
           } ${extraClass}`}
       >
-        <span className="text-2xl leading-none">{bev.icon}</span>
+        {bev.iconUrl ? (
+          <img src={bev.iconUrl} alt={t(bev.nameKey)} className="w-8 h-8 object-contain" />
+        ) : (
+          <span className="text-2xl leading-none">{bev.icon}</span>
+        )}
         <span className="text-xs font-semibold text-white whitespace-nowrap truncate w-full text-center px-1">{t(bev.nameKey)}</span>
         <span className="text-[10px] text-white/60 font-medium">{amount} {t('common.ml')}</span>
       </button>

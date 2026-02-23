@@ -53,7 +53,11 @@ function BevCard({
             : 'bg-gray-50 dark:bg-gray-800/60 border border-transparent hover:border-blue-200 dark:hover:border-blue-700',
         ].join(' ')}
       >
-        <span className="text-2xl leading-none">{bev.icon}</span>
+        {bev.iconUrl ? (
+          <img src={bev.iconUrl} alt={t(bev.nameKey)} className="w-8 h-8 object-contain" />
+        ) : (
+          <span className="text-2xl leading-none">{bev.icon}</span>
+        )}
         <span className="text-[10px] text-center leading-tight font-medium text-gray-600 dark:text-gray-300">
           {t(bev.nameKey)}
         </span>
@@ -316,7 +320,11 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
             <div className="space-y-4">
               {/* Selected beverage info */}
               <div className="flex items-center gap-4 p-4 bg-gray-50 dark:bg-gray-800/60 rounded-2xl">
-                <span className="text-4xl leading-none">{selected.icon}</span>
+                {selected.iconUrl ? (
+                  <img src={selected.iconUrl} alt={t(selected.nameKey)} className="w-10 h-10 object-contain" />
+                ) : (
+                  <span className="text-4xl leading-none">{selected.icon}</span>
+                )}
                 <div>
                   <p className="font-bold">{t(selected.nameKey)}</p>
                   <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">

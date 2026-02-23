@@ -22,6 +22,7 @@ export interface BeverageType {
   id: string;
   nameKey: string;
   icon: string;
+  iconUrl?: string;
   hydrationFactor: number;
   warningLevel: WarningLevel;
   warningTextKey: string | null;

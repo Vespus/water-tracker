@@ -138,7 +138,11 @@ export default function DrinkLog() {
             key={entry.id}
             className="list-enter flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-800/80 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700/50 transition-all duration-150"
           >
-            <span className="text-2xl leading-none">{bev?.icon ?? '🥤'}</span>
+            {bev?.iconUrl ? (
+              <img src={bev.iconUrl} alt={t(bev.nameKey)} className="w-8 h-8 object-contain flex-shrink-0" />
+            ) : (
+              <span className="text-2xl leading-none">{bev?.icon ?? '🥤'}</span>
+            )}
             <div className="flex-1 min-w-0">
               <p className="font-semibold text-sm text-gray-800 dark:text-gray-100 truncate">
                 {bev ? t(bev.nameKey) : entry.beverageTypeId}
