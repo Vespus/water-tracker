@@ -3,6 +3,27 @@
 /* Class-based dark mode for manual theme control */
 @custom-variant dark (&:where(.dark, .dark *));
 
+/* ── Deep Water gradient backgrounds ── */
+.app-bg {
+  background: linear-gradient(180deg, #0c4a6e 0%, #0369a1 30%, #0ea5e9 60%, #7dd3fc 85%, #e0f2fe 100%);
+  min-height: 100dvh;
+}
+.dark .app-bg {
+  background: linear-gradient(180deg, #020617 0%, #0c1929 25%, #0c2d4a 50%, #0c4a6e 80%, #164e63 100%);
+}
+
+/* ── Nav bar on gradient ── */
+.nav-glass {
+  background: rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+.dark .nav-glass {
+  background: rgba(0, 0, 0, 0.25);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
 /* Smooth scrolling & base transitions */
 html {
   scroll-behavior: smooth;

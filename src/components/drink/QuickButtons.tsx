@@ -209,15 +209,15 @@ export default function QuickButtons({ onAdded, grid = false, maxItems }: Props)
         onTouchMove={cancelLongPress}
         draggable={false}
         title={t('quickAdd.longPressHint')}
-        className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl shadow-sm border transition-all duration-200 active:scale-95 select-none
+        className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl shadow-sm border transition-all duration-200 active:scale-95 select-none backdrop-blur-sm
           ${isFlashing
-            ? 'bg-green-50 dark:bg-green-900/30 border-green-300 dark:border-green-700 scale-105'
-            : 'bg-white dark:bg-gray-800/80 border-gray-100 dark:border-gray-700/60 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-md'
+            ? 'bg-white/25 border-white/40 scale-105'
+            : 'bg-white/10 border-white/15 hover:bg-white/20 hover:border-white/25'
           } ${extraClass}`}
       >
         <span className="text-2xl leading-none">{bev.icon}</span>
-        <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap truncate w-full text-center px-1">{t(bev.nameKey)}</span>
-        <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium">{amount} {t('common.ml')}</span>
+        <span className="text-xs font-semibold text-white whitespace-nowrap truncate w-full text-center px-1">{t(bev.nameKey)}</span>
+        <span className="text-[10px] text-white/60 font-medium">{amount} {t('common.ml')}</span>
       </button>
     );
   };
@@ -245,12 +245,12 @@ export default function QuickButtons({ onAdded, grid = false, maxItems }: Props)
           {/* Left fade edge */}
           {canScrollLeft && (
             <div className="absolute left-0 top-0 bottom-0 w-8 z-10 pointer-events-none
-              bg-gradient-to-r from-gray-50 dark:from-gray-950 to-transparent rounded-l-2xl" />
+              bg-gradient-to-r from-black/10 to-transparent rounded-l-2xl" />
           )}
           {/* Right fade edge */}
           {canScrollRight && (
             <div className="absolute right-0 top-0 bottom-0 w-8 z-10 pointer-events-none
-              bg-gradient-to-l from-gray-50 dark:from-gray-950 to-transparent rounded-r-2xl" />
+              bg-gradient-to-l from-black/10 to-transparent rounded-r-2xl" />
           )}
 
           <div

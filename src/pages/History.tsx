@@ -175,8 +175,8 @@ export default function History() {
       {/* Header */}
       <div className="px-5 pt-6 pb-5">
         <div className="flex items-center gap-2">
-          <Droplets size={22} className="text-blue-500" />
-          <h1 className="text-2xl font-bold tracking-tight">{t('nav.history')}</h1>
+          <Droplets size={22} className="text-cyan-200" />
+          <h1 className="text-2xl font-bold tracking-tight text-white">{t('nav.history')}</h1>
         </div>
       </div>
 

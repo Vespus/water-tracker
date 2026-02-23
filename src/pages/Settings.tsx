@@ -43,8 +43,8 @@ export default function Settings() {
       {/* Header */}
       <div className="px-5 pt-6 pb-5">
         <div className="flex items-center gap-2">
-          <Settings2 size={22} className="text-blue-500" />
-          <h1 className="text-2xl font-bold tracking-tight">{t('settings.title')}</h1>
+          <Settings2 size={22} className="text-cyan-200" />
+          <h1 className="text-2xl font-bold tracking-tight text-white">{t('settings.title')}</h1>
         </div>
       </div>
 

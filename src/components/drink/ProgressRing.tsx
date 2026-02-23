@@ -47,11 +47,10 @@ function MiniGlass({ color, pct }: { color: string; pct: number }) {
             <stop offset="100%" stopColor={color} stopOpacity="0.65" />
           </linearGradient>
         </defs>
-        {/* Glass body */}
+        {/* Glass body — semi-transparent */}
         <path
           d="M15,10 L10,140 Q10,148 18,148 L82,148 Q90,148 90,140 L85,10 Z"
-          fill="currentColor"
-          className="text-gray-100 dark:text-gray-700"
+          fill="rgba(255,255,255,0.2)"
         />
         {/* Water fill */}
         <rect
@@ -63,8 +62,7 @@ function MiniGlass({ color, pct }: { color: string; pct: number }) {
         {/* Glass outline */}
         <path
           d="M15,10 L10,140 Q10,148 18,148 L82,148 Q90,148 90,140 L85,10 Z"
-          fill="none" stroke="currentColor" strokeWidth="4"
-          className="text-gray-200 dark:text-gray-600"
+          fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth="4"
         />
         {/* Glass shine */}
         <path d="M22,18 L18,75" stroke="white" strokeWidth="5" strokeLinecap="round" opacity="0.45" />
@@ -112,21 +110,20 @@ export default function ProgressRing({ currentMl, goalMl, totalMl, waterEquivale
               x2="100%" y2="100%"
               gradientUnits="userSpaceOnUse"
             >
-              <stop offset="0%"   stopColor="#67e8f9" /> {/* cyan-300   */}
-              <stop offset="50%"  stopColor="#0ea5e9" /> {/* sky-500    */}
-              <stop offset="100%" stopColor="#2563eb" /> {/* blue-600   */}
+              <stop offset="0%"   stopColor="#a5f3fc" /> {/* cyan-200 — bright on dark bg */}
+              <stop offset="50%"  stopColor="#38bdf8" /> {/* sky-400    */}
+              <stop offset="100%" stopColor="#60a5fa" /> {/* blue-400   */}
             </linearGradient>
           </defs>
 
-          {/* Track circle */}
+          {/* Track circle — semi-transparent white (works on both light & dark gradient) */}
           <circle
             cx={size / 2}
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="currentColor"
+            stroke="rgba(255,255,255,0.12)"
             strokeWidth={strokeWidth}
-            className="text-gray-100 dark:text-gray-800"
           />
           {/* Progress arc — always blue gradient */}
           <circle
@@ -151,19 +148,19 @@ export default function ProgressRing({ currentMl, goalMl, totalMl, waterEquivale
           {/* Mini glass icon — color follows progress stage */}
           <MiniGlass color={glassColor} pct={pct} />
 
-          {/* Total ml — big number, colored by progress stage */}
-          <p className="text-2xl font-bold tabular-nums mt-1" style={{ color: glassColor }}>
+          {/* Total ml — big number, white with drop shadow */}
+          <p className="text-2xl font-bold tabular-nums mt-1 text-white drop-shadow-md">
             {totalMl}
-            <span className="text-sm font-normal text-gray-400 ml-0.5">ml</span>
+            <span className="text-sm font-normal text-white/70 ml-0.5">ml</span>
           </p>
 
           {/* "Total" label */}
-          <p className="text-[11px] text-gray-500 dark:text-gray-400 font-medium">
+          <p className="text-[11px] text-white/70 font-medium drop-shadow-sm">
             {t('dashboard.totalLabel')}
           </p>
 
           {/* Hydration line */}
-          <p className="text-[10px] text-gray-400 dark:text-gray-500 mt-0.5">
+          <p className="text-[10px] text-white/50 mt-0.5">
             {t('dashboard.hydrationLabel', { amount: waterEquivalentMl })}
           </p>
         </div>
