@@ -90,8 +90,8 @@ export default function App() {
                   onClick={() => setCurrentPage(id)}
                   className={`relative flex flex-col items-center gap-1 px-5 py-1.5 rounded-xl text-xs font-medium transition-all duration-200 ${
                     active
-                      ? 'text-white'
-                      : 'text-white/50 hover:text-white/80'
+                      ? 'text-white dark:text-cyan-300'
+                      : 'text-white/50 dark:text-white/40 hover:text-white/80 dark:hover:text-white/60'
                   }`}
                 >
                   {active && (
