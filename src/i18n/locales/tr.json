@@ -35,7 +35,8 @@
     "favorites": "Favoriler",
     "noFavorites": "Henüz favori yok — bir içeceğe ⭐ dokunun",
     "sliderLabel": "ml cinsinden miktar",
-    "search": "Ara..."
+    "search": "Ara...",
+    "pinnedFavorite": "Su her zaman favorilerde"
   },
   "quickAdd": {
     "setAmount": "Hızlı ekleme miktarı",
@@ -149,6 +150,10 @@
     "chooseLanguage": "Dil Seçin",
     "next": "İleri",
     "skip": "Atla",
-    "letsGo": "Hadi başlayalım"
+    "letsGo": "Hadi başlayalım",
+    "favoritesTitle": "Favorileriniz",
+    "favoritesText": "Bir içeceği favorilerinize eklemek için ⭐ simgesine dokunun. Su her zaman dahildir. Favorileriniz panoda hızlı ekle düğmeleri olarak görünür.",
+    "statsTitle": "İstatistikler & Hidrasyon Endeksi",
+    "statsText": "Hidrasyon Endeksi (BHI), bir içeceğin vücudunuzu ne kadar etkili nemlendirir. Su = 1.0×. Haftalık trendinizi ve serinizi takip edin."
   }
 }

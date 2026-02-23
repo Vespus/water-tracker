@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, AlertTriangle, AlertOctagon, Check, ChevronLeft, Star, Search } from 'lucide-react';
+import { X, AlertTriangle, AlertOctagon, Check, ChevronLeft, Star, Search, Pin } from 'lucide-react';
 import { defaultBeverages } from '../../data/beverages';
 import { useAddDrink, useRecentBeverages } from '../../hooks/useDrinks';
 import { useSettings } from '../../hooks/useSettings';
@@ -39,6 +39,7 @@ function BevCard({
   onToggleFav: (e: React.MouseEvent, id: string) => void;
   t: (key: string) => string;
 }) {
+  const isPinned = bev.id === 'water';
   return (
     <div className="relative">
       <button
@@ -47,7 +48,7 @@ function BevCard({
           'w-full flex flex-col items-center gap-1.5 p-2.5 pt-4 rounded-2xl',
           'hover:bg-blue-50 dark:hover:bg-blue-900/20 hover:scale-105 active:scale-95',
           'transition-all duration-150',
-          isFav
+          isFav || isPinned
             ? 'bg-amber-50 dark:bg-amber-900/20 border border-amber-300 dark:border-amber-600/60'
             : 'bg-gray-50 dark:bg-gray-800/60 border border-transparent hover:border-blue-200 dark:hover:border-blue-700',
         ].join(' ')}
@@ -57,18 +58,25 @@ function BevCard({
           {t(bev.nameKey)}
         </span>
       </button>
-      <button
-        onClick={(e) => onToggleFav(e, bev.id)}
-        title={isFav ? t('drink.removeFromFavorites') : t('drink.addToFavorites')}
-        className="absolute top-1 right-1 p-0.5 rounded-full transition-colors z-10"
-      >
-        <Star
-          size={11}
-          className={isFav
-            ? 'fill-amber-400 text-amber-400'
-            : 'fill-transparent text-gray-300 dark:text-gray-600 hover:text-amber-400'}
-        />
-      </button>
+      {isPinned ? (
+        /* Water is pinned — show pin icon, no interaction */
+        <div className="absolute top-1 right-1 p-0.5 z-10" title={t('drink.pinnedFavorite')}>
+          <Pin size={11} className="fill-blue-400 text-blue-400" />
+        </div>
+      ) : (
+        <button
+          onClick={(e) => onToggleFav(e, bev.id)}
+          title={isFav ? t('drink.removeFromFavorites') : t('drink.addToFavorites')}
+          className="absolute top-1 right-1 p-0.5 rounded-full transition-colors z-10"
+        >
+          <Star
+            size={11}
+            className={isFav
+              ? 'fill-amber-400 text-amber-400'
+              : 'fill-transparent text-gray-300 dark:text-gray-600 hover:text-amber-400'}
+          />
+        </button>
+      )}
     </div>
   );
 }

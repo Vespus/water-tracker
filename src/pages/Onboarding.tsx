@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Minus, Plus, Droplets, ChevronRight } from 'lucide-react';
+import { Minus, Plus, Droplets, ChevronRight, Star, BarChart2 } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
 import { useAppStore } from '../stores/appStore';
 import i18n from '../i18n';
@@ -12,6 +12,8 @@ const languages = [
   { code: 'tr' as const, label: 'Türkçe', flag: '🇹🇷' },
   { code: 'it' as const, label: 'Italiano', flag: '🇮🇹' },
 ];
+
+const TOTAL_STEPS = 5;
 
 export default function Onboarding() {
   const { t } = useTranslation();
@@ -34,59 +36,144 @@ export default function Onboarding() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 space-y-8">
       {/* Skip */}
-      <button onClick={skip} className="absolute top-4 right-4 text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+      <button
+        onClick={skip}
+        className="absolute top-4 right-4 text-sm text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+      >
         {t('onboarding.skip')}
       </button>
 
+      {/* ── Step 0: Welcome ── */}
       {step === 0 && (
         <div className="text-center space-y-6 animate-fade-in">
           <Droplets size={64} className="mx-auto text-blue-500" />
           <h1 className="text-3xl font-bold">{t('onboarding.welcome')}</h1>
           <p className="text-gray-500 dark:text-gray-400 max-w-xs mx-auto">{t('onboarding.welcomeText')}</p>
-          <button onClick={() => setStep(1)} className="mt-4 px-8 py-3 bg-blue-500 text-white rounded-xl font-semibold flex items-center gap-2 mx-auto">
+          <button
+            onClick={() => setStep(1)}
+            className="mt-4 px-8 py-3 bg-blue-500 text-white rounded-xl font-semibold flex items-center gap-2 mx-auto"
+          >
             {t('onboarding.next')} <ChevronRight size={18} />
           </button>
         </div>
       )}
 
+      {/* ── Step 1: Daily Goal ── */}
       {step === 1 && (
         <div className="text-center space-y-6 animate-fade-in">
           <h2 className="text-2xl font-bold">{t('onboarding.setGoal')}</h2>
           <div className="flex items-center justify-center gap-4">
-            <button onClick={() => setGoal(clampGoal(goal - 100))} disabled={goal <= 500}
-              className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 flex items-center justify-center disabled:opacity-30">
+            <button
+              onClick={() => setGoal(clampGoal(goal - 100))}
+              disabled={goal <= 500}
+              className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 flex items-center justify-center disabled:opacity-30"
+            >
               <Minus size={20} />
             </button>
             <span className="text-4xl font-bold tabular-nums">{goal}</span>
             <span className="text-gray-400">{t('common.ml')}</span>
-            <button onClick={() => setGoal(clampGoal(goal + 100))} disabled={goal >= 5000}
-              className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 flex items-center justify-center disabled:opacity-30">
+            <button
+              onClick={() => setGoal(clampGoal(goal + 100))}
+              disabled={goal >= 5000}
+              className="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900 text-blue-600 dark:text-blue-300 flex items-center justify-center disabled:opacity-30"
+            >
               <Plus size={20} />
             </button>
           </div>
-          <input type="range" min={500} max={5000} step={100} value={goal}
-            onChange={e => setGoal(Number(e.target.value))} className="w-full max-w-xs accent-blue-500" />
+          <input
+            type="range" min={500} max={5000} step={100} value={goal}
+            onChange={e => setGoal(Number(e.target.value))}
+            className="w-full max-w-xs accent-blue-500"
+          />
           <p className="text-xs text-gray-400">{t('settings.goalHint')}</p>
-          <button onClick={() => setStep(2)} className="px-8 py-3 bg-blue-500 text-white rounded-xl font-semibold flex items-center gap-2 mx-auto">
+          <button
+            onClick={() => setStep(2)}
+            className="px-8 py-3 bg-blue-500 text-white rounded-xl font-semibold flex items-center gap-2 mx-auto"
+          >
             {t('onboarding.next')} <ChevronRight size={18} />
           </button>
         </div>
       )}
 
+      {/* ── Step 2: Favorites system ── */}
       {step === 2 && (
+        <div className="text-center space-y-5 animate-fade-in max-w-xs mx-auto">
+          <Star size={52} className="mx-auto text-amber-400 fill-amber-400" />
+          <h2 className="text-2xl font-bold">{t('onboarding.favoritesTitle')}</h2>
+          <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+            {t('onboarding.favoritesText')}
+          </p>
+          {/* Visual hint */}
+          <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-2xl px-4 py-3 text-left space-y-2">
+            {['💧 Wasser', '☕ Kaffee', '🍵 Kräutertee'].map((item, i) => (
+              <div key={i} className="flex items-center justify-between">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{item}</span>
+                <Star size={14} className="fill-amber-400 text-amber-400" />
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => setStep(3)}
+            className="px-8 py-3 bg-blue-500 text-white rounded-xl font-semibold flex items-center gap-2 mx-auto"
+          >
+            {t('onboarding.next')} <ChevronRight size={18} />
+          </button>
+        </div>
+      )}
+
+      {/* ── Step 3: Stats + BHI ── */}
+      {step === 3 && (
+        <div className="text-center space-y-5 animate-fade-in max-w-xs mx-auto">
+          <BarChart2 size={52} className="mx-auto text-blue-500" />
+          <h2 className="text-2xl font-bold">{t('onboarding.statsTitle')}</h2>
+          <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+            {t('onboarding.statsText')}
+          </p>
+          {/* BHI examples */}
+          <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-700/40 rounded-2xl px-4 py-3 text-left space-y-2">
+            {[
+              { icon: '💧', name: 'Wasser', bhi: '1.0×' },
+              { icon: '☕', name: 'Kaffee', bhi: '0.95×' },
+              { icon: '🍺', name: 'Bier', bhi: '0.6×' },
+            ].map((item, i) => (
+              <div key={i} className="flex items-center justify-between">
+                <span className="text-sm font-medium text-gray-700 dark:text-gray-200">{item.icon} {item.name}</span>
+                <span className="text-sm font-bold text-blue-600 dark:text-blue-400">{item.bhi}</span>
+              </div>
+            ))}
+          </div>
+          <button
+            onClick={() => setStep(4)}
+            className="px-8 py-3 bg-blue-500 text-white rounded-xl font-semibold flex items-center gap-2 mx-auto"
+          >
+            {t('onboarding.next')} <ChevronRight size={18} />
+          </button>
+        </div>
+      )}
+
+      {/* ── Step 4: Language ── */}
+      {step === 4 && (
         <div className="text-center space-y-6 animate-fade-in">
           <h2 className="text-2xl font-bold">{t('onboarding.chooseLanguage')}</h2>
           <div className="grid grid-cols-1 gap-2 w-full max-w-xs mx-auto">
             {languages.map(l => (
-              <button key={l.code} onClick={() => { setLang(l.code); i18n.changeLanguage(l.code); }}
+              <button
+                key={l.code}
+                onClick={() => { setLang(l.code); i18n.changeLanguage(l.code); }}
                 className={`py-3 px-4 rounded-xl text-left font-medium flex items-center gap-3 transition-colors ${
-                  lang === l.code ? 'bg-blue-500 text-white' : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
-                }`}>
+                  lang === l.code
+                    ? 'bg-blue-500 text-white'
+                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300'
+                }`}
+              >
                 <span className="text-xl">{l.flag}</span> {l.label}
               </button>
             ))}
           </div>
-          <button onClick={finish} className="px-8 py-3 bg-green-500 text-white rounded-xl font-semibold mx-auto">
+          <button
+            onClick={finish}
+            className="px-8 py-3 bg-green-500 text-white rounded-xl font-semibold mx-auto block"
+          >
             {t('onboarding.letsGo')} 🚀
           </button>
         </div>
@@ -94,8 +181,13 @@ export default function Onboarding() {
 
       {/* Step dots */}
       <div className="flex gap-2">
-        {[0, 1, 2].map(i => (
-          <div key={i} className={`w-2 h-2 rounded-full transition-colors ${i === step ? 'bg-blue-500' : 'bg-gray-300 dark:bg-gray-600'}`} />
+        {Array.from({ length: TOTAL_STEPS }).map((_, i) => (
+          <div
+            key={i}
+            className={`h-2 rounded-full transition-all duration-300 ${
+              i === step ? 'bg-blue-500 w-5' : 'bg-gray-300 dark:bg-gray-600 w-2'
+            }`}
+          />
         ))}
       </div>
     </div>

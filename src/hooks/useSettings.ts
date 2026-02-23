@@ -31,6 +31,8 @@ export function useSettings() {
   }, []);
 
   const toggleFavorite = useCallback(async (beverageId: string) => {
+    // Water is a pinned favorite — it can never be removed
+    if (beverageId === 'water') return;
     const current = await db.settings.get('default');
     const favorites = current?.favoriteBeverageIds ?? [];
     const next = favorites.includes(beverageId)

@@ -35,7 +35,8 @@
     "favorites": "Favoriten",
     "noFavorites": "Noch keine Favoriten — tippe auf ⭐ bei einem Getränk",
     "sliderLabel": "Menge in ml",
-    "search": "Suchen..."
+    "search": "Suchen...",
+    "pinnedFavorite": "Wasser ist immer in den Favoriten"
   },
   "quickAdd": {
     "setAmount": "Menge für Schnellzugriff",
@@ -149,6 +150,10 @@
     "chooseLanguage": "Sprache wählen",
     "next": "Weiter",
     "skip": "Überspringen",
-    "letsGo": "Los geht's"
+    "letsGo": "Los geht's",
+    "favoritesTitle": "Deine Favoriten",
+    "favoritesText": "Tippe den ⭐ auf jedem Getränk, um es zu deinen Favoriten hinzuzufügen. Wasser ist immer dabei. Deine Favoriten erscheinen als Schnellzugriff auf dem Dashboard.",
+    "statsTitle": "Statistiken & BHI",
+    "statsText": "Der Hydrations-Index (BHI) zeigt, wie effektiv ein Getränk deinen Körper mit Flüssigkeit versorgt. Wasser = 1.0×. Behalte deinen Wochentrend und Streak im Blick."
   }
 }

@@ -21,65 +21,70 @@ export default function Dashboard() {
 
   return (
     <div className="page-enter pb-6">
-      {/* Header */}
-      <div className="px-5 pt-6 pb-4">
+      {/* ── Header ── compact on mobile */}
+      <div className="px-5 pt-4 pb-2">
         <div className="flex items-center gap-2 mb-0.5">
-          <Droplets size={22} className="text-blue-500" />
-          <h1 className="text-2xl font-bold tracking-tight">{t('dashboard.today')}</h1>
+          <Droplets size={20} className="text-blue-500 flex-shrink-0" />
+          <h1 className="text-xl font-bold tracking-tight">{t('dashboard.today')}</h1>
         </div>
         {pct < 100 ? (
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-0.5">
+          <p className="text-xs text-gray-500 dark:text-gray-400">
             {t('dashboard.remaining', { amount: remaining })}
           </p>
         ) : (
-          <p className="text-sm font-medium text-green-600 dark:text-green-400 mt-0.5">🎉 {t('dashboard.goal')} erreicht!</p>
+          <p className="text-xs font-medium text-green-600 dark:text-green-400">
+            🎉 {t('dashboard.goal')} erreicht!
+          </p>
         )}
       </div>
 
-      {/* Water Glass */}
-      <div className="px-5">
-        <div className="bg-white dark:bg-gray-800/60 rounded-3xl p-6 shadow-sm border border-gray-100 dark:border-gray-700/50">
-          <WaterGlass currentMl={totalWaterEquivalentMl} goalMl={settings.dailyGoalMl} />
+      {/* ── Glass + Stats (side by side) ── */}
+      <div className="px-4 mt-1">
+        <div className="bg-white dark:bg-gray-800/60 rounded-2xl px-4 py-3 shadow-sm border border-gray-100 dark:border-gray-700/50 flex items-center gap-4">
+          {/* Compact glass */}
+          <div className="flex-shrink-0">
+            <WaterGlass compact currentMl={totalWaterEquivalentMl} goalMl={settings.dailyGoalMl} />
+          </div>
+
+          {/* Stats: 3 rows stacked */}
+          <div className="flex-1 flex flex-col gap-2 min-w-0">
+            <div className="flex items-center justify-between gap-2 bg-blue-50 dark:bg-blue-900/20 rounded-xl px-3 py-2">
+              <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">{t('dashboard.totalMl')}</p>
+              <p className="text-sm font-bold tabular-nums text-blue-600 dark:text-blue-400 flex-shrink-0">{totalMl} <span className="text-[10px] font-normal text-gray-400">ml</span></p>
+            </div>
+            <div className="flex items-center justify-between gap-2 bg-cyan-50 dark:bg-cyan-900/20 rounded-xl px-3 py-2">
+              <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">{t('dashboard.waterEquivalent')}</p>
+              <p className="text-sm font-bold tabular-nums text-cyan-600 dark:text-cyan-400 flex-shrink-0">{totalWaterEquivalentMl} <span className="text-[10px] font-normal text-gray-400">ml</span></p>
+            </div>
+            <div className="flex items-center justify-between gap-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl px-3 py-2">
+              <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">{t('dashboard.entries')}</p>
+              <p className="text-sm font-bold tabular-nums text-indigo-600 dark:text-indigo-400 flex-shrink-0">{entryCount}</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Stats row */}
-      <div className="flex gap-3 px-5 mt-4">
-        <div className="flex-1 bg-white dark:bg-gray-800/60 rounded-2xl p-3.5 text-center shadow-sm border border-gray-100 dark:border-gray-700/50">
-          <p className="text-xl font-bold tabular-nums text-blue-600 dark:text-blue-400">{totalMl}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t('dashboard.totalMl')}</p>
-        </div>
-        <div className="flex-1 bg-white dark:bg-gray-800/60 rounded-2xl p-3.5 text-center shadow-sm border border-gray-100 dark:border-gray-700/50">
-          <p className="text-xl font-bold tabular-nums text-cyan-600 dark:text-cyan-400">{totalWaterEquivalentMl}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t('dashboard.waterEquivalent')}</p>
-        </div>
-        <div className="flex-1 bg-white dark:bg-gray-800/60 rounded-2xl p-3.5 text-center shadow-sm border border-gray-100 dark:border-gray-700/50">
-          <p className="text-xl font-bold tabular-nums text-indigo-600 dark:text-indigo-400">{entryCount}</p>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{t('dashboard.entries')}</p>
-        </div>
-      </div>
-
-      {/* Quick Buttons */}
-      <div className="px-5 mt-5">
-        <p className="text-xs text-gray-400 dark:text-gray-500 uppercase font-semibold tracking-wider mb-3">
+      {/* ── Favoriten / Quick Buttons ── */}
+      <div className="px-4 mt-3">
+        <p className="text-[11px] text-gray-400 dark:text-gray-500 uppercase font-semibold tracking-wider mb-2">
           {t('drink.quickAdd')}
         </p>
         <QuickButtons onAdded={nudge} />
       </div>
 
-      {/* Add Button */}
-      <div className="px-5 mt-4">
+      {/* ── Add Button ── */}
+      <div className="px-4 mt-3">
         <button
           onClick={() => setModalOpen(true)}
-          className="w-full py-4 rounded-2xl bg-blue-500 hover:bg-blue-600 active:scale-[0.98] text-white font-semibold flex items-center justify-center gap-2.5 shadow-lg shadow-blue-500/25 transition-all duration-150"
+          className="w-full py-3.5 rounded-2xl bg-blue-500 hover:bg-blue-600 active:scale-[0.98] text-white font-semibold flex items-center justify-center gap-2.5 shadow-lg shadow-blue-500/25 transition-all duration-150"
         >
-          <Plus size={20} strokeWidth={2.5} />
+          <Plus size={18} strokeWidth={2.5} />
           {t('drink.addDrink')}
         </button>
       </div>
 
-      {/* Today's log */}
-      <div className="px-5 mt-6">
+      {/* ── Today's log (below fold is fine) ── */}
+      <div className="px-4 mt-5">
         <DrinkLog />
       </div>
 

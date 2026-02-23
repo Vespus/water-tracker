@@ -35,7 +35,8 @@
     "favorites": "Preferiti",
     "noFavorites": "Nessun preferito ancora — tocca ⭐ su una bevanda",
     "sliderLabel": "Quantità in ml",
-    "search": "Cerca..."
+    "search": "Cerca...",
+    "pinnedFavorite": "L'acqua è sempre nei preferiti"
   },
   "quickAdd": {
     "setAmount": "Quantità aggiunta rapida",
@@ -149,6 +150,10 @@
     "chooseLanguage": "Scegli la lingua",
     "next": "Avanti",
     "skip": "Salta",
-    "letsGo": "Iniziamo"
+    "letsGo": "Iniziamo",
+    "favoritesTitle": "I tuoi preferiti",
+    "favoritesText": "Tocca ⭐ su una bevanda per aggiungerla ai preferiti. L'acqua è sempre inclusa. I tuoi preferiti appaiono come pulsanti di accesso rapido.",
+    "statsTitle": "Statistiche & Indice di Idratazione",
+    "statsText": "L'indice di idratazione (BHI) mostra quanto efficacemente una bevanda idrata il corpo. Acqua = 1.0×. Monitora la tendenza settimanale e la serie."
   }
 }

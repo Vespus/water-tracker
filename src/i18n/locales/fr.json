@@ -35,7 +35,8 @@
     "favorites": "Favoris",
     "noFavorites": "Pas encore de favoris — appuyez sur ⭐ d'une boisson",
     "sliderLabel": "Quantité en ml",
-    "search": "Rechercher..."
+    "search": "Rechercher...",
+    "pinnedFavorite": "L'eau est toujours dans les favoris"
   },
   "quickAdd": {
     "setAmount": "Quantité d'ajout rapide",
@@ -149,6 +150,10 @@
     "chooseLanguage": "Choisir la langue",
     "next": "Suivant",
     "skip": "Passer",
-    "letsGo": "C'est parti"
+    "letsGo": "C'est parti",
+    "favoritesTitle": "Vos favoris",
+    "favoritesText": "Appuyez sur ⭐ sur une boisson pour l'ajouter à vos favoris. L'eau est toujours incluse. Vos favoris apparaissent comme boutons de saisie rapide.",
+    "statsTitle": "Statistiques & Index d'hydratation",
+    "statsText": "L'index d'hydratation (BHI) indique l'efficacité d'une boisson. Eau = 1.0×. Suivez votre tendance hebdomadaire et votre série."
   }
 }

@@ -35,7 +35,8 @@
     "favorites": "Favorites",
     "noFavorites": "No favorites yet — tap ⭐ on a beverage",
     "sliderLabel": "Amount in ml",
-    "search": "Search..."
+    "search": "Search...",
+    "pinnedFavorite": "Water is always in favorites"
   },
   "quickAdd": {
     "setAmount": "Quick-add amount",
@@ -149,6 +150,10 @@
     "chooseLanguage": "Choose Language",
     "next": "Next",
     "skip": "Skip",
-    "letsGo": "Let's go"
+    "letsGo": "Let's go",
+    "favoritesTitle": "Your Favorites",
+    "favoritesText": "Tap the ⭐ on any beverage to add it to your favorites. Water is always included. Your favorites appear as quick-add buttons on the dashboard.",
+    "statsTitle": "Stats & Hydration Index",
+    "statsText": "The Hydration Index (BHI) shows how effectively a drink hydrates your body. Water = 1.0×. Track your weekly trend and streak."
   }
 }

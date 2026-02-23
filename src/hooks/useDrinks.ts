@@ -89,34 +89,51 @@ export function useRecentBeverages(limit = 5): BeverageType[] {
     .filter((b): b is BeverageType => Boolean(b));
 }
 
+/** Water is always a pinned favorite — cannot be removed */
+export const PINNED_FAVORITE_ID = 'water';
+
 /**
  * Returns beverages for quick access:
- * - If user has set favorites → returns all favorites (in the order they were added)
- * - Fallback: top 3 most used beverages by all-time frequency
+ * - "water" is ALWAYS the first entry (pinned, cannot be removed)
+ * - If user has set additional favorites → appended after water
+ * - Fallback for additional slots: top 2 most used (excluding water)
  * - Absolute fallback: water, coffee, herbal tea
  */
 export function useFrequentBeverages(): BeverageType[] {
   const result = useLiveQuery(async () => {
     const settings = await db.settings.get('default');
-    const favorites = settings?.favoriteBeverageIds ?? [];
+    const rawFavorites = settings?.favoriteBeverageIds ?? [];
 
-    if (favorites.length > 0) {
-      // Return all user-defined favorites in saved order
+    // Always ensure water is first; deduplicate
+    const favorites = [
+      PINNED_FAVORITE_ID,
+      ...rawFavorites.filter(id => id !== PINNED_FAVORITE_ID),
+    ];
+
+    if (favorites.length > 1) {
+      // User has set additional favorites beyond water
       return favorites;
     }
 
-    // Fallback: top 3 by frequency
+    // No extra favorites set — use water + top 2 by frequency
     const all = await db.drinkEntries.toArray();
     const freq: Record<string, number> = {};
     for (const e of all) {
       freq[e.beverageTypeId] = (freq[e.beverageTypeId] || 0) + 1;
     }
-    const sorted = Object.entries(freq).sort((a, b) => b[1] - a[1]).slice(0, 3);
-    return sorted.map(([id]) => id);
+    const sorted = Object.entries(freq)
+      .filter(([id]) => id !== PINNED_FAVORITE_ID)
+      .sort((a, b) => b[1] - a[1])
+      .slice(0, 2);
+
+    if (sorted.length > 0) {
+      return [PINNED_FAVORITE_ID, ...sorted.map(([id]) => id)];
+    }
+    return [PINNED_FAVORITE_ID, 'coffee', 'tea_herbal'];
   }, [], null);
 
   if (result === null) return []; // still loading
 
-  const ids = result.length > 0 ? result : ['water', 'coffee', 'tea_herbal'];
+  const ids = result.length > 0 ? result : [PINNED_FAVORITE_ID, 'coffee', 'tea_herbal'];
   return ids.map(id => defaultBeverages.find(b => b.id === id)!).filter(Boolean);
 }
