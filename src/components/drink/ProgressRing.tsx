@@ -11,14 +11,23 @@ interface Props {
   waterEquivalentMl: number;
 }
 
-/** Returns a hex color based on progress percentage */
-export function getProgressColor(pct: number): string {
+/**
+ * Returns a hex color for the GLASS FILL based on progress percentage.
+ * 0–30%: red | 30–60%: orange | 60–85%: yellow | 85–100%: blue
+ * (No green stage.)
+ */
+export function getGlassColor(pct: number): string {
   if (pct < 30) return '#ef4444'; // red
-  if (pct < 50) return '#f97316'; // orange
-  if (pct < 70) return '#eab308'; // yellow
-  if (pct < 90) return '#22c55e'; // green
-  return '#06b6d4';               // cyan/blue
+  if (pct < 60) return '#f97316'; // orange
+  if (pct < 85) return '#eab308'; // yellow
+  return '#3b82f6';               // blue
 }
+
+/**
+ * @deprecated Use getGlassColor instead.
+ * Kept for backwards-compatibility with any existing imports.
+ */
+export const getProgressColor = getGlassColor;
 
 /** Mini glass SVG used in the ring center */
 function MiniGlass({ color, pct }: { color: string; pct: number }) {
@@ -68,7 +77,9 @@ export default function ProgressRing({ currentMl, goalMl, totalMl, waterEquivale
   const { t } = useTranslation();
 
   const pct = Math.min(100, Math.max(0, (currentMl / goalMl) * 100));
-  const color = getProgressColor(pct);
+
+  // Glass fill color (changes with progress)
+  const glassColor = getGlassColor(pct);
 
   // SVG ring parameters
   const size = 220;
@@ -76,6 +87,9 @@ export default function ProgressRing({ currentMl, goalMl, totalMl, waterEquivale
   const radius = (size - strokeWidth) / 2;
   const circumference = 2 * Math.PI * radius;
   const dashOffset = circumference * (1 - pct / 100);
+
+  // Unique gradient IDs (stable per component)
+  const ringGradId = 'progressRingBlueGrad';
 
   return (
     <div className="flex flex-col items-center">
@@ -86,6 +100,24 @@ export default function ProgressRing({ currentMl, goalMl, totalMl, waterEquivale
           height={size}
           style={{ position: 'absolute', top: 0, left: 0 }}
         >
+          <defs>
+            {/*
+              Blue water-theme gradient for the ring stroke.
+              Always cyan → sky → blue — never changes with progress level.
+              Direction: top-left to bottom-right for a natural water feel.
+            */}
+            <linearGradient
+              id={ringGradId}
+              x1="0%" y1="0%"
+              x2="100%" y2="100%"
+              gradientUnits="userSpaceOnUse"
+            >
+              <stop offset="0%"   stopColor="#67e8f9" /> {/* cyan-300   */}
+              <stop offset="50%"  stopColor="#0ea5e9" /> {/* sky-500    */}
+              <stop offset="100%" stopColor="#2563eb" /> {/* blue-600   */}
+            </linearGradient>
+          </defs>
+
           {/* Track circle */}
           <circle
             cx={size / 2}
@@ -96,31 +128,31 @@ export default function ProgressRing({ currentMl, goalMl, totalMl, waterEquivale
             strokeWidth={strokeWidth}
             className="text-gray-100 dark:text-gray-800"
           />
-          {/* Progress arc */}
+          {/* Progress arc — always blue gradient */}
           <circle
             cx={size / 2}
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke={color}
+            stroke={`url(#${ringGradId})`}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={circumference}
             strokeDashoffset={dashOffset}
             transform={`rotate(-90 ${size / 2} ${size / 2})`}
             style={{
-              transition: 'stroke-dashoffset 0.7s ease-out, stroke 0.5s ease',
+              transition: 'stroke-dashoffset 0.7s ease-out',
             }}
           />
         </svg>
 
         {/* Center content */}
         <div className="absolute inset-0 flex flex-col items-center justify-center gap-0.5">
-          {/* Mini glass icon */}
-          <MiniGlass color={color} pct={pct} />
+          {/* Mini glass icon — color follows progress stage */}
+          <MiniGlass color={glassColor} pct={pct} />
 
-          {/* Total ml — big number */}
-          <p className="text-2xl font-bold tabular-nums mt-1" style={{ color }}>
+          {/* Total ml — big number, colored by progress stage */}
+          <p className="text-2xl font-bold tabular-nums mt-1" style={{ color: glassColor }}>
             {totalMl}
             <span className="text-sm font-normal text-gray-400 ml-0.5">ml</span>
           </p>
