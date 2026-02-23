@@ -5,6 +5,10 @@ import { useSettings } from '../../hooks/useSettings';
 
 interface Props {
   onAdded: () => void;
+  /** Render as a 4-column grid instead of horizontal scroll */
+  grid?: boolean;
+  /** Limit the number of buttons shown (used with grid) */
+  maxItems?: number;
 }
 
 interface AmountPopoverProps {
@@ -81,7 +85,7 @@ function AmountPopover({ beverageId: _beverageId, currentAmount, onSave, onClose
   );
 }
 
-export default function QuickButtons({ onAdded }: Props) {
+export default function QuickButtons({ onAdded, grid = false, maxItems }: Props) {
   const { t } = useTranslation();
   const beverages = useFrequentBeverages();
   const addDrink = useAddDrink();
@@ -187,6 +191,37 @@ export default function QuickButtons({ onAdded }: Props) {
     setPopoverBevId(null);
   };
 
+  const displayBeverages = maxItems ? beverages.slice(0, maxItems) : beverages;
+
+  /** Shared button renderer */
+  const renderButton = (bev: (typeof beverages)[number], extraClass = '') => {
+    const isFlashing = flash === bev.id;
+    const amount = settings.favoriteAmounts?.[bev.id] ?? 250;
+    return (
+      <button
+        key={bev.id}
+        onClick={() => handleQuick(bev.id)}
+        onMouseDown={() => startLongPress(bev.id)}
+        onMouseUp={cancelLongPress}
+        onMouseLeave={cancelLongPress}
+        onTouchStart={() => startLongPress(bev.id)}
+        onTouchEnd={cancelLongPress}
+        onTouchMove={cancelLongPress}
+        draggable={false}
+        title={t('quickAdd.longPressHint')}
+        className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl shadow-sm border transition-all duration-200 active:scale-95 select-none
+          ${isFlashing
+            ? 'bg-green-50 dark:bg-green-900/30 border-green-300 dark:border-green-700 scale-105'
+            : 'bg-white dark:bg-gray-800/80 border-gray-100 dark:border-gray-700/60 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-md'
+          } ${extraClass}`}
+      >
+        <span className="text-2xl leading-none">{bev.icon}</span>
+        <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap truncate w-full text-center px-1">{t(bev.nameKey)}</span>
+        <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium">{amount} {t('common.ml')}</span>
+      </button>
+    );
+  };
+
   return (
     <>
       {/* Amount popover (UX-05) */}
@@ -199,57 +234,38 @@ export default function QuickButtons({ onAdded }: Props) {
         />
       )}
 
-      <div className="relative">
-        {/* Left fade edge */}
-        {canScrollLeft && (
-          <div className="absolute left-0 top-0 bottom-0 w-8 z-10 pointer-events-none
-            bg-gradient-to-r from-gray-50 dark:from-gray-950 to-transparent rounded-l-2xl" />
-        )}
-        {/* Right fade edge */}
-        {canScrollRight && (
-          <div className="absolute right-0 top-0 bottom-0 w-8 z-10 pointer-events-none
-            bg-gradient-to-l from-gray-50 dark:from-gray-950 to-transparent rounded-r-2xl" />
-        )}
-
-        {/* Scrollable row */}
-        <div
-          ref={scrollRef}
-          className="flex gap-3 overflow-x-auto pb-1 scroll-smooth no-scrollbar"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
-          onMouseDown={onMouseDown}
-          onMouseMove={onMouseMove}
-          onMouseUp={onMouseUp}
-          onMouseLeave={onMouseUp}
-        >
-          {beverages.map(bev => {
-            const isFlashing = flash === bev.id;
-            const amount = settings.favoriteAmounts?.[bev.id] ?? 250;
-            return (
-              <button
-                key={bev.id}
-                onClick={() => handleQuick(bev.id)}
-                onMouseDown={() => startLongPress(bev.id)}
-                onMouseUp={cancelLongPress}
-                onMouseLeave={cancelLongPress}
-                onTouchStart={() => startLongPress(bev.id)}
-                onTouchEnd={cancelLongPress}
-                onTouchMove={cancelLongPress}
-                draggable={false}
-                title={t('quickAdd.longPressHint')}
-                className={`flex-shrink-0 flex flex-col items-center gap-1.5 px-4 py-3.5 rounded-2xl shadow-sm border transition-all duration-200 active:scale-95 select-none
-                  ${isFlashing
-                    ? 'bg-green-50 dark:bg-green-900/30 border-green-300 dark:border-green-700 scale-105'
-                    : 'bg-white dark:bg-gray-800/80 border-gray-100 dark:border-gray-700/60 hover:border-blue-300 dark:hover:border-blue-600 hover:shadow-md'
-                  }`}
-              >
-                <span className="text-2xl leading-none">{bev.icon}</span>
-                <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap">{t(bev.nameKey)}</span>
-                <span className="text-[10px] text-gray-400 dark:text-gray-500 font-medium">{amount} {t('common.ml')}</span>
-              </button>
-            );
-          })}
+      {grid ? (
+        /* ── Grid layout (4 columns, no scroll) ── */
+        <div className="grid grid-cols-4 gap-2">
+          {displayBeverages.map(bev => renderButton(bev))}
         </div>
-      </div>
+      ) : (
+        /* ── Scroll layout (original) ── */
+        <div className="relative">
+          {/* Left fade edge */}
+          {canScrollLeft && (
+            <div className="absolute left-0 top-0 bottom-0 w-8 z-10 pointer-events-none
+              bg-gradient-to-r from-gray-50 dark:from-gray-950 to-transparent rounded-l-2xl" />
+          )}
+          {/* Right fade edge */}
+          {canScrollRight && (
+            <div className="absolute right-0 top-0 bottom-0 w-8 z-10 pointer-events-none
+              bg-gradient-to-l from-gray-50 dark:from-gray-950 to-transparent rounded-r-2xl" />
+          )}
+
+          <div
+            ref={scrollRef}
+            className="flex gap-3 overflow-x-auto pb-1 scroll-smooth no-scrollbar"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
+            onMouseDown={onMouseDown}
+            onMouseMove={onMouseMove}
+            onMouseUp={onMouseUp}
+            onMouseLeave={onMouseUp}
+          >
+            {displayBeverages.map(bev => renderButton(bev, 'flex-shrink-0 px-4'))}
+          </div>
+        </div>
+      )}
     </>
   );
 }

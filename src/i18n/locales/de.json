@@ -14,7 +14,13 @@
     "remaining": "Noch {{amount}} ml",
     "totalMl": "Gesamt (ml)",
     "waterEquivalent": "Wasser-Äquivalent",
-    "entries": "Einträge"
+    "entries": "Einträge",
+    "totalLabel": "Total",
+    "hydrationLabel": "Hydration: {{amount}} ml",
+    "goalInfo": "Ziel: {{amount}} ml",
+    "differenceInfo": "Differenz: {{amount}} ml",
+    "totalBadge": "{{amount}} ml ges.",
+    "goalReached": "Tagesziel erreicht!"
   },
   "drink": {
     "chooseBeverage": "Getränk wählen",

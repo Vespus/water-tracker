@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Plus, Droplets } from 'lucide-react';
-import WaterGlass from '../components/drink/WaterGlass';
+import ProgressRing from '../components/drink/ProgressRing';
 import QuickButtons from '../components/drink/QuickButtons';
 import AddDrinkModal from '../components/drink/AddDrinkModal';
 import DrinkLog from '../components/drink/DrinkLog';
@@ -11,79 +11,85 @@ import { useSettings } from '../hooks/useSettings';
 export default function Dashboard() {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
-  const { totalMl, totalWaterEquivalentMl, entryCount } = useTodaySummary();
+  const { totalMl, totalWaterEquivalentMl } = useTodaySummary();
   const { settings } = useSettings();
   const [, forceUpdate] = useState(0);
   const nudge = () => forceUpdate(n => n + 1);
 
   const pct = Math.min(100, Math.round((totalWaterEquivalentMl / settings.dailyGoalMl) * 100));
   const remaining = Math.max(0, settings.dailyGoalMl - totalWaterEquivalentMl);
+  const difference = Math.abs(settings.dailyGoalMl - totalWaterEquivalentMl);
 
   return (
     <div className="page-enter pb-6">
-      {/* ── Header ── compact on mobile */}
-      <div className="px-5 pt-4 pb-2">
-        <div className="flex items-center gap-2 mb-0.5">
-          <Droplets size={20} className="text-blue-500 flex-shrink-0" />
-          <h1 className="text-xl font-bold tracking-tight">{t('dashboard.today')}</h1>
+      {/* ── Header ── */}
+      <div className="px-5 pt-4 pb-2 flex items-center justify-between">
+        {/* Left: icon + "Heute" + "Noch X ml" */}
+        <div>
+          <div className="flex items-center gap-2 mb-0.5">
+            <Droplets size={20} className="text-blue-500 flex-shrink-0" />
+            <h1 className="text-xl font-bold tracking-tight">{t('dashboard.today')}</h1>
+          </div>
+          {pct < 100 ? (
+            <p className="text-xs text-gray-500 dark:text-gray-400">
+              {t('dashboard.remaining', { amount: remaining })}
+            </p>
+          ) : (
+            <p className="text-xs font-medium text-green-600 dark:text-green-400">
+              🎉 {t('dashboard.goalReached')}
+            </p>
+          )}
         </div>
-        {pct < 100 ? (
-          <p className="text-xs text-gray-500 dark:text-gray-400">
-            {t('dashboard.remaining', { amount: remaining })}
-          </p>
-        ) : (
-          <p className="text-xs font-medium text-green-600 dark:text-green-400">
-            🎉 {t('dashboard.goal')} erreicht!
-          </p>
-        )}
-      </div>
 
-      {/* ── Glass + Stats (side by side) ── */}
-      <div className="px-4 mt-1">
-        <div className="bg-white dark:bg-gray-800/60 rounded-2xl px-4 py-3 shadow-sm border border-gray-100 dark:border-gray-700/50 flex items-center gap-4">
-          {/* Compact glass */}
-          <div className="flex-shrink-0">
-            <WaterGlass compact currentMl={totalWaterEquivalentMl} goalMl={settings.dailyGoalMl} />
-          </div>
-
-          {/* Stats: 3 rows stacked */}
-          <div className="flex-1 flex flex-col gap-2 min-w-0">
-            <div className="flex items-center justify-between gap-2 bg-blue-50 dark:bg-blue-900/20 rounded-xl px-3 py-2">
-              <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">{t('dashboard.totalMl')}</p>
-              <p className="text-sm font-bold tabular-nums text-blue-600 dark:text-blue-400 flex-shrink-0">{totalMl} <span className="text-[10px] font-normal text-gray-400">ml</span></p>
-            </div>
-            <div className="flex items-center justify-between gap-2 bg-cyan-50 dark:bg-cyan-900/20 rounded-xl px-3 py-2">
-              <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">{t('dashboard.waterEquivalent')}</p>
-              <p className="text-sm font-bold tabular-nums text-cyan-600 dark:text-cyan-400 flex-shrink-0">{totalWaterEquivalentMl} <span className="text-[10px] font-normal text-gray-400">ml</span></p>
-            </div>
-            <div className="flex items-center justify-between gap-2 bg-indigo-50 dark:bg-indigo-900/20 rounded-xl px-3 py-2">
-              <p className="text-[11px] text-gray-500 dark:text-gray-400 leading-tight">{t('dashboard.entries')}</p>
-              <p className="text-sm font-bold tabular-nums text-indigo-600 dark:text-indigo-400 flex-shrink-0">{entryCount}</p>
-            </div>
-          </div>
+        {/* Right: total ml badge/pill */}
+        <div className="flex-shrink-0">
+          <span className="text-xs font-semibold text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 px-3 py-1.5 rounded-full border border-blue-100 dark:border-blue-800">
+            {t('dashboard.totalBadge', { amount: totalMl })}
+          </span>
         </div>
       </div>
 
-      {/* ── Favoriten / Quick Buttons ── */}
+      {/* ── Hero: Progress Ring ── */}
+      <div className="flex justify-center mt-2 mb-1">
+        <ProgressRing
+          currentMl={totalWaterEquivalentMl}
+          goalMl={settings.dailyGoalMl}
+          totalMl={totalMl}
+          waterEquivalentMl={totalWaterEquivalentMl}
+        />
+      </div>
+
+      {/* ── Schnelleingabe ── */}
       <div className="px-4 mt-3">
         <p className="text-[11px] text-gray-400 dark:text-gray-500 uppercase font-semibold tracking-wider mb-2">
           {t('drink.quickAdd')}
         </p>
-        <QuickButtons onAdded={nudge} />
+        <QuickButtons onAdded={nudge} grid maxItems={4} />
       </div>
 
-      {/* ── Add Button ── */}
+      {/* ── CTA Button ── */}
       <div className="px-4 mt-3">
         <button
           onClick={() => setModalOpen(true)}
-          className="w-full py-3.5 rounded-2xl bg-blue-500 hover:bg-blue-600 active:scale-[0.98] text-white font-semibold flex items-center justify-center gap-2.5 shadow-lg shadow-blue-500/25 transition-all duration-150"
+          className="w-full py-3.5 rounded-2xl bg-gradient-to-r from-blue-500 to-cyan-400 hover:from-blue-600 hover:to-cyan-500 active:scale-[0.98] text-white font-semibold flex items-center justify-center gap-2.5 shadow-lg shadow-blue-500/25 transition-all duration-150"
         >
           <Plus size={18} strokeWidth={2.5} />
           {t('drink.addDrink')}
         </button>
       </div>
 
-      {/* ── Today's log (below fold is fine) ── */}
+      {/* ── Footer info ── */}
+      <div className="px-4 mt-2 flex items-center justify-center gap-3">
+        <span className="text-[11px] text-gray-400 dark:text-gray-500">
+          {t('dashboard.goalInfo', { amount: settings.dailyGoalMl })}
+        </span>
+        <span className="text-gray-300 dark:text-gray-700">·</span>
+        <span className="text-[11px] text-gray-400 dark:text-gray-500">
+          {t('dashboard.differenceInfo', { amount: difference })}
+        </span>
+      </div>
+
+      {/* ── Today's log (below fold) ── */}
       <div className="px-4 mt-5">
         <DrinkLog />
       </div>

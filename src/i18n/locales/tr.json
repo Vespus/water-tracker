@@ -14,7 +14,13 @@
     "remaining": "{{amount}} ml kaldı",
     "totalMl": "Toplam (ml)",
     "waterEquivalent": "Su Eşdeğeri",
-    "entries": "Kayıtlar"
+    "entries": "Kayıtlar",
+    "totalLabel": "Toplam",
+    "hydrationLabel": "Hidrasyon: {{amount}} ml",
+    "goalInfo": "Hedef: {{amount}} ml",
+    "differenceInfo": "Fark: {{amount}} ml",
+    "totalBadge": "{{amount}} ml toplam",
+    "goalReached": "Günlük hedef ulaşıldı!"
   },
   "drink": {
     "chooseBeverage": "İçecek Seç",
