@@ -92,8 +92,13 @@ export default function DailyTimeline() {
     }
 
     // How many hours ago was the last drink?
+    // If no entries at all, use time since HOUR_START as the gap (so the warning fires)
     const lastTs = drinkTimes.length > 0 ? drinkTimes[drinkTimes.length - 1] : null;
-    const currentGapH = lastTs ? (nowMs - lastTs) / 3_600_000 : null;
+    const currentGapH = lastTs
+      ? (nowMs - lastTs) / 3_600_000
+      : currentHour >= HOUR_START
+        ? (nowMs - hourStartMs(HOUR_START)) / 3_600_000
+        : null;
 
     return { hourSlots, currentGapH };
     // eslint-disable-next-line react-hooks/exhaustive-deps
