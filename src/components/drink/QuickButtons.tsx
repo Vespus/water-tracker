@@ -216,14 +216,31 @@ export default function QuickButtons({ onAdded, grid = false, maxItems, onOpenFu
         onTouchMove={cancelLongPress}
         draggable={false}
         title={t('quickAdd.longPressHint')}
-        className={`flex flex-col items-center gap-1.5 py-3 rounded-2xl shadow-sm border transition-all duration-200 active:scale-95 select-none backdrop-blur-sm
+        style={{
+          WebkitTouchCallout: 'none',
+          WebkitUserSelect: 'none',
+          userSelect: 'none',
+          touchAction: 'manipulation',
+        } as React.CSSProperties}
+        className={`quick-btn flex flex-col items-center gap-1.5 py-3 rounded-2xl shadow-sm border transition-all duration-200 active:scale-95 select-none backdrop-blur-sm
           ${isFlashing
             ? 'bg-white/25 border-white/40 scale-105'
             : 'bg-white/10 border-white/15 hover:bg-white/20 hover:border-white/25'
           } ${extraClass}`}
       >
         {bev.iconUrl ? (
-          <img src={bev.iconUrl} alt={t(bev.nameKey)} className="w-8 h-8 object-contain" />
+          <img
+            src={bev.iconUrl}
+            alt={t(bev.nameKey)}
+            draggable={false}
+            className="w-8 h-8 object-contain"
+            style={{
+              WebkitTouchCallout: 'none',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              pointerEvents: 'none',
+            } as React.CSSProperties}
+          />
         ) : (
           <span className="text-2xl leading-none">{bev.icon}</span>
         )}

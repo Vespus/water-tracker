@@ -93,3 +93,19 @@ html {
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
+
+/* Suppress iOS native long-press callout on quick-select buttons and icons */
+.quick-btn {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.quick-btn img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  pointer-events: none;
+  -webkit-user-drag: none;
+}
