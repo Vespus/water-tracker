@@ -143,7 +143,7 @@
   },
   "customDrink": {
     "sectionTitle": "Meine Getränke",
-    "addNew": "+ Neu",
+    "addNew": "Neu",
     "createTitle": "Eigenes Getränk erstellen",
     "editTitle": "Getränk bearbeiten",
     "nameLabel": "Name",

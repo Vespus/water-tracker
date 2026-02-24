@@ -102,7 +102,7 @@
   },
   "customDrink": {
     "sectionTitle": "Mes boissons",
-    "addNew": "+ Nouveau",
+    "addNew": "Nouveau",
     "createTitle": "Créer une boisson",
     "editTitle": "Modifier la boisson",
     "nameLabel": "Nom",

@@ -102,7 +102,7 @@
   },
   "customDrink": {
     "sectionTitle": "İçeceklerim",
-    "addNew": "+ Yeni",
+    "addNew": "Yeni",
     "createTitle": "Özel İçecek Oluştur",
     "editTitle": "İçeceği Düzenle",
     "nameLabel": "Ad",
