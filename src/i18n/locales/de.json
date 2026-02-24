@@ -163,6 +163,12 @@
     "deletedLabel": "(Gelöscht)",
     "empty": "+ Eigenes Getränk hinzufügen"
   },
+  "timeline": {
+    "title": "Tagesverteilung",
+    "gapWarning": "{{hours}}h ohne Trinken",
+    "onTrack": "Gut verteilt",
+    "ariaLabel": "Trinkverteilung über den Tag"
+  },
   "common": {
     "save": "Speichern",
     "cancel": "Abbrechen",

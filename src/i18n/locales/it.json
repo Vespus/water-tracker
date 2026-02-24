@@ -186,5 +186,11 @@
     "longPressHoldHint": "Apri la selezione completa — scegli bevanda e quantità liberamente",
     "statsTitle": "Statistiche & Indice di Idratazione",
     "statsText": "L'indice di idratazione (BHI) mostra quanto efficacemente una bevanda idrata il corpo. Acqua = 1.0×. Monitora la tendenza settimanale e la serie."
+  },
+  "timeline": {
+    "title": "Distribuzione giornaliera",
+    "gapWarning": "{{hours}}h senza bere",
+    "onTrack": "Ben distribuito",
+    "ariaLabel": "Distribuzione bevande durante la giornata"
   }
 }

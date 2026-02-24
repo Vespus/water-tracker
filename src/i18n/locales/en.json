@@ -186,5 +186,11 @@
     "longPressHoldHint": "Open full selection — choose drink & amount freely",
     "statsTitle": "Stats & Hydration Index",
     "statsText": "The Hydration Index (BHI) shows how effectively a drink hydrates your body. Water = 1.0×. Track your weekly trend and streak."
+  },
+  "timeline": {
+    "title": "Daily Distribution",
+    "gapWarning": "{{hours}}h without drinking",
+    "onTrack": "Well distributed",
+    "ariaLabel": "Drink distribution throughout the day"
   }
 }

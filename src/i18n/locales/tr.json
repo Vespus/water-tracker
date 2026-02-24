@@ -186,5 +186,11 @@
     "longPressHoldHint": "Tam seçimi aç — içecek ve miktar özgürce seçilebilir",
     "statsTitle": "İstatistikler & Hidrasyon Endeksi",
     "statsText": "Hidrasyon Endeksi (BHI), bir içeceğin vücudunuzu ne kadar etkili nemlendirir. Su = 1.0×. Haftalık trendinizi ve serinizi takip edin."
+  },
+  "timeline": {
+    "title": "Günlük Dağılım",
+    "gapWarning": "{{hours}}s içmeden",
+    "onTrack": "İyi dağılım",
+    "ariaLabel": "Gün içinde içecek dağılımı"
   }
 }

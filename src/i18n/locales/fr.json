@@ -186,5 +186,11 @@
     "longPressHoldHint": "Ouvrir la sélection complète — boisson & quantité au choix",
     "statsTitle": "Statistiques & Index d'hydratation",
     "statsText": "L'index d'hydratation (BHI) indique l'efficacité d'une boisson. Eau = 1.0×. Suivez votre tendance hebdomadaire et votre série."
+  },
+  "timeline": {
+    "title": "Répartition journalière",
+    "gapWarning": "{{hours}}h sans boire",
+    "onTrack": "Bien réparti",
+    "ariaLabel": "Répartition des boissons dans la journée"
   }
 }

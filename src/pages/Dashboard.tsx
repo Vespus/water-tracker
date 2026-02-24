@@ -6,6 +6,7 @@ import QuickButtons from '../components/drink/QuickButtons';
 import AddDrinkModal from '../components/drink/AddDrinkModal';
 import DrinkLog from '../components/drink/DrinkLog';
 import WaveDecoration from '../components/drink/WaveDecoration';
+import DailyTimeline from '../components/drink/DailyTimeline';
 import { useTodaySummary } from '../hooks/useDrinks';
 import { useSettings } from '../hooks/useSettings';
 
@@ -60,6 +61,9 @@ export default function Dashboard() {
           waterEquivalentMl={totalWaterEquivalentMl}
         />
       </div>
+
+      {/* ── Timeline: Trinkverteilung über den Tag ── */}
+      <DailyTimeline />
 
       {/* ── Schnelleingabe ── */}
       <div className="px-4 mt-3">
