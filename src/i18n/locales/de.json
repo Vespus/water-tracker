@@ -46,7 +46,7 @@
   },
   "quickAdd": {
     "setAmount": "Menge für Schnellzugriff",
-    "longPressHint": "Lang drücken zum Menge ändern"
+    "longPressHint": "Lang drücken für vollständige Auswahl"
   },
   "amount": {
     "glass": "Glas",
@@ -158,6 +158,10 @@
     "letsGo": "Los geht's",
     "favoritesTitle": "Deine Favoriten",
     "favoritesText": "Tippe den ⭐ auf jedem Getränk, um es zu deinen Favoriten hinzuzufügen. Wasser ist immer dabei. Deine Favoriten erscheinen als Schnellzugriff auf dem Dashboard.",
+    "longPressTitle": "Schnellzugriff & Auswahl",
+    "longPressText": "Tippe kurz auf ein Icon im Schnellzugriff, um das Getränk sofort einzutragen. Lang drücken öffnet die vollständige Auswahl mit Mengen-Slider — so kannst du Getränk und Menge flexibel wählen.",
+    "longPressTapHint": "Getränk sofort mit Standardmenge eintragen",
+    "longPressHoldHint": "Vollständige Auswahl öffnen — Getränk & Menge frei wählen",
     "statsTitle": "Statistiken & BHI",
     "statsText": "Der Hydrations-Index (BHI) zeigt, wie effektiv ein Getränk deinen Körper mit Flüssigkeit versorgt. Wasser = 1.0×. Behalte deinen Wochentrend und Streak im Blick."
   }

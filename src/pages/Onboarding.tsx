@@ -13,7 +13,7 @@ const languages = [
   { code: 'it' as const, label: 'Italiano', flag: '🇮🇹' },
 ];
 
-const TOTAL_STEPS = 5;
+const TOTAL_STEPS = 6;
 
 export default function Onboarding() {
   const { t } = useTranslation();
@@ -170,8 +170,43 @@ export default function Onboarding() {
         </div>
       )}
 
-      {/* ── Step 4: Stats + BHI ── */}
+      {/* ── Step 4: Long-Press / Quick-Add Tip ── */}
       {step === 4 && (
+        <div className="text-center space-y-5 animate-fade-in max-w-xs mx-auto">
+          <div className="text-5xl">👆</div>
+          <h2 className="text-2xl font-bold text-white">{t('onboarding.longPressTitle')}</h2>
+          <p className="text-white/75 text-sm leading-relaxed">
+            {t('onboarding.longPressText')}
+          </p>
+          {/* Visual hint: tap vs. long-press */}
+          <div className="bg-white/15 border border-white/25 rounded-2xl px-4 py-4 text-left space-y-3 backdrop-blur-sm">
+            <div className="flex items-start gap-3">
+              <span className="text-xl mt-0.5">☝️</span>
+              <div>
+                <p className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-0.5">Tap</p>
+                <p className="text-sm text-white/80">{t('onboarding.longPressTapHint')}</p>
+              </div>
+            </div>
+            <div className="h-px bg-white/10" />
+            <div className="flex items-start gap-3">
+              <span className="text-xl mt-0.5">✋</span>
+              <div>
+                <p className="text-xs font-semibold text-white/50 uppercase tracking-wide mb-0.5">Long Press</p>
+                <p className="text-sm text-white/80">{t('onboarding.longPressHoldHint')}</p>
+              </div>
+            </div>
+          </div>
+          <button
+            onClick={() => setStep(5)}
+            className="px-8 py-3 bg-white text-blue-700 rounded-xl font-semibold flex items-center gap-2 mx-auto shadow-lg hover:bg-blue-50 transition-colors"
+          >
+            {t('onboarding.next')} <ChevronRight size={18} />
+          </button>
+        </div>
+      )}
+
+      {/* ── Step 5: Stats + BHI ── */}
+      {step === 5 && (
         <div className="text-center space-y-5 animate-fade-in max-w-xs mx-auto">
           <img src="/icons/cola.png" alt="stats" className="w-16 h-16 mx-auto drop-shadow-lg" />
           <h2 className="text-2xl font-bold text-white">{t('onboarding.statsTitle')}</h2>

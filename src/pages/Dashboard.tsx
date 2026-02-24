@@ -12,6 +12,7 @@ import { useSettings } from '../hooks/useSettings';
 export default function Dashboard() {
   const { t } = useTranslation();
   const [modalOpen, setModalOpen] = useState(false);
+  const [modalInitialBevId, setModalInitialBevId] = useState<string | undefined>(undefined);
   const { totalMl, totalWaterEquivalentMl } = useTodaySummary();
   const { settings } = useSettings();
   const [, forceUpdate] = useState(0);
@@ -65,13 +66,19 @@ export default function Dashboard() {
         <p className="text-[11px] text-blue-200/70 uppercase font-semibold tracking-wider mb-2">
           {t('drink.quickAdd')}
         </p>
-        <QuickButtons onAdded={nudge} />
+        <QuickButtons
+          onAdded={nudge}
+          onOpenFull={(bevId) => {
+            setModalInitialBevId(bevId);
+            setModalOpen(true);
+          }}
+        />
       </div>
 
       {/* ── CTA Button ── */}
       <div className="px-4 mt-3">
         <button
-          onClick={() => setModalOpen(true)}
+          onClick={() => { setModalInitialBevId(undefined); setModalOpen(true); }}
           className="w-full py-3.5 rounded-2xl bg-white/20 backdrop-blur-sm border border-white/30 hover:bg-white/30 active:scale-[0.98] text-white font-semibold flex items-center justify-center gap-2.5 shadow-lg shadow-black/10 transition-all duration-150"
         >
           <Plus size={18} strokeWidth={2.5} />
@@ -99,7 +106,12 @@ export default function Dashboard() {
       </div>
 
       {/* Modal */}
-      <AddDrinkModal open={modalOpen} onClose={() => setModalOpen(false)} onAdded={nudge} />
+      <AddDrinkModal
+        open={modalOpen}
+        onClose={() => { setModalOpen(false); setModalInitialBevId(undefined); }}
+        onAdded={nudge}
+        initialBeverageId={modalInitialBevId}
+      />
     </div>
   );
 }

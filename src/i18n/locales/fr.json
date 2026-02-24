@@ -46,7 +46,7 @@
   },
   "quickAdd": {
     "setAmount": "Quantité d'ajout rapide",
-    "longPressHint": "Appui long pour modifier la quantité"
+    "longPressHint": "Appui long pour la sélection complète"
   },
   "amount": {
     "glass": "Verre",
@@ -158,6 +158,10 @@
     "letsGo": "C'est parti",
     "favoritesTitle": "Vos favoris",
     "favoritesText": "Appuyez sur ⭐ sur une boisson pour l'ajouter à vos favoris. L'eau est toujours incluse. Vos favoris apparaissent comme boutons de saisie rapide.",
+    "longPressTitle": "Ajout rapide & sélection",
+    "longPressText": "Appuyez brièvement sur une icône pour enregistrer la boisson immédiatement. Un appui long ouvre la sélection complète avec un curseur de quantité — pour choisir boisson et quantité librement.",
+    "longPressTapHint": "Enregistrer la boisson avec la quantité par défaut",
+    "longPressHoldHint": "Ouvrir la sélection complète — boisson & quantité au choix",
     "statsTitle": "Statistiques & Index d'hydratation",
     "statsText": "L'index d'hydratation (BHI) indique l'efficacité d'une boisson. Eau = 1.0×. Suivez votre tendance hebdomadaire et votre série."
   }

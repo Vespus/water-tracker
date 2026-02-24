@@ -46,7 +46,7 @@
   },
   "quickAdd": {
     "setAmount": "Quick-add amount",
-    "longPressHint": "Long press to change amount"
+    "longPressHint": "Long press for full selection"
   },
   "amount": {
     "glass": "Glass",
@@ -158,6 +158,10 @@
     "letsGo": "Let's go",
     "favoritesTitle": "Your Favorites",
     "favoritesText": "Tap the ⭐ on any beverage to add it to your favorites. Water is always included. Your favorites appear as quick-add buttons on the dashboard.",
+    "longPressTitle": "Quick Add & Selection",
+    "longPressText": "Tap a quick-add icon briefly to log the drink instantly. Long press opens the full selection with an amount slider — so you can flexibly choose drink and quantity.",
+    "longPressTapHint": "Log drink instantly with default amount",
+    "longPressHoldHint": "Open full selection — choose drink & amount freely",
     "statsTitle": "Stats & Hydration Index",
     "statsText": "The Hydration Index (BHI) shows how effectively a drink hydrates your body. Water = 1.0×. Track your weekly trend and streak."
   }

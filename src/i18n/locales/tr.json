@@ -46,7 +46,7 @@
   },
   "quickAdd": {
     "setAmount": "Hızlı ekleme miktarı",
-    "longPressHint": "Miktarı değiştirmek için uzun basın"
+    "longPressHint": "Tam seçim için uzun basın"
   },
   "amount": {
     "glass": "Bardak",
@@ -158,6 +158,10 @@
     "letsGo": "Hadi başlayalım",
     "favoritesTitle": "Favorileriniz",
     "favoritesText": "Bir içeceği favorilerinize eklemek için ⭐ simgesine dokunun. Su her zaman dahildir. Favorileriniz panoda hızlı ekle düğmeleri olarak görünür.",
+    "longPressTitle": "Hızlı Ekleme & Seçim",
+    "longPressText": "Bir ikona kısa dokunarak içeceği anında kaydedin. Uzun basış, miktarı kaydırıcıyla seçebildiğiniz tam seçim ekranını açar — içecek ve miktar esnekçe seçilebilir.",
+    "longPressTapHint": "Varsayılan miktarla içeceği anında kaydet",
+    "longPressHoldHint": "Tam seçimi aç — içecek ve miktar özgürce seçilebilir",
     "statsTitle": "İstatistikler & Hidrasyon Endeksi",
     "statsText": "Hidrasyon Endeksi (BHI), bir içeceğin vücudunuzu ne kadar etkili nemlendirir. Su = 1.0×. Haftalık trendinizi ve serinizi takip edin."
   }

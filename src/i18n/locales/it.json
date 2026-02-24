@@ -46,7 +46,7 @@
   },
   "quickAdd": {
     "setAmount": "Quantità aggiunta rapida",
-    "longPressHint": "Premi a lungo per cambiare la quantità"
+    "longPressHint": "Premi a lungo per la selezione completa"
   },
   "amount": {
     "glass": "Bicchiere",
@@ -158,6 +158,10 @@
     "letsGo": "Iniziamo",
     "favoritesTitle": "I tuoi preferiti",
     "favoritesText": "Tocca ⭐ su una bevanda per aggiungerla ai preferiti. L'acqua è sempre inclusa. I tuoi preferiti appaiono come pulsanti di accesso rapido.",
+    "longPressTitle": "Aggiunta rapida & selezione",
+    "longPressText": "Tocca brevemente un'icona per registrare la bevanda subito. Tieni premuto per aprire la selezione completa con il cursore quantità — per scegliere liberamente bevanda e quantità.",
+    "longPressTapHint": "Registra la bevanda con la quantità predefinita",
+    "longPressHoldHint": "Apri la selezione completa — scegli bevanda e quantità liberamente",
     "statsTitle": "Statistiche & Indice di Idratazione",
     "statsText": "L'indice di idratazione (BHI) mostra quanto efficacemente una bevanda idrata il corpo. Acqua = 1.0×. Monitora la tendenza settimanale e la serie."
   }

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { X, AlertTriangle, AlertOctagon, Check, ChevronLeft, Star, Search, Pin } from 'lucide-react';
 import { defaultBeverages } from '../../data/beverages';
@@ -23,6 +23,8 @@ interface Props {
   open: boolean;
   onClose: () => void;
   onAdded: () => void;
+  /** If set, the modal opens directly at the amount step with this beverage pre-selected */
+  initialBeverageId?: string;
 }
 
 /** Reusable beverage card used in the grid (normal, search, recent) */
@@ -91,7 +93,7 @@ function hapticTick() {
   }
 }
 
-export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
+export default function AddDrinkModal({ open, onClose, onAdded, initialBeverageId }: Props) {
   const { t } = useTranslation();
   const addDrink = useAddDrink();
   const { settings, toggleFavorite, saveLastAmount } = useSettings();
@@ -109,6 +111,29 @@ export default function AddDrinkModal({ open, onClose, onAdded }: Props) {
     e.stopPropagation();
     await toggleFavorite(bevId);
   };
+
+  // Pre-select beverage when opened via long-press from QuickButtons
+  useEffect(() => {
+    if (open && initialBeverageId) {
+      const bev = defaultBeverages.find(b => b.id === initialBeverageId);
+      if (bev) {
+        setSelected(bev);
+        const last = settings.lastAmounts?.[bev.id] ?? 250;
+        const clamped = Math.max(SLIDER_MIN, Math.min(SLIDER_MAX, last));
+        setSliderVal(clamped);
+        setInputVal(String(clamped));
+        setStep('amount');
+      }
+    } else if (open && !initialBeverageId) {
+      // Reset to beverage selection when opened normally
+      setStep('beverage');
+      setSelected(null);
+      setSliderVal(250);
+      setInputVal('250');
+      setSearch('');
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, initialBeverageId]);
 
   // IMPORTANT: useCallback MUST be before any early returns (Rules of Hooks)
   const handleAdd = useCallback(async (ml: number) => {

@@ -9,6 +9,8 @@ interface Props {
   grid?: boolean;
   /** Limit the number of buttons shown (used with grid) */
   maxItems?: number;
+  /** Called on long-press to open the full drink selection modal */
+  onOpenFull?: (beverageId: string) => void;
 }
 
 interface AmountPopoverProps {
@@ -85,7 +87,7 @@ function AmountPopover({ beverageId: _beverageId, currentAmount, onSave, onClose
   );
 }
 
-export default function QuickButtons({ onAdded, grid = false, maxItems }: Props) {
+export default function QuickButtons({ onAdded, grid = false, maxItems, onOpenFull }: Props) {
   const { t } = useTranslation();
   const beverages = useFrequentBeverages();
   const addDrink = useAddDrink();
@@ -173,7 +175,12 @@ export default function QuickButtons({ onAdded, grid = false, maxItems }: Props)
     longPressTimer.current = setTimeout(() => {
       longPressTriggered.current = true;
       if ('vibrate' in navigator) navigator.vibrate([20, 10, 20]);
-      setPopoverBevId(bevId);
+      if (onOpenFull) {
+        onOpenFull(bevId);
+      } else {
+        // Fallback: show amount popover if no full-modal handler provided
+        setPopoverBevId(bevId);
+      }
     }, 500);
   };
 
