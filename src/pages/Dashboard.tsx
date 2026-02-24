@@ -65,7 +65,7 @@ export default function Dashboard() {
         <p className="text-[11px] text-blue-200/70 uppercase font-semibold tracking-wider mb-2">
           {t('drink.quickAdd')}
         </p>
-        <QuickButtons onAdded={nudge} grid maxItems={4} />
+        <QuickButtons onAdded={nudge} />
       </div>
 
       {/* ── CTA Button ── */}

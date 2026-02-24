@@ -260,7 +260,7 @@ export default function QuickButtons({ onAdded, grid = false, maxItems }: Props)
           <div
             ref={scrollRef}
             className="flex gap-3 overflow-x-auto pb-1 scroll-smooth no-scrollbar"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' } as React.CSSProperties}
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none', touchAction: 'pan-x' } as React.CSSProperties}
             onMouseDown={onMouseDown}
             onMouseMove={onMouseMove}
             onMouseUp={onMouseUp}
