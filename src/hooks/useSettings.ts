@@ -12,6 +12,13 @@ const DEFAULT_SETTINGS: UserSettings = {
   favoriteBeverageIds: [],
   lastAmounts: {},
   favoriteAmounts: {},
+  // US-010: Personalized goal
+  goalMode: 'manual',
+  weightKg: undefined,
+  activityLevel: undefined,
+  age: undefined,
+  gender: undefined,
+  climate: undefined,
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 };

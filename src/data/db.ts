@@ -56,4 +56,16 @@ db.version(5).stores({
   customBeverages: 'id, sortOrder',
 });
 
+// v6: Add personalized goal fields (US-010)
+db.version(6).stores({
+  settings: 'id',
+  drinkEntries: 'id, beverageTypeId, date, timestamp',
+  dailySummaries: 'date',
+  customBeverages: 'id, sortOrder',
+}).upgrade(async tx => {
+  await tx.table('settings').toCollection().modify(s => {
+    if (!s.goalMode) s.goalMode = 'manual';
+  });
+});
+
 export { db };

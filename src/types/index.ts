@@ -1,6 +1,10 @@
 // Water Tracker — Type Definitions
 
 export type ThemePreference = 'system' | 'light' | 'dark';
+export type ActivityLevel = 'low' | 'medium' | 'high';
+export type ClimateType = 'cold' | 'temperate' | 'hot';
+export type GenderType = 'male' | 'female';
+export type GoalMode = 'formula' | 'manual';
 
 export interface UserSettings {
   id: string;
@@ -11,6 +15,13 @@ export interface UserSettings {
   favoriteBeverageIds: string[];
   lastAmounts: Record<string, number>;      // UX-04: last used amount per beverage
   favoriteAmounts: Record<string, number>;  // UX-05: quick-add amount per favorite
+  // US-010: Personalized daily goal
+  goalMode: GoalMode;
+  weightKg?: number;
+  activityLevel?: ActivityLevel;
+  age?: number;
+  gender?: GenderType;
+  climate?: ClimateType;
   createdAt: string;
   updatedAt: string;
 }

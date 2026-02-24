@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import { Minus, Plus, Monitor, Sun, Moon, Settings2 } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
+import GoalFormulaSection from '../components/settings/GoalFormulaSection';
 import type { ThemePreference } from '../types';
 import i18n from '../i18n';
 
@@ -54,38 +55,55 @@ export default function Settings() {
           <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
             {t('settings.dailyGoal')}
           </h2>
-          <div className="flex items-center justify-center gap-4 mb-4">
-            <button
-              onClick={() => setGoal(settings.dailyGoalMl - 100)}
-              disabled={settings.dailyGoalMl <= 500}
-              className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center disabled:opacity-30 hover:bg-blue-100 dark:hover:bg-blue-900/50 active:scale-95 transition-all"
-            >
-              <Minus size={20} strokeWidth={2.5} />
-            </button>
-            <div className="text-center">
-              <span className="text-4xl font-bold tabular-nums text-blue-600 dark:text-blue-400">
-                {settings.dailyGoalMl}
-              </span>
-              <span className="text-lg text-gray-400 ml-1.5">{t('common.ml')}</span>
-            </div>
-            <button
-              onClick={() => setGoal(settings.dailyGoalMl + 100)}
-              disabled={settings.dailyGoalMl >= 5000}
-              className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center disabled:opacity-30 hover:bg-blue-100 dark:hover:bg-blue-900/50 active:scale-95 transition-all"
-            >
-              <Plus size={20} strokeWidth={2.5} />
-            </button>
-          </div>
-          <input
-            type="range"
-            min={500}
-            max={5000}
-            step={100}
-            value={settings.dailyGoalMl}
-            onChange={e => setGoal(Number(e.target.value))}
-            className="w-full accent-blue-500 h-1.5"
+
+          {/* Formula / Manual mode selector */}
+          <GoalFormulaSection
+            goalMode={settings.goalMode ?? 'manual'}
+            weightKg={settings.weightKg}
+            activityLevel={settings.activityLevel}
+            age={settings.age}
+            gender={settings.gender}
+            climate={settings.climate}
+            onUpdate={(patch) => updateSettings(patch as Parameters<typeof updateSettings>[0])}
           />
-          <p className="text-xs text-gray-400 text-center mt-3">{t('settings.goalHint')}</p>
+
+          {/* Manual goal controls – always shown so user can adjust freely */}
+          <div className="mt-5">
+            <p className="text-xs text-gray-400 text-center mb-3">
+              {settings.goalMode === 'formula' ? t('settings.goalManualOverride') : t('settings.goalHint')}
+            </p>
+            <div className="flex items-center justify-center gap-4 mb-4">
+              <button
+                onClick={() => setGoal(settings.dailyGoalMl - 100)}
+                disabled={settings.dailyGoalMl <= 500}
+                className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center disabled:opacity-30 hover:bg-blue-100 dark:hover:bg-blue-900/50 active:scale-95 transition-all"
+              >
+                <Minus size={20} strokeWidth={2.5} />
+              </button>
+              <div className="text-center">
+                <span className="text-4xl font-bold tabular-nums text-blue-600 dark:text-blue-400">
+                  {settings.dailyGoalMl}
+                </span>
+                <span className="text-lg text-gray-400 ml-1.5">{t('common.ml')}</span>
+              </div>
+              <button
+                onClick={() => setGoal(settings.dailyGoalMl + 100)}
+                disabled={settings.dailyGoalMl >= 5000}
+                className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 flex items-center justify-center disabled:opacity-30 hover:bg-blue-100 dark:hover:bg-blue-900/50 active:scale-95 transition-all"
+              >
+                <Plus size={20} strokeWidth={2.5} />
+              </button>
+            </div>
+            <input
+              type="range"
+              min={500}
+              max={5000}
+              step={100}
+              value={settings.dailyGoalMl}
+              onChange={e => setGoal(Number(e.target.value))}
+              className="w-full accent-blue-500 h-1.5"
+            />
+          </div>
         </div>
 
         {/* Theme */}
