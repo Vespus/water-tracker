@@ -9,6 +9,13 @@ const HOUR_END = 22;
 /** Hours with no drink that trigger the gap-warning colour */
 const GAP_HOURS = 3;
 
+/**
+ * Minimum number of distinct hours with drinks required before we show
+ * the "Gut verteilt / on track" badge. Prevents the badge appearing after
+ * a single drink early in the session.
+ */
+const MIN_SPREAD_HOURS = 3;
+
 interface HourSlot {
   h: number;
   hasDrink: boolean;
@@ -93,7 +100,11 @@ export default function DailyTimeline() {
   }, [entries, currentHour]);
 
   const showWarning = currentGapH !== null && currentGapH >= GAP_HOURS;
-  const hasAnyDrink = hourSlots.some(s => s.hasDrink);
+
+  // "On track" only when drinks are spread across enough distinct hours — avoids
+  // the badge appearing right after the very first drink of the day.
+  const drinkHoursCount = hourSlots.filter(s => s.hasDrink).length;
+  const showOnTrack = !showWarning && drinkHoursCount >= MIN_SPREAD_HOURS;
 
   // Max bar height in px
   const BAR_MAX_H = 32;
@@ -101,18 +112,28 @@ export default function DailyTimeline() {
 
   return (
     <div className="px-4 mt-2">
-      <div className="bg-white/[0.07] backdrop-blur-sm rounded-2xl px-3 pt-3 pb-2 border border-white/10">
+      {/* Container: light-mode gets a solid tinted card; dark keeps the glass look */}
+      <div className="
+        bg-sky-100/80 border border-sky-200/70
+        dark:bg-white/[0.07] dark:border-white/10
+        backdrop-blur-sm rounded-2xl px-3 pt-3 pb-2
+      ">
         {/* ── Header ── */}
         <div className="flex items-center justify-between mb-2.5">
-          <span className="text-[10px] text-blue-200/60 uppercase font-semibold tracking-wider">
+          <span className="
+            text-[10px] font-semibold uppercase tracking-wider
+            text-sky-700/80
+            dark:text-blue-200/60
+          ">
             {t('timeline.title')}
           </span>
+
           {showWarning ? (
-            <span className="text-[10px] text-orange-300/90 font-medium animate-pulse">
+            <span className="text-[10px] text-orange-600 dark:text-orange-300/90 font-medium animate-pulse">
               ⚠&nbsp;{t('timeline.gapWarning', { hours: Math.floor(currentGapH!) })}
             </span>
-          ) : hasAnyDrink ? (
-            <span className="text-[10px] text-cyan-300/60">
+          ) : showOnTrack ? (
+            <span className="text-[10px] text-sky-600 dark:text-cyan-300/60">
               ✓ {t('timeline.onTrack')}
             </span>
           ) : null}
@@ -124,7 +145,7 @@ export default function DailyTimeline() {
           style={{ height: `${BAR_MAX_H}px` }}
           aria-label={t('timeline.ariaLabel')}
         >
-          {hourSlots.map(({ h, hasDrink, isFuture, isGap, barPct }) => {
+          {hourSlots.map(({ h, hasDrink, isFuture, isGap, barPct, ml }) => {
             const isCurrentHour = h === currentHour;
 
             // Bar height
@@ -132,30 +153,30 @@ export default function DailyTimeline() {
               ? Math.max(BAR_MIN_H, Math.round(barPct * BAR_MAX_H))
               : BAR_MIN_H;
 
-            // Bar colour
+            // Bar colour — light-mode variants alongside dark-mode ones
             let barClass: string;
             if (hasDrink) {
-              barClass = 'bg-cyan-400 shadow-[0_0_4px_rgba(34,211,238,0.35)]';
+              barClass = 'bg-sky-500 dark:bg-cyan-400 dark:shadow-[0_0_4px_rgba(34,211,238,0.35)]';
             } else if (isFuture) {
-              barClass = 'bg-white/[0.06]';
+              barClass = 'bg-sky-200/50 dark:bg-white/[0.06]';
             } else if (isGap) {
-              barClass = 'bg-red-400/50';
+              barClass = 'bg-red-400/70 dark:bg-red-400/50';
             } else {
-              barClass = 'bg-white/[0.12]';
+              barClass = 'bg-sky-300/50 dark:bg-white/[0.12]';
             }
 
             return (
               <div
                 key={h}
                 className="flex-1 flex flex-col items-center justify-end h-full"
-                title={hasDrink ? `${h}:00 — ${Math.round(ml_for(hourSlots, h))} ml` : undefined}
+                title={hasDrink ? `${h}:00 — ${Math.round(ml)} ml` : undefined}
               >
                 <div
                   className={[
                     'w-full rounded-[3px] transition-all duration-500',
                     barClass,
                     isCurrentHour && !isFuture
-                      ? 'ring-1 ring-white/30 ring-offset-0'
+                      ? 'ring-1 ring-sky-500/50 dark:ring-white/30 ring-offset-0'
                       : '',
                   ].join(' ')}
                   style={{ height: `${height}px` }}
@@ -173,7 +194,9 @@ export default function DailyTimeline() {
             return (
               <div key={h} className="flex-1 text-center">
                 {show && (
-                  <span className="text-[8px] text-blue-200/30 leading-none">{h}</span>
+                  <span className="text-[8px] leading-none text-sky-700/60 dark:text-blue-200/40">
+                    {h}
+                  </span>
                 )}
               </div>
             );
@@ -182,9 +205,4 @@ export default function DailyTimeline() {
       </div>
     </div>
   );
-}
-
-/** Helper to retrieve ml for a given hour from the slot array */
-function ml_for(slots: HourSlot[], h: number): number {
-  return slots.find(s => s.h === h)?.ml ?? 0;
 }
