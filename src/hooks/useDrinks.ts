@@ -4,6 +4,7 @@ import { db } from '../data/db';
 import { todayString } from '../utils/date';
 import { calcWaterEquivalent } from '../utils/hydration';
 import { defaultBeverages } from '../data/beverages';
+import { customToBeverageType } from './useCustomBeverages';
 import type { DrinkEntry, BeverageType } from '../types';
 
 export function useTodayDrinks() {
@@ -22,9 +23,18 @@ export function useTodaySummary() {
   return { totalMl, totalWaterEquivalentMl, entryCount: entries.length };
 }
 
+/** Resolve a beverage by ID, checking defaultBeverages first, then customBeverages in DB */
+async function resolveBeverage(beverageTypeId: string): Promise<BeverageType | undefined> {
+  const def = defaultBeverages.find(b => b.id === beverageTypeId);
+  if (def) return def;
+  const custom = await db.customBeverages.get(beverageTypeId);
+  if (custom) return customToBeverageType(custom);
+  return undefined;
+}
+
 export function useAddDrink() {
   return useCallback(async (beverageTypeId: string, amountMl: number) => {
-    const bev = defaultBeverages.find(b => b.id === beverageTypeId);
+    const bev = await resolveBeverage(beverageTypeId);
     if (!bev) throw new Error(`Unknown beverage: ${beverageTypeId}`);
     const now = new Date().toISOString();
     const entry: DrinkEntry = {
@@ -51,7 +61,7 @@ export function useDeleteDrink() {
 
 export function useUpdateDrink() {
   return useCallback(async (id: string, beverageTypeId: string, amountMl: number) => {
-    const bev = defaultBeverages.find(b => b.id === beverageTypeId);
+    const bev = await resolveBeverage(beverageTypeId);
     if (!bev) throw new Error(`Unknown beverage: ${beverageTypeId}`);
     await db.drinkEntries.update(id, {
       beverageTypeId,
@@ -65,7 +75,7 @@ export function useUpdateDrink() {
 
 /**
  * Returns the last N distinct beverages used (by timestamp, deduplicated).
- * Returns empty array if no entries yet.
+ * Includes custom beverages; silently skips deleted ones.
  */
 export function useRecentBeverages(limit = 5): BeverageType[] {
   const result = useLiveQuery(async () => {
@@ -76,17 +86,26 @@ export function useRecentBeverages(limit = 5): BeverageType[] {
       if (!seen.has(entry.beverageTypeId)) {
         seen.add(entry.beverageTypeId);
         recentIds.push(entry.beverageTypeId);
-        if (recentIds.length >= limit) break;
+        if (recentIds.length >= limit * 3) break; // over-fetch to account for deletions
       }
     }
-    return recentIds;
+
+    const resolved: BeverageType[] = [];
+    for (const id of recentIds) {
+      const def = defaultBeverages.find(b => b.id === id);
+      if (def) {
+        resolved.push(def);
+      } else {
+        const custom = await db.customBeverages.get(id);
+        if (custom) resolved.push(customToBeverageType(custom));
+        // Skip if deleted
+      }
+      if (resolved.length >= limit) break;
+    }
+    return resolved;
   }, [], null);
 
-  if (result === null) return []; // still loading
-
-  return result
-    .map(id => defaultBeverages.find(b => b.id === id))
-    .filter((b): b is BeverageType => Boolean(b));
+  return result ?? [];
 }
 
 /** Water is always a pinned favorite — cannot be removed */
@@ -95,7 +114,7 @@ export const PINNED_FAVORITE_ID = 'water';
 /**
  * Returns beverages for quick access:
  * - "water" is ALWAYS the first entry (pinned, cannot be removed)
- * - If user has set additional favorites → appended after water
+ * - If user has set additional favorites → appended after water (includes custom)
  * - Fallback for additional slots: top 2 most used (excluding water)
  * - Absolute fallback: water, coffee, herbal tea
  */
@@ -111,8 +130,19 @@ export function useFrequentBeverages(): BeverageType[] {
     ];
 
     if (favorites.length > 1) {
-      // User has set additional favorites beyond water
-      return favorites;
+      // User has set additional favorites beyond water — resolve all
+      const resolved: BeverageType[] = [];
+      for (const id of favorites) {
+        const def = defaultBeverages.find(b => b.id === id);
+        if (def) {
+          resolved.push(def);
+        } else {
+          const custom = await db.customBeverages.get(id);
+          if (custom) resolved.push(customToBeverageType(custom));
+          // Skip if deleted custom beverage
+        }
+      }
+      return resolved;
     }
 
     // No extra favorites set — use water + top 2 by frequency
@@ -127,13 +157,27 @@ export function useFrequentBeverages(): BeverageType[] {
       .slice(0, 2);
 
     if (sorted.length > 0) {
-      return [PINNED_FAVORITE_ID, ...sorted.map(([id]) => id)];
+      const extraIds = sorted.map(([id]) => id);
+      const extra: BeverageType[] = [];
+      for (const id of extraIds) {
+        const def = defaultBeverages.find(b => b.id === id);
+        if (def) {
+          extra.push(def);
+        } else {
+          const custom = await db.customBeverages.get(id);
+          if (custom) extra.push(customToBeverageType(custom));
+        }
+      }
+      const water = defaultBeverages.find(b => b.id === PINNED_FAVORITE_ID)!;
+      return [water, ...extra];
     }
-    return [PINNED_FAVORITE_ID, 'coffee', 'tea_herbal'];
+
+    // Absolute fallback
+    return [PINNED_FAVORITE_ID, 'coffee', 'tea_herbal']
+      .map(id => defaultBeverages.find(b => b.id === id)!)
+      .filter(Boolean);
   }, [], null);
 
   if (result === null) return []; // still loading
-
-  const ids = result.length > 0 ? result : [PINNED_FAVORITE_ID, 'coffee', 'tea_herbal'];
-  return ids.map(id => defaultBeverages.find(b => b.id === id)!).filter(Boolean);
+  return result as BeverageType[];
 }

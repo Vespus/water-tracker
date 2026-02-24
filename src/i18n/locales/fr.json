@@ -100,6 +100,28 @@
     "themeLight": "Clair",
     "themeDark": "Sombre"
   },
+  "customDrink": {
+    "sectionTitle": "Mes boissons",
+    "addNew": "+ Nouveau",
+    "createTitle": "Créer une boisson",
+    "editTitle": "Modifier la boisson",
+    "nameLabel": "Nom",
+    "namePlaceholder": "Nom (max. 30 caractères)",
+    "iconLabel": "Icône",
+    "hydrationLabel": "Facteur d'hydratation",
+    "hydrationHint": "1.0× = comme l'eau | <1.0 = moins | >1.0 = plus",
+    "hfDehydrating": "Déshydratant",
+    "hfLow": "Faible",
+    "hfMedium": "Moyen",
+    "hfLikeWater": "Comme l'eau",
+    "hfHigh": "Très hydratant",
+    "maxReached": "Nombre maximum (20) atteint",
+    "maxReachedShort": "Max. 20",
+    "deleteConfirm": "Supprimer la boisson ?",
+    "deleteConfirmText": "Les entrées précédentes dans l'historique seront conservées.",
+    "deletedLabel": "(Supprimé)",
+    "empty": "+ Ajouter une boisson personnalisée"
+  },
   "common": {
     "save": "Enregistrer",
     "cancel": "Annuler",

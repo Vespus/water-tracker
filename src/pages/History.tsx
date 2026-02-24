@@ -2,12 +2,9 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight, X, Droplets } from 'lucide-react';
 import { useHistory, useDayEntries, type DaySummary } from '../hooks/useStats';
-import { defaultBeverages } from '../data/beverages';
+import { useAllBeverages } from '../hooks/useCustomBeverages';
 import { todayString } from '../utils/date';
-
-function getBeverage(id: string) {
-  return defaultBeverages.find(b => b.id === id);
-}
+import type { BeverageType } from '../types';
 
 /** Calendar grid for a single month */
 function MonthCalendar({
@@ -82,6 +79,10 @@ function MonthCalendar({
 function DayDetail({ date, onClose }: { date: string; onClose: () => void }) {
   const { t } = useTranslation();
   const entries = useDayEntries(date);
+  const allBeverages = useAllBeverages();
+
+  const getBeverage = (id: string): BeverageType | undefined => allBeverages.find(b => b.id === id);
+  const getBevName = (bev: BeverageType): string => bev.customName ?? t(bev.nameKey);
 
   const totalMl = entries.reduce((s, e) => s + e.amountMl, 0);
   const totalWeq = entries.reduce((s, e) => s + e.waterEquivalentMl, 0);
@@ -128,13 +129,26 @@ function DayDetail({ date, onClose }: { date: string; onClose: () => void }) {
               <div className="space-y-2">
                 {entries.map(e => {
                   const bev = getBeverage(e.beverageTypeId);
+                  const isDeleted = !bev;
                   const time = new Date(e.timestamp).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' });
                   return (
                     <div key={e.id} className="flex items-center justify-between py-3 px-1 border-b border-gray-100 dark:border-gray-800 last:border-0">
                       <div className="flex items-center gap-3">
-                        <span className="text-xl">{bev?.icon ?? '💧'}</span>
+                        {isDeleted ? (
+                          <span className="text-xl opacity-40">🥤</span>
+                        ) : bev?.iconUrl ? (
+                          <img src={bev.iconUrl} alt={getBevName(bev)} className="w-7 h-7 object-contain" />
+                        ) : (
+                          <span className="text-xl">{bev?.icon ?? '💧'}</span>
+                        )}
                         <div>
-                          <div className="text-sm font-semibold">{bev ? t(bev.nameKey) : e.beverageTypeId}</div>
+                          {isDeleted ? (
+                            <div className="text-sm font-semibold text-gray-400 dark:text-gray-500 italic">
+                              {t('customDrink.deletedLabel')}
+                            </div>
+                          ) : (
+                            <div className="text-sm font-semibold">{getBevName(bev!)}</div>
+                          )}
                           <div className="text-xs text-gray-400">{time}</div>
                         </div>
                       </div>

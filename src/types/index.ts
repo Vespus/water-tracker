@@ -21,6 +21,8 @@ export type BeverageCategory = 'water' | 'hot' | 'cold' | 'alcohol' | 'other';
 export interface BeverageType {
   id: string;
   nameKey: string;
+  /** For custom beverages: direct display name (overrides nameKey translation) */
+  customName?: string;
   icon: string;
   iconUrl?: string;
   hydrationFactor: number;
@@ -29,6 +31,17 @@ export interface BeverageType {
   category: BeverageCategory;
   isCustom: boolean;
   sortOrder: number;
+}
+
+/** Custom beverage stored in IndexedDB */
+export interface CustomBeverage {
+  id: string;
+  name: string;           // user-provided, max 30 chars
+  iconUrl: string;        // /icons/*.png
+  hydrationFactor: number; // 0.0–1.5
+  sortOrder: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface DrinkEntry {

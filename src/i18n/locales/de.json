@@ -141,6 +141,28 @@
     "backToThisWeek": "Zurück zu dieser Woche",
     "goal": "Ziel"
   },
+  "customDrink": {
+    "sectionTitle": "Meine Getränke",
+    "addNew": "+ Neu",
+    "createTitle": "Eigenes Getränk erstellen",
+    "editTitle": "Getränk bearbeiten",
+    "nameLabel": "Name",
+    "namePlaceholder": "Name eingeben (max. 30 Zeichen)",
+    "iconLabel": "Icon",
+    "hydrationLabel": "Hydrationsfaktor",
+    "hydrationHint": "1.0× = wie Wasser | <1.0 = weniger | >1.0 = mehr",
+    "hfDehydrating": "Dehydrierend",
+    "hfLow": "Gering",
+    "hfMedium": "Mittel",
+    "hfLikeWater": "Wie Wasser",
+    "hfHigh": "Stark hydrierend",
+    "maxReached": "Maximale Anzahl (20) erreicht",
+    "maxReachedShort": "Max. 20",
+    "deleteConfirm": "Getränk löschen?",
+    "deleteConfirmText": "Bisherige Einträge im Verlauf bleiben erhalten.",
+    "deletedLabel": "(Gelöscht)",
+    "empty": "+ Eigenes Getränk hinzufügen"
+  },
   "common": {
     "save": "Speichern",
     "cancel": "Abbrechen",

@@ -100,6 +100,28 @@
     "themeLight": "Açık",
     "themeDark": "Koyu"
   },
+  "customDrink": {
+    "sectionTitle": "İçeceklerim",
+    "addNew": "+ Yeni",
+    "createTitle": "Özel İçecek Oluştur",
+    "editTitle": "İçeceği Düzenle",
+    "nameLabel": "Ad",
+    "namePlaceholder": "Ad girin (maks. 30 karakter)",
+    "iconLabel": "Simge",
+    "hydrationLabel": "Nemlendirme Faktörü",
+    "hydrationHint": "1.0× = su gibi | <1.0 = daha az | >1.0 = daha fazla",
+    "hfDehydrating": "Susuzlaştırıcı",
+    "hfLow": "Düşük",
+    "hfMedium": "Orta",
+    "hfLikeWater": "Su Gibi",
+    "hfHigh": "Yüksek Nemlendirici",
+    "maxReached": "Maksimum sayıya (20) ulaşıldı",
+    "maxReachedShort": "Maks. 20",
+    "deleteConfirm": "İçecek silinsin mi?",
+    "deleteConfirmText": "Geçmişteki kayıtlar korunacak.",
+    "deletedLabel": "(Silindi)",
+    "empty": "+ Özel içecek ekle"
+  },
   "common": {
     "save": "Kaydet",
     "cancel": "İptal",

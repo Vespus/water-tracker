@@ -1,10 +1,11 @@
 import Dexie, { type EntityTable } from 'dexie';
-import type { UserSettings, DrinkEntry, DailySummary } from '../types';
+import type { UserSettings, DrinkEntry, DailySummary, CustomBeverage } from '../types';
 
 const db = new Dexie('WaterTrackerDB') as Dexie & {
   settings: EntityTable<UserSettings, 'id'>;
   drinkEntries: EntityTable<DrinkEntry, 'id'>;
   dailySummaries: EntityTable<DailySummary, 'date'>;
+  customBeverages: EntityTable<CustomBeverage, 'id'>;
 };
 
 db.version(1).stores({
@@ -45,6 +46,14 @@ db.version(4).stores({
     if (!s.lastAmounts) s.lastAmounts = {};
     if (!s.favoriteAmounts) s.favoriteAmounts = {};
   });
+});
+
+// v5: Add customBeverages store (US-007)
+db.version(5).stores({
+  settings: 'id',
+  drinkEntries: 'id, beverageTypeId, date, timestamp',
+  dailySummaries: 'date',
+  customBeverages: 'id, sortOrder',
 });
 
 export { db };

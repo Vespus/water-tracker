@@ -2,8 +2,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Trash2, Pencil, X, Check } from 'lucide-react';
 import { useTodayDrinks, useDeleteDrink, useUpdateDrink } from '../../hooks/useDrinks';
+import { useAllBeverages } from '../../hooks/useCustomBeverages';
 import { defaultBeverages } from '../../data/beverages';
-import type { DrinkEntry } from '../../types';
+import type { DrinkEntry, BeverageType } from '../../types';
 
 interface UndoState {
   entry: DrinkEntry;
@@ -11,11 +12,16 @@ interface UndoState {
   remaining: number;
 }
 
+function getBevName(bev: BeverageType, t: (key: string) => string): string {
+  return bev.customName ?? t(bev.nameKey);
+}
+
 export default function DrinkLog() {
   const { t } = useTranslation();
   const entries = useTodayDrinks();
   const deleteDrink = useDeleteDrink();
   const updateDrink = useUpdateDrink();
+  const allBeverages = useAllBeverages();
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editAmount, setEditAmount] = useState(0);
   const [editBeverage, setEditBeverage] = useState('');
@@ -92,7 +98,8 @@ export default function DrinkLog() {
       )}
 
       {[...entries].reverse().map(entry => {
-        const bev = defaultBeverages.find(b => b.id === entry.beverageTypeId);
+        const bev = allBeverages.find(b => b.id === entry.beverageTypeId);
+        const isDeleted = !bev;
         const time = new Date(entry.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
         if (editingId === entry.id) {
@@ -103,6 +110,15 @@ export default function DrinkLog() {
                 onChange={e => setEditBeverage(e.target.value)}
                 className="w-full p-2.5 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-sm focus:outline-none focus:border-blue-400"
               >
+                {/* Custom beverages first */}
+                {allBeverages.filter(b => b.isCustom).length > 0 && (
+                  <optgroup label={t('customDrink.sectionTitle')}>
+                    {allBeverages.filter(b => b.isCustom).map(b => (
+                      <option key={b.id} value={b.id}>{getBevName(b, t)}</option>
+                    ))}
+                  </optgroup>
+                )}
+                {/* Default beverages */}
                 {defaultBeverages.map(b => (
                   <option key={b.id} value={b.id}>{b.icon} {t(b.nameKey)}</option>
                 ))}
@@ -138,15 +154,26 @@ export default function DrinkLog() {
             key={entry.id}
             className="list-enter flex items-center gap-3 px-4 py-3 bg-white dark:bg-gray-800/80 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700/50 transition-all duration-150"
           >
-            {bev?.iconUrl ? (
-              <img src={bev.iconUrl} alt={t(bev.nameKey)} className="w-8 h-8 object-contain flex-shrink-0" />
+            {/* Icon */}
+            {isDeleted ? (
+              <span className="text-2xl leading-none opacity-40">🥤</span>
+            ) : bev?.iconUrl ? (
+              <img src={bev.iconUrl} alt={getBevName(bev, t)} className="w-8 h-8 object-contain flex-shrink-0" />
             ) : (
               <span className="text-2xl leading-none">{bev?.icon ?? '🥤'}</span>
             )}
+
             <div className="flex-1 min-w-0">
-              <p className="font-semibold text-sm text-gray-800 dark:text-gray-100 truncate">
-                {bev ? t(bev.nameKey) : entry.beverageTypeId}
-              </p>
+              {/* Name */}
+              {isDeleted ? (
+                <p className="font-semibold text-sm text-gray-400 dark:text-gray-600 italic truncate">
+                  {t('customDrink.deletedLabel')}
+                </p>
+              ) : (
+                <p className="font-semibold text-sm text-gray-800 dark:text-gray-100 truncate">
+                  {getBevName(bev!, t)}
+                </p>
+              )}
               <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">
                 {entry.amountMl} {t('common.ml')}
                 <span className="mx-1 opacity-40">·</span>

@@ -141,6 +141,28 @@
     "backToThisWeek": "Back to this week",
     "goal": "Goal"
   },
+  "customDrink": {
+    "sectionTitle": "My Drinks",
+    "addNew": "+ New",
+    "createTitle": "Create Custom Drink",
+    "editTitle": "Edit Drink",
+    "nameLabel": "Name",
+    "namePlaceholder": "Enter name (max. 30 characters)",
+    "iconLabel": "Icon",
+    "hydrationLabel": "Hydration Factor",
+    "hydrationHint": "1.0× = like water | <1.0 = less | >1.0 = more",
+    "hfDehydrating": "Dehydrating",
+    "hfLow": "Low",
+    "hfMedium": "Medium",
+    "hfLikeWater": "Like Water",
+    "hfHigh": "Highly Hydrating",
+    "maxReached": "Maximum number (20) reached",
+    "maxReachedShort": "Max. 20",
+    "deleteConfirm": "Delete drink?",
+    "deleteConfirmText": "Previous entries in history will be kept.",
+    "deletedLabel": "(Deleted)",
+    "empty": "+ Add custom drink"
+  },
   "common": {
     "save": "Save",
     "cancel": "Cancel",
