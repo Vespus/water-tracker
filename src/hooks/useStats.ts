@@ -3,9 +3,12 @@ import { db } from '../data/db';
 import { useSettings } from './useSettings';
 import type { DrinkEntry } from '../types';
 
-/** Get YYYY-MM-DD for a Date (local time) */
+/** Get YYYY-MM-DD for a Date (local timezone, not UTC) */
 function toDateStr(d: Date): string {
-  return d.toISOString().slice(0, 10);
+  const y = d.getFullYear();
+  const m = String(d.getMonth() + 1).padStart(2, '0');
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${y}-${m}-${day}`;
 }
 
 /** Get Monday of the week containing `d` */

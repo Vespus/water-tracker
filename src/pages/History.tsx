@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { ChevronLeft, ChevronRight, X, Droplets } from 'lucide-react';
 import { useHistory, useDayEntries, type DaySummary } from '../hooks/useStats';
 import { defaultBeverages } from '../data/beverages';
+import { todayString } from '../utils/date';
 
 function getBeverage(id: string) {
   return defaultBeverages.find(b => b.id === id);
@@ -49,8 +50,8 @@ function MonthCalendar({
           if (day === null) return <div key={`e${i}`} />;
           const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
           const summary = summaryMap.get(dateStr);
-          const isToday = dateStr === new Date().toISOString().slice(0, 10);
-          const isFuture = dateStr > new Date().toISOString().slice(0, 10);
+          const isToday = dateStr === todayString();
+          const isFuture = dateStr > todayString();
 
           const goalReached = summary?.hasData && summary.goalReached;
           const goalMissed = summary?.hasData && !summary.goalReached;
