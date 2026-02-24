@@ -192,5 +192,17 @@
     "gapWarning": "{{hours}}s içmeden",
     "onTrack": "İyi dağılım",
     "ariaLabel": "Gün içinde içecek dağılımı"
+  },
+  "hourlyStats": {
+    "title": "Saatlik İçme Dağılımı",
+    "yesterday": "Dün",
+    "dayAgo": "{{days}} gün önce",
+    "noData": "Bu gün için giriş yok",
+    "noEntry": "Giriş yok",
+    "tooltipMl": "{{ml}} ml",
+    "gapHint": "{{count}} saat >3s boşluk",
+    "legendDrink": "İçecek",
+    "legendGap": ">3s boşluk",
+    "legendNoData": "Giriş yok"
   }
 }

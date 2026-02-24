@@ -5,6 +5,7 @@ import {
   BarChart, Bar, XAxis, YAxis, ReferenceLine, ResponsiveContainer, Cell, Tooltip,
 } from 'recharts';
 import { useWeekStats, useStreak, useMonthAverage, useWeekComparison } from '../hooks/useStats';
+import HourlyDistribution from '../components/drink/HourlyDistribution';
 
 const DAY_KEYS = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const;
 
@@ -157,6 +158,8 @@ export default function Stats() {
             </span>
           </div>
         </div>
+        {/* Hourly distribution (US-009) */}
+        <HourlyDistribution />
       </div>
     </div>
   );

@@ -141,6 +141,18 @@
     "backToThisWeek": "Back to this week",
     "goal": "Goal"
   },
+  "hourlyStats": {
+    "title": "Daily Distribution by Hour",
+    "yesterday": "Yesterday",
+    "dayAgo": "{{days}} days ago",
+    "noData": "No entries for this day",
+    "noEntry": "No entry",
+    "tooltipMl": "{{ml}} ml",
+    "gapHint": "{{count}} hours with gap >3h",
+    "legendDrink": "Drink",
+    "legendGap": "Gap >3h",
+    "legendNoData": "No entry"
+  },
   "customDrink": {
     "sectionTitle": "My Drinks",
     "addNew": "New",

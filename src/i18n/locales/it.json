@@ -192,5 +192,17 @@
     "gapWarning": "{{hours}}h senza bere",
     "onTrack": "Ben distribuito",
     "ariaLabel": "Distribuzione bevande durante la giornata"
+  },
+  "hourlyStats": {
+    "title": "Distribuzione giornaliera per ora",
+    "yesterday": "Ieri",
+    "dayAgo": "{{days}} giorni fa",
+    "noData": "Nessun inserimento per questo giorno",
+    "noEntry": "Nessun inserimento",
+    "tooltipMl": "{{ml}} ml",
+    "gapHint": "{{count}} ore con intervallo >3h",
+    "legendDrink": "Bevanda",
+    "legendGap": "Intervallo >3h",
+    "legendNoData": "Nessun inserimento"
   }
 }

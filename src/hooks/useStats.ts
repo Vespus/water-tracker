@@ -197,6 +197,78 @@ export function useMonthAverage() {
   return avg ?? 0;
 }
 
+// ── Hourly Stats (US-009) ──────────────────────────────────────────────────
+
+const HOURLY_START = 6;
+const HOURLY_END = 23;
+const HOURLY_GAP_H = 3;
+
+export interface HourSlotStat {
+  hour: number;
+  ml: number;
+  hasDrink: boolean;
+  isGap: boolean;
+  isFuture: boolean;
+}
+
+/** Hourly drink distribution for a given date (YYYY-MM-DD).
+ *  Returns one slot per hour from HOURLY_START to HOURLY_END.
+ *  isGap = true when there has been no drink for ≥ HOURLY_GAP_H hours. */
+export function useHourlyStats(date: string): { slots: HourSlotStat[]; maxMl: number } {
+  const { settings } = useSettings();
+  void settings; // keep dep stable (useLiveQuery reruns on settings change anyway)
+
+  const entries = useLiveQuery(
+    () => db.drinkEntries.where('date').equals(date).sortBy('timestamp'),
+    [date],
+    [] as DrinkEntry[],
+  ) ?? [];
+
+  const now = new Date();
+  const todayStr = toDateStr(now);
+  const isToday = date === todayStr;
+  const currentHour = isToday ? now.getHours() : 23;
+
+  // Aggregate ml per hour
+  const mlByHour: Record<number, number> = {};
+  const drinkTimes: number[] = [];
+  for (const e of entries) {
+    const ts = new Date(e.timestamp);
+    const h = ts.getHours();
+    mlByHour[h] = (mlByHour[h] ?? 0) + e.amountMl;
+    drinkTimes.push(ts.getTime());
+  }
+  drinkTimes.sort((a, b) => a - b);
+
+  const [y, mo, d] = date.split('-').map(Number);
+  const hourStartMs = (h: number) => new Date(y, mo - 1, d, h, 0, 0).getTime();
+  const nowMs = isToday ? now.getTime() : hourStartMs(24);
+
+  const slots: HourSlotStat[] = [];
+  for (let h = HOURLY_START; h <= HOURLY_END; h++) {
+    const ml = mlByHour[h] ?? 0;
+    const hasDrink = ml > 0;
+    const isFuture = h > currentHour;
+    let isGap = false;
+
+    if (!isFuture && !hasDrink) {
+      const refMs = isToday && h === currentHour ? nowMs : hourStartMs(h + 1);
+      const lastDrink = [...drinkTimes].reverse().find(ts => ts < refMs);
+      if (lastDrink === undefined) {
+        const dayAnchor = hourStartMs(HOURLY_START);
+        if (refMs - dayAnchor >= HOURLY_GAP_H * 3_600_000) isGap = true;
+      } else {
+        if (refMs - lastDrink >= HOURLY_GAP_H * 3_600_000) isGap = true;
+      }
+    }
+
+    slots.push({ hour: h, ml, hasDrink, isGap, isFuture });
+  }
+
+  const maxMl = Math.max(...slots.map(s => s.ml), 1);
+  return { slots, maxMl };
+}
+
 /** Compare current week vs last week total */
 export function useWeekComparison() {
   const current = useWeekStats(0);

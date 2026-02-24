@@ -192,5 +192,17 @@
     "gapWarning": "{{hours}}h sans boire",
     "onTrack": "Bien réparti",
     "ariaLabel": "Répartition des boissons dans la journée"
+  },
+  "hourlyStats": {
+    "title": "Distribution journalière par heure",
+    "yesterday": "Hier",
+    "dayAgo": "il y a {{days}} jours",
+    "noData": "Aucune entrée pour ce jour",
+    "noEntry": "Pas d'entrée",
+    "tooltipMl": "{{ml}} ml",
+    "gapHint": "{{count}} heures avec écart >3h",
+    "legendDrink": "Boisson",
+    "legendGap": "Écart >3h",
+    "legendNoData": "Pas d'entrée"
   }
 }
