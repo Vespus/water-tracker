@@ -177,7 +177,7 @@ export default function DailyTimeline() {
             return (
               <div key={h} className="flex-1 text-center">
                 {show && (
-                  <span className="text-[8px] text-blue-200/30 leading-none">{h}</span>
+                  <span className="text-[8px] text-white/80 leading-none">{h}</span>
                 )}
               </div>
             );
