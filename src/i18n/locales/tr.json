@@ -211,7 +211,14 @@
     "longPressTapHint": "Varsayılan miktarla içeceği anında kaydet",
     "longPressHoldHint": "Tam seçimi aç — içecek ve miktar özgürce seçilebilir",
     "statsTitle": "İstatistikler & Hidrasyon Endeksi",
-    "statsText": "Hidrasyon Endeksi (BHI), bir içeceğin vücudunuzu ne kadar etkili nemlendirir. Su = 1.0×. Haftalık trendinizi ve serinizi takip edin."
+    "statsText": "Hidrasyon Endeksi (BHI), bir içeceğin vücudunuzu ne kadar etkili nemlendirir. Su = 1.0×. Haftalık trendinizi ve serinizi takip edin.",
+    "goalModeCalc": "Hesapla",
+    "goalModeManual": "Manuel",
+    "weightLabel": "Ağırlık",
+    "weightPlaceholder": "örn. 70",
+    "activityLabel": "Aktivite",
+    "calcResult": "Önerilen günlük hedef",
+    "calcHint": "Hedef hesaplamak için kilonuzu girin"
   },
   "timeline": {
     "title": "Günlük Dağılım",

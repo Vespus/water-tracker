@@ -4,6 +4,8 @@ import { Minus, Plus, ChevronRight } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
 import { useAppStore } from '../stores/appStore';
 import i18n from '../i18n';
+import type { ActivityLevel } from '../types';
+import { calculatePersonalGoal } from '../utils/hydration';
 
 const languages = [
   { code: 'de' as const, label: 'Deutsch', flag: '🇩🇪' },
@@ -23,19 +25,44 @@ export default function Onboarding() {
   const [goal, setGoal] = useState(2000);
   const [lang, setLang] = useState<'de' | 'en' | 'fr' | 'tr' | 'it'>(settings.language);
 
+  // US-011: Formula mode state
+  const [goalMode, setGoalMode] = useState<'formula' | 'manual'>('formula');
+  const [weightKg, setWeightKg] = useState<number | undefined>(undefined);
+  const [activityLevel, setActivityLevel] = useState<ActivityLevel>('medium');
+
   const selectLanguage = (code: typeof lang) => {
     setLang(code);
     i18n.changeLanguage(code); // ← sofort anwenden, Rest des Onboardings läuft in gewählter Sprache
   };
 
   const finish = async () => {
-    await updateSettings({ dailyGoalMl: goal, language: lang, onboardingCompleted: true });
+    const saveGoal = goalMode === 'formula' && weightKg && weightKg > 0
+      ? calculatePersonalGoal({ weightKg, activityLevel, age: 30, gender: 'male', climate: 'temperate' })
+      : goal; // manual goal
+    await updateSettings({
+      dailyGoalMl: saveGoal,
+      language: lang,
+      onboardingCompleted: true,
+      goalMode,
+      weightKg: goalMode === 'formula' ? weightKg : undefined,
+      activityLevel: goalMode === 'formula' ? activityLevel : undefined,
+    });
     setCurrentPage('dashboard');
   };
 
   const skip = () => finish();
 
   const clampGoal = (v: number) => Math.max(500, Math.min(5000, v));
+
+  const activityLevels: { value: ActivityLevel; labelKey: string }[] = [
+    { value: 'low', labelKey: 'settings.activity_low' },
+    { value: 'medium', labelKey: 'settings.activity_medium' },
+    { value: 'high', labelKey: 'settings.activity_high' },
+  ];
+
+  const calculatedGoal = weightKg && weightKg > 0
+    ? calculatePersonalGoal({ weightKg, activityLevel, age: 30, gender: 'male', climate: 'temperate' })
+    : null;
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-6 space-y-8">
@@ -102,32 +129,123 @@ export default function Onboarding() {
 
       {/* ── Step 2: Daily Goal ── */}
       {step === 2 && (
-        <div className="text-center space-y-6 animate-fade-in">
+        <div className="text-center space-y-5 animate-fade-in w-full max-w-xs mx-auto">
           <h2 className="text-2xl font-bold text-white">{t('onboarding.setGoal')}</h2>
-          <div className="flex items-center justify-center gap-4">
+
+          {/* Mode Toggle */}
+          <div className="flex rounded-xl overflow-hidden border border-white/30 w-full">
             <button
-              onClick={() => setGoal(clampGoal(goal - 100))}
-              disabled={goal <= 500}
-              className="w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center disabled:opacity-30 hover:bg-white/30 transition-colors"
+              onClick={() => setGoalMode('formula')}
+              className={`flex-1 py-2.5 text-sm font-semibold transition-colors ${
+                goalMode === 'formula'
+                  ? 'bg-white text-blue-700'
+                  : 'bg-white/20 text-white hover:bg-white/30'
+              }`}
             >
-              <Minus size={20} />
+              ✨ {t('onboarding.goalModeCalc')}
             </button>
-            <span className="text-4xl font-bold tabular-nums text-white">{goal}</span>
-            <span className="text-white/70">{t('common.ml')}</span>
             <button
-              onClick={() => setGoal(clampGoal(goal + 100))}
-              disabled={goal >= 5000}
-              className="w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center disabled:opacity-30 hover:bg-white/30 transition-colors"
+              onClick={() => setGoalMode('manual')}
+              className={`flex-1 py-2.5 text-sm font-semibold transition-colors ${
+                goalMode === 'manual'
+                  ? 'bg-white text-blue-700'
+                  : 'bg-white/20 text-white hover:bg-white/30'
+              }`}
             >
-              <Plus size={20} />
+              ✏️ {t('onboarding.goalModeManual')}
             </button>
           </div>
-          <input
-            type="range" min={500} max={5000} step={100} value={goal}
-            onChange={e => setGoal(Number(e.target.value))}
-            className="w-full max-w-xs accent-white"
-          />
-          <p className="text-xs text-white/60">{t('settings.goalHint')}</p>
+
+          {/* Formula Mode */}
+          {goalMode === 'formula' && (
+            <div className="space-y-4 text-left">
+              {/* Weight input */}
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-white/80">
+                  {t('onboarding.weightLabel')} (kg)
+                </label>
+                <input
+                  type="number"
+                  min={20}
+                  max={250}
+                  placeholder={t('onboarding.weightPlaceholder')}
+                  value={weightKg ?? ''}
+                  onChange={e => {
+                    const v = e.target.value === '' ? undefined : Number(e.target.value);
+                    setWeightKg(v);
+                  }}
+                  className="w-full bg-white/20 text-white placeholder-white/50 rounded-xl px-3 py-2.5 outline-none focus:ring-2 focus:ring-white/50"
+                />
+              </div>
+
+              {/* Activity Level */}
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium text-white/80">
+                  {t('onboarding.activityLabel')}
+                </label>
+                <div className="flex gap-2">
+                  {activityLevels.map(({ value, labelKey }) => (
+                    <button
+                      key={value}
+                      onClick={() => setActivityLevel(value)}
+                      className={`flex-1 py-2 text-sm font-semibold rounded-xl transition-colors ${
+                        activityLevel === value
+                          ? 'bg-white text-blue-700'
+                          : 'bg-white/15 text-white hover:bg-white/25'
+                      }`}
+                    >
+                      {t(labelKey)}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Result */}
+              {calculatedGoal !== null ? (
+                <div className="bg-white/20 rounded-2xl px-4 py-3 border border-white/30 text-center">
+                  <p className="text-xs text-white/70 mb-1">{t('onboarding.calcResult')}</p>
+                  <p className="text-3xl font-bold text-white">
+                    🎯 {calculatedGoal} <span className="text-lg font-normal">{t('common.ml')}</span>
+                  </p>
+                </div>
+              ) : (
+                <div className="bg-white/10 rounded-2xl px-4 py-3 border border-white/20 text-center">
+                  <p className="text-sm text-white/60">{t('onboarding.calcHint')}</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Manual Mode */}
+          {goalMode === 'manual' && (
+            <div className="space-y-4">
+              <div className="flex items-center justify-center gap-4">
+                <button
+                  onClick={() => setGoal(clampGoal(goal - 100))}
+                  disabled={goal <= 500}
+                  className="w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center disabled:opacity-30 hover:bg-white/30 transition-colors"
+                >
+                  <Minus size={20} />
+                </button>
+                <span className="text-4xl font-bold tabular-nums text-white">{goal}</span>
+                <span className="text-white/70">{t('common.ml')}</span>
+                <button
+                  onClick={() => setGoal(clampGoal(goal + 100))}
+                  disabled={goal >= 5000}
+                  className="w-10 h-10 rounded-full bg-white/20 text-white flex items-center justify-center disabled:opacity-30 hover:bg-white/30 transition-colors"
+                >
+                  <Plus size={20} />
+                </button>
+              </div>
+              <input
+                type="range" min={500} max={5000} step={100} value={goal}
+                onChange={e => setGoal(Number(e.target.value))}
+                className="w-full max-w-xs accent-white"
+              />
+              <p className="text-xs text-white/60">{t('settings.goalHint')}</p>
+            </div>
+          )}
+
           <button
             onClick={() => setStep(3)}
             className="px-8 py-3 bg-white text-blue-700 rounded-xl font-semibold flex items-center gap-2 mx-auto shadow-lg hover:bg-blue-50 transition-colors"

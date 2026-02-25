@@ -211,7 +211,14 @@
     "longPressTapHint": "Enregistrer la boisson avec la quantité par défaut",
     "longPressHoldHint": "Ouvrir la sélection complète — boisson & quantité au choix",
     "statsTitle": "Statistiques & Index d'hydratation",
-    "statsText": "L'index d'hydratation (BHI) indique l'efficacité d'une boisson. Eau = 1.0×. Suivez votre tendance hebdomadaire et votre série."
+    "statsText": "L'index d'hydratation (BHI) indique l'efficacité d'une boisson. Eau = 1.0×. Suivez votre tendance hebdomadaire et votre série.",
+    "goalModeCalc": "Calculer",
+    "goalModeManual": "Manuel",
+    "weightLabel": "Poids",
+    "weightPlaceholder": "p.ex. 70",
+    "activityLabel": "Activité",
+    "calcResult": "Objectif quotidien recommandé",
+    "calcHint": "Entrez votre poids pour calculer un objectif"
   },
   "timeline": {
     "title": "Répartition journalière",

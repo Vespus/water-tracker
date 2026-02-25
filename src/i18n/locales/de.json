@@ -229,6 +229,13 @@
     "longPressTapHint": "Getränk sofort mit Standardmenge eintragen",
     "longPressHoldHint": "Vollständige Auswahl öffnen — Getränk & Menge frei wählen",
     "statsTitle": "Statistiken & BHI",
-    "statsText": "Der Hydrations-Index (BHI) zeigt, wie effektiv ein Getränk deinen Körper mit Flüssigkeit versorgt. Wasser = 1.0×. Behalte deinen Wochentrend und Streak im Blick."
+    "statsText": "Der Hydrations-Index (BHI) zeigt, wie effektiv ein Getränk deinen Körper mit Flüssigkeit versorgt. Wasser = 1.0×. Behalte deinen Wochentrend und Streak im Blick.",
+    "goalModeCalc": "Berechnen",
+    "goalModeManual": "Manuell",
+    "weightLabel": "Gewicht",
+    "weightPlaceholder": "z. B. 70",
+    "activityLabel": "Aktivität",
+    "calcResult": "Empfohlenes Tagesziel",
+    "calcHint": "Gib dein Gewicht ein, um ein Ziel zu berechnen"
   }
 }

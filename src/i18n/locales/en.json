@@ -223,7 +223,14 @@
     "longPressTapHint": "Log drink instantly with default amount",
     "longPressHoldHint": "Open full selection — choose drink & amount freely",
     "statsTitle": "Stats & Hydration Index",
-    "statsText": "The Hydration Index (BHI) shows how effectively a drink hydrates your body. Water = 1.0×. Track your weekly trend and streak."
+    "statsText": "The Hydration Index (BHI) shows how effectively a drink hydrates your body. Water = 1.0×. Track your weekly trend and streak.",
+    "goalModeCalc": "Calculate",
+    "goalModeManual": "Manual",
+    "weightLabel": "Weight",
+    "weightPlaceholder": "e.g. 70",
+    "activityLabel": "Activity",
+    "calcResult": "Recommended daily goal",
+    "calcHint": "Enter your weight to calculate a goal"
   },
   "timeline": {
     "title": "Daily Distribution",
