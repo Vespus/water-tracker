@@ -42,7 +42,8 @@
     "noFavorites": "No favorites yet — tap ⭐ on a beverage",
     "sliderLabel": "Amount in ml",
     "search": "Search...",
-    "pinnedFavorite": "Water is always in favorites"
+    "pinnedFavorite": "Water is always in favorites",
+    "setTime": "Set time"
   },
   "quickAdd": {
     "setAmount": "Quick-add amount",
@@ -206,7 +207,8 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "edit": "Edit",
-    "ml": "ml"
+    "ml": "ml",
+    "reset": "Reset"
   },
   "onboarding": {
     "welcome": "Welcome!",

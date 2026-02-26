@@ -42,7 +42,8 @@
     "noFavorites": "Henüz favori yok — bir içeceğe ⭐ dokunun",
     "sliderLabel": "ml cinsinden miktar",
     "search": "Ara...",
-    "pinnedFavorite": "Su her zaman favorilerde"
+    "pinnedFavorite": "Su her zaman favorilerde",
+    "setTime": "Saati ayarla"
   },
   "quickAdd": {
     "setAmount": "Hızlı ekleme miktarı",
@@ -153,7 +154,8 @@
     "cancel": "İptal",
     "delete": "Sil",
     "edit": "Düzenle",
-    "ml": "ml"
+    "ml": "ml",
+    "reset": "Sıfırla"
   },
   "history": {
     "mon": "Pzt",

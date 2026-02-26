@@ -1,6 +1,6 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import { X, AlertTriangle, AlertOctagon, Check, ChevronLeft, Star, Search, Pin, Plus, Pencil, Trash2 } from 'lucide-react';
+import { X, AlertTriangle, AlertOctagon, Check, ChevronLeft, Star, Search, Pin, Plus, Pencil, Trash2, Clock } from 'lucide-react';
 import { defaultBeverages } from '../../data/beverages';
 import { useAddDrink, useRecentBeverages } from '../../hooks/useDrinks';
 import { useSettings } from '../../hooks/useSettings';
@@ -240,6 +240,9 @@ export default function AddDrinkModal({ open, onClose, onAdded, initialBeverageI
   const [inputVal, setInputVal] = useState('250');
   const [success, setSuccess] = useState(false);
   const [search, setSearch] = useState('');
+  const [showTimePicker, setShowTimePicker] = useState(false);
+  const [customHour, setCustomHour] = useState<number | null>(null);
+  const [customMinute, setCustomMinute] = useState<number | null>(null);
 
   // Custom beverages state
   const customBeverages = useCustomBeverages();
@@ -280,13 +283,26 @@ export default function AddDrinkModal({ open, onClose, onAdded, initialBeverageI
       setSliderVal(250);
       setInputVal('250');
       setSearch('');
+      setShowTimePicker(false);
+      setCustomHour(null);
+      setCustomMinute(null);
     }
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, initialBeverageId]);
 
   const handleAdd = useCallback(async (ml: number) => {
     if (!selected || ml <= 0) return;
-    await addDrink(selected.id, ml);
+
+    let customTimestamp: string | undefined;
+    if (showTimePicker && customHour !== null) {
+      const chosen = new Date();
+      chosen.setHours(customHour, customMinute ?? 0, 0, 0);
+      if (chosen <= new Date()) {
+        customTimestamp = chosen.toISOString();
+      }
+    }
+
+    await addDrink(selected.id, ml, customTimestamp);
     await saveLastAmount(selected.id, ml);
     setSuccess(true);
     setStep('done');
@@ -298,9 +314,12 @@ export default function AddDrinkModal({ open, onClose, onAdded, initialBeverageI
       setSliderVal(250);
       setInputVal('250');
       setSearch('');
+      setShowTimePicker(false);
+      setCustomHour(null);
+      setCustomMinute(null);
       onClose();
     }, 800);
-  }, [selected, addDrink, saveLastAmount, onAdded, onClose]);
+  }, [selected, addDrink, saveLastAmount, onAdded, onClose, showTimePicker, customHour, customMinute]);
 
   if (!open) return null;
 
@@ -354,6 +373,9 @@ export default function AddDrinkModal({ open, onClose, onAdded, initialBeverageI
     setSliderVal(250);
     setInputVal('250');
     setSearch('');
+    setShowTimePicker(false);
+    setCustomHour(null);
+    setCustomMinute(null);
     onClose();
   };
 
@@ -683,6 +705,102 @@ export default function AddDrinkModal({ open, onClose, onAdded, initialBeverageI
                     />
                   </div>
                 </div>
+
+                {/* Optional time picker toggle */}
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      if (!showTimePicker) {
+                        const now = new Date();
+                        setCustomHour(now.getHours());
+                        setCustomMinute(Math.floor(now.getMinutes() / 15) * 15);
+                      }
+                      setShowTimePicker(p => !p);
+                    }}
+                    className={`flex items-center gap-1.5 text-xs font-medium px-3 py-1.5 rounded-xl transition-colors ${
+                      showTimePicker
+                        ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
+                        : 'bg-gray-100 dark:bg-gray-800 text-gray-500 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700'
+                    }`}
+                  >
+                    <Clock size={13} />
+                    {showTimePicker && customHour !== null
+                      ? `${String(customHour).padStart(2, '0')}:${String(customMinute ?? 0).padStart(2, '0')}`
+                      : t('drink.setTime')}
+                  </button>
+                  {showTimePicker && (
+                    <button
+                      type="button"
+                      onClick={() => { setShowTimePicker(false); setCustomHour(null); setCustomMinute(null); }}
+                      className="text-xs text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+                    >
+                      {t('common.reset')}
+                    </button>
+                  )}
+                </div>
+
+                {/* Expandable time picker */}
+                {showTimePicker && (
+                  <div className="bg-gray-50 dark:bg-gray-800/60 rounded-2xl p-3 space-y-2">
+                    {/* Quick Offset Buttons */}
+                    <div className="flex gap-2 flex-wrap">
+                      {[
+                        { label: '-15m', minutes: -15 },
+                        { label: '-30m', minutes: -30 },
+                        { label: '-1h', minutes: -60 },
+                        { label: '-2h', minutes: -120 },
+                      ].map(({ label, minutes }) => {
+                        const base = new Date();
+                        base.setMinutes(base.getMinutes() + minutes);
+                        return (
+                          <button
+                            key={label}
+                            type="button"
+                            onClick={() => {
+                              const rounded = Math.round(base.getMinutes() / 5) * 5 % 60;
+                              setCustomHour(base.getHours());
+                              setCustomMinute(rounded);
+                            }}
+                            className="px-2.5 py-1 rounded-xl bg-white dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-xs font-medium hover:border-blue-400 dark:hover:border-blue-500 hover:text-blue-500 dark:hover:text-blue-400 transition-colors"
+                          >
+                            {label}
+                          </button>
+                        );
+                      })}
+                    </div>
+                    {/* Manual selects */}
+                    <div className="flex items-center gap-2">
+                      <select
+                        value={customHour ?? new Date().getHours()}
+                        onChange={e => setCustomHour(Number(e.target.value))}
+                        className="flex-1 px-2 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-center focus:outline-none focus:border-blue-400"
+                      >
+                        {Array.from({ length: 24 }, (_, i) => (
+                          <option key={i} value={i}>{String(i).padStart(2, '0')}</option>
+                        ))}
+                      </select>
+                      <span className="text-gray-400 font-bold">:</span>
+                      <select
+                        value={customMinute ?? 0}
+                        onChange={e => setCustomMinute(Number(e.target.value))}
+                        className="flex-1 px-2 py-2 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-sm text-center focus:outline-none focus:border-blue-400"
+                      >
+                        {[0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55].map(m => (
+                          <option key={m} value={m}>{String(m).padStart(2, '0')}</option>
+                        ))}
+                      </select>
+                    </div>
+                    {/* Validation: future time */}
+                    {customHour !== null && (() => {
+                      const chosen = new Date();
+                      chosen.setHours(customHour, customMinute ?? 0, 0, 0);
+                      return chosen > new Date();
+                    })() && (
+                      <p className="text-xs text-red-500 dark:text-red-400">{t('retroAdd.futureTimeError')}</p>
+                    )}
+                  </div>
+                )}
 
                 {/* Custom input + confirm */}
                 <div className="flex gap-2">

@@ -42,7 +42,8 @@
     "noFavorites": "Noch keine Favoriten — tippe auf ⭐ bei einem Getränk",
     "sliderLabel": "Menge in ml",
     "search": "Suchen...",
-    "pinnedFavorite": "Wasser ist immer in den Favoriten"
+    "pinnedFavorite": "Wasser ist immer in den Favoriten",
+    "setTime": "Uhrzeit anpassen"
   },
   "quickAdd": {
     "setAmount": "Menge für Schnellzugriff",
@@ -212,7 +213,8 @@
     "cancel": "Abbrechen",
     "delete": "Löschen",
     "edit": "Bearbeiten",
-    "ml": "ml"
+    "ml": "ml",
+    "reset": "Zurücksetzen"
   },
   "onboarding": {
     "welcome": "Willkommen!",
