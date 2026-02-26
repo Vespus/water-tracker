@@ -237,5 +237,10 @@
     "legendDrink": "İçecek",
     "legendGap": ">3s boşluk",
     "legendNoData": "Giriş yok"
+  },
+  "retroAdd": {
+    "title": "Kayıt ekle",
+    "timeLabel": "Saat",
+    "futureTimeError": "Zaman gelecekte olamaz"
   }
 }

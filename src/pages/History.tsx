@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ChevronLeft, ChevronRight, X, Droplets } from 'lucide-react';
+import { ChevronLeft, ChevronRight, X, Droplets, Plus } from 'lucide-react';
 import { useHistory, useDayEntries, type DaySummary } from '../hooks/useStats';
 import { useAllBeverages } from '../hooks/useCustomBeverages';
 import { todayString } from '../utils/date';
 import type { BeverageType } from '../types';
+import RetroAddModal from '../components/drink/RetroAddModal';
 
 /** Calendar grid for a single month */
 function MonthCalendar({
@@ -80,6 +81,7 @@ function DayDetail({ date, onClose }: { date: string; onClose: () => void }) {
   const { t } = useTranslation();
   const entries = useDayEntries(date);
   const allBeverages = useAllBeverages();
+  const [showRetroAdd, setShowRetroAdd] = useState(false);
 
   const getBeverage = (id: string): BeverageType | undefined => allBeverages.find(b => b.id === id);
   const getBevName = (bev: BeverageType): string => bev.customName ?? t(bev.nameKey);
@@ -92,6 +94,7 @@ function DayDetail({ date, onClose }: { date: string; onClose: () => void }) {
   });
 
   return (
+    <>
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-end sm:items-center justify-center" onClick={onClose}>
       <div
         className="bg-white dark:bg-gray-900 rounded-t-3xl sm:rounded-3xl w-full max-w-lg max-h-[80vh] overflow-y-auto shadow-2xl"
@@ -103,12 +106,21 @@ function DayDetail({ date, onClose }: { date: string; onClose: () => void }) {
         </div>
         <div className="flex justify-between items-center px-5 py-4 border-b border-gray-100 dark:border-gray-800">
           <h2 className="text-base font-bold">{displayDate}</h2>
-          <button onClick={onClose} className="p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
-            <X size={18} />
-          </button>
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setShowRetroAdd(true)}
+              className="p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              title={t('retroAdd.title')}
+            >
+              <Plus size={18} />
+            </button>
+            <button onClick={onClose} className="p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+              <X size={18} />
+            </button>
+          </div>
         </div>
 
-        <div className="p-5">
+        <div className="p-5 pb-safe">
           {entries.length === 0 ? (
             <p className="text-gray-400 dark:text-gray-500 text-center py-8">{t('history.noData')}</p>
           ) : (
@@ -165,6 +177,13 @@ function DayDetail({ date, onClose }: { date: string; onClose: () => void }) {
         </div>
       </div>
     </div>
+    <RetroAddModal
+      open={showRetroAdd}
+      date={date}
+      onClose={() => setShowRetroAdd(false)}
+      onAdded={() => setShowRetroAdd(false)}
+    />
+    </>
   );
 }
 

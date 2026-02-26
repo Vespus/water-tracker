@@ -237,5 +237,10 @@
     "activityLabel": "Aktivität",
     "calcResult": "Empfohlenes Tagesziel",
     "calcHint": "Gib dein Gewicht ein, um ein Ziel zu berechnen"
+  },
+  "retroAdd": {
+    "title": "Eintrag hinzufügen",
+    "timeLabel": "Uhrzeit",
+    "futureTimeError": "Zeitpunkt liegt in der Zukunft"
   }
 }

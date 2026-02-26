@@ -237,5 +237,10 @@
     "legendDrink": "Bevanda",
     "legendGap": "Intervallo >3h",
     "legendNoData": "Nessun inserimento"
+  },
+  "retroAdd": {
+    "title": "Aggiungi voce",
+    "timeLabel": "Orario",
+    "futureTimeError": "L'orario non può essere nel futuro"
   }
 }

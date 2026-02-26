@@ -65,6 +65,7 @@ export interface DrinkEntry {
   timestamp: string; // ISO 8601
   createdAt: string;
   updatedAt: string;
+  customTimestamp?: string; // ISO 8601 — optionale Überschreibung des display-Timestamps
 }
 
 export interface DailySummary {

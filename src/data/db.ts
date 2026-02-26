@@ -68,4 +68,12 @@ db.version(6).stores({
   });
 });
 
+// v7: Add customTimestamp to drinkEntries (Ansatz A retroactive entries)
+db.version(7).stores({
+  settings: 'id',
+  drinkEntries: 'id, beverageTypeId, date, timestamp',
+  dailySummaries: 'date',
+  customBeverages: 'id, sortOrder',
+});
+
 export { db };

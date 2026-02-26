@@ -33,7 +33,7 @@ async function resolveBeverage(beverageTypeId: string): Promise<BeverageType | u
 }
 
 export function useAddDrink() {
-  return useCallback(async (beverageTypeId: string, amountMl: number) => {
+  return useCallback(async (beverageTypeId: string, amountMl: number, customTimestamp?: string) => {
     const bev = await resolveBeverage(beverageTypeId);
     if (!bev) throw new Error(`Unknown beverage: ${beverageTypeId}`);
     const now = new Date().toISOString();
@@ -43,10 +43,33 @@ export function useAddDrink() {
       amountMl,
       hydrationFactor: bev.hydrationFactor,
       waterEquivalentMl: calcWaterEquivalent(amountMl, bev.hydrationFactor),
-      date: todayString(),
-      timestamp: now,
+      date: customTimestamp ? customTimestamp.slice(0, 10) : todayString(),
+      timestamp: customTimestamp ?? now,
       createdAt: now,
       updatedAt: now,
+      ...(customTimestamp ? { customTimestamp } : {}),
+    };
+    await db.drinkEntries.add(entry);
+    return entry;
+  }, []);
+}
+
+export function useAddDrinkToDate() {
+  return useCallback(async (beverageTypeId: string, amountMl: number, date: string, timeIso: string) => {
+    const bev = await resolveBeverage(beverageTypeId);
+    if (!bev) throw new Error(`Unknown beverage: ${beverageTypeId}`);
+    const now = new Date().toISOString();
+    const entry: DrinkEntry = {
+      id: crypto.randomUUID(),
+      beverageTypeId,
+      amountMl,
+      hydrationFactor: bev.hydrationFactor,
+      waterEquivalentMl: calcWaterEquivalent(amountMl, bev.hydrationFactor),
+      date,
+      timestamp: timeIso,
+      createdAt: now,
+      updatedAt: now,
+      customTimestamp: timeIso,
     };
     await db.drinkEntries.add(entry);
     return entry;
