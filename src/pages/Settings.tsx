@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Minus, Plus, Monitor, Sun, Moon, Settings2 } from 'lucide-react';
+import { Minus, Plus, Monitor, Sun, Moon, Settings2, Download, FileText, Shield, X } from 'lucide-react';
 import { useSettings } from '../hooks/useSettings';
 import GoalFormulaSection from '../components/settings/GoalFormulaSection';
 import type { ThemePreference } from '../types';
 import i18n from '../i18n';
+import { db } from '../data/db';
 
 const languages = [
   { code: 'de' as const, label: 'Deutsch', flag: '🇩🇪' },
@@ -19,9 +21,13 @@ const themeOptions: { value: ThemePreference; icon: typeof Monitor; labelKey: st
   { value: 'dark',   icon: Moon,    labelKey: 'settings.themeDark'   },
 ];
 
+type ModalType = 'impressum' | 'privacy' | null;
+
 export default function Settings() {
   const { t } = useTranslation();
   const { settings, updateSettings } = useSettings();
+  const [modal, setModal] = useState<ModalType>(null);
+  const [exportStatus, setExportStatus] = useState<'idle' | 'loading' | 'done'>('idle');
 
   const setGoal = (val: number) => {
     const clamped = Math.max(500, Math.min(5000, val));
@@ -35,6 +41,37 @@ export default function Settings() {
 
   const setTheme = (theme: ThemePreference) => {
     updateSettings({ theme });
+  };
+
+  const handleExport = async () => {
+    setExportStatus('loading');
+    try {
+      const [drinkEntries, settingsData] = await Promise.all([
+        db.drinkEntries.toArray(),
+        db.settings.toArray(),
+      ]);
+      const exportData = {
+        exportedAt: new Date().toISOString(),
+        version: 1,
+        drinkEntries,
+        settings: settingsData,
+      };
+      const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const dateStr = new Date().toISOString().slice(0, 10);
+      a.href = url;
+      a.download = `water-tracker-export-${dateStr}.json`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      setExportStatus('done');
+      setTimeout(() => setExportStatus('idle'), 2500);
+    } catch (e) {
+      console.error('Export failed', e);
+      setExportStatus('idle');
+    }
   };
 
   const currentTheme = settings.theme ?? 'system';
@@ -157,7 +194,83 @@ export default function Settings() {
             })}
           </div>
         </div>
+
+        {/* Data Export */}
+        <div className="bg-white dark:bg-gray-800/60 rounded-3xl p-5 shadow-sm border border-gray-100 dark:border-gray-700/50">
+          <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+            Datensicherung
+          </h2>
+          <button
+            onClick={handleExport}
+            disabled={exportStatus === 'loading'}
+            className={`w-full flex items-center justify-center gap-2.5 py-3.5 px-4 rounded-2xl text-sm font-semibold transition-all duration-150 ${
+              exportStatus === 'done'
+                ? 'bg-green-500 text-white shadow-md shadow-green-500/25'
+                : 'bg-gray-50 dark:bg-gray-700/60 text-gray-600 dark:text-gray-300 hover:bg-blue-50 dark:hover:bg-blue-900/30 hover:text-blue-600 dark:hover:text-blue-400 border border-transparent hover:border-blue-200 dark:hover:border-blue-700'
+            }`}
+          >
+            <Download size={18} />
+            <span>
+              {exportStatus === 'loading'
+                ? '…'
+                : exportStatus === 'done'
+                ? t('settings.exportSuccess')
+                : t('settings.exportData')}
+            </span>
+          </button>
+        </div>
+
+        {/* Legal */}
+        <div className="bg-white dark:bg-gray-800/60 rounded-3xl p-5 shadow-sm border border-gray-100 dark:border-gray-700/50">
+          <h2 className="text-sm font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-4">
+            {t('settings.legal')}
+          </h2>
+          <div className="space-y-2.5">
+            <button
+              onClick={() => setModal('impressum')}
+              className="w-full flex items-center gap-2.5 py-3 px-4 rounded-2xl text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/60 hover:bg-gray-100 dark:hover:bg-gray-700 border border-transparent hover:border-gray-200 dark:hover:border-gray-600 transition-all duration-150"
+            >
+              <FileText size={18} className="text-gray-400" />
+              <span>{t('settings.impressum')}</span>
+            </button>
+            <button
+              onClick={() => setModal('privacy')}
+              className="w-full flex items-center gap-2.5 py-3 px-4 rounded-2xl text-sm font-semibold text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-700/60 hover:bg-gray-100 dark:hover:bg-gray-700 border border-transparent hover:border-gray-200 dark:hover:border-gray-600 transition-all duration-150"
+            >
+              <Shield size={18} className="text-gray-400" />
+              <span>{t('settings.privacy')}</span>
+            </button>
+          </div>
+        </div>
       </div>
+
+      {/* Legal Modal */}
+      {modal && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+          onClick={() => setModal(null)}
+        >
+          <div
+            className="bg-white dark:bg-gray-800 rounded-3xl p-6 w-full max-w-sm shadow-xl"
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-bold text-gray-900 dark:text-white">
+                {modal === 'impressum' ? t('settings.impressum') : t('settings.privacy')}
+              </h3>
+              <button
+                onClick={() => setModal(null)}
+                className="p-2 rounded-xl text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+              >
+                <X size={20} />
+              </button>
+            </div>
+            <p className="text-gray-500 dark:text-gray-400 text-sm leading-relaxed">
+              {modal === 'impressum' ? t('settings.impressumText') : t('settings.privacyText')}
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

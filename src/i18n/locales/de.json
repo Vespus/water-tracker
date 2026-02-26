@@ -125,7 +125,14 @@
     "formulaLine1": "Basis: Gewicht × Aktivitätsfaktor × Klimafaktor",
     "formulaLine2": "Alter über 60: +10 % Zuschlag",
     "formulaLine3": "Männlich: +300 ml Zuschlag",
-    "formulaLine4": "×0,8 — da ca. 20 % des Flüssigkeitsbedarfs über Nahrung gedeckt wird"
+    "formulaLine4": "×0,8 — da ca. 20 % des Flüssigkeitsbedarfs über Nahrung gedeckt wird",
+    "legal": "Rechtliches",
+    "impressum": "Impressum",
+    "impressumText": "Impressum folgt in Kürze",
+    "privacy": "Datenschutz",
+    "privacyText": "Datenschutzerklärung folgt in Kürze",
+    "exportData": "Daten exportieren",
+    "exportSuccess": "Export erfolgreich"
   },
   "history": {
     "mon": "Mo",

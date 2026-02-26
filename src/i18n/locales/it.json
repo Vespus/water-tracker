@@ -125,7 +125,14 @@
     "formulaLine1": "Base: peso × fattore attività × fattore clima",
     "formulaLine2": "Età superiore a 60: +10%",
     "formulaLine3": "Maschio: +300 ml",
-    "formulaLine4": "×0,8 — circa il 20% del fabbisogno idrico proviene dal cibo"
+    "formulaLine4": "×0,8 — circa il 20% del fabbisogno idrico proviene dal cibo",
+    "legal": "Note legali",
+    "impressum": "Impronta",
+    "impressumText": "Impronta in arrivo",
+    "privacy": "Privacy",
+    "privacyText": "Informativa sulla privacy in arrivo",
+    "exportData": "Esporta dati",
+    "exportSuccess": "Esportazione riuscita"
   },
   "customDrink": {
     "sectionTitle": "Le mie bevande",

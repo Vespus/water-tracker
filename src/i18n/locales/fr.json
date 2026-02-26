@@ -125,7 +125,14 @@
     "formulaLine1": "Base : poids × facteur d'activité × facteur climatique",
     "formulaLine2": "Âge supérieur à 60 : +10 %",
     "formulaLine3": "Homme : +300 ml",
-    "formulaLine4": "×0,8 — environ 20 % des besoins en liquides viennent des aliments"
+    "formulaLine4": "×0,8 — environ 20 % des besoins en liquides viennent des aliments",
+    "legal": "Mentions légales",
+    "impressum": "Mentions légales",
+    "impressumText": "Mentions légales à venir",
+    "privacy": "Confidentialité",
+    "privacyText": "Politique de confidentialité à venir",
+    "exportData": "Exporter les données",
+    "exportSuccess": "Exportation réussie"
   },
   "customDrink": {
     "sectionTitle": "Mes boissons",

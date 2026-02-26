@@ -125,7 +125,14 @@
     "formulaLine1": "Base: weight × activity factor × climate factor",
     "formulaLine2": "Age over 60: +10% bonus",
     "formulaLine3": "Male: +300 ml bonus",
-    "formulaLine4": "×0.8 — about 20% of fluid needs come from food"
+    "formulaLine4": "×0.8 — about 20% of fluid needs come from food",
+    "legal": "Legal",
+    "impressum": "Imprint",
+    "impressumText": "Imprint coming soon",
+    "privacy": "Privacy Policy",
+    "privacyText": "Privacy policy coming soon",
+    "exportData": "Export Data",
+    "exportSuccess": "Export successful"
   },
   "history": {
     "mon": "Mon",

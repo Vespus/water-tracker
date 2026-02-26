@@ -125,7 +125,14 @@
     "formulaLine1": "Temel: ağırlık × aktivite faktörü × iklim faktörü",
     "formulaLine2": "60 yaş üstü: +%10",
     "formulaLine3": "Erkek: +300 ml",
-    "formulaLine4": "×0,8 — sıvı ihtiyacının ~%20'si gıdadan karşılanır"
+    "formulaLine4": "×0,8 — sıvı ihtiyacının ~%20'si gıdadan karşılanır",
+    "legal": "Yasal",
+    "impressum": "Künye",
+    "impressumText": "Künye yakında eklenecek",
+    "privacy": "Gizlilik",
+    "privacyText": "Gizlilik politikası yakında eklenecek",
+    "exportData": "Verileri dışa aktar",
+    "exportSuccess": "Dışa aktarma başarılı"
   },
   "customDrink": {
     "sectionTitle": "İçeceklerim",
