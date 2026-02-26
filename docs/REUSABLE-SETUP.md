@@ -64,3 +64,25 @@ Je präziser das Concept, desto weniger Bug-Loops → weniger Kontext-Verbrauch.
 | UI / Backend | 80.000 | Klare Einzelaufträge |
 | Concept | 100.000 | Docs lesen + schreiben |
 | Tester | 60.000 | Abgegrenzter Job |
+
+---
+
+## Testing-Leitfaden
+
+### ✅ Richtig: Playwright TypeScript Tests (Native)
+```bash
+cd ~/app/water-tracker
+npx playwright test tests/us010-time-edit.spec.ts
+```
+- Nutzt `playwright.config.ts` → startet Server automatisch via `webServer`
+- Funktioniert in Sandbox-Umgebung (localhost-Zugriff wird vom webServer-Start gelöst)
+
+### ❌ Falsch: Python/Playwright Scripts
+- Python-Scripts via `uv run --with playwright python3 test_*.py`
+- Problem: Sandbox-Isolation blockt localhost-Verbindungen
+- **Niemals für Water Tracker nutzen** → stattdessen TypeScript Tests schreiben
+
+### Test-Dateien ablegen
+- `tests/*.spec.ts` → Playwright Tests (native)
+- `test-*.py` → **NICHT VERWENDEN** (veraltet, funktioniert nicht)
+- `test-results/` → Screenshots und Artefakte
