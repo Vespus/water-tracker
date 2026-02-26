@@ -25,6 +25,7 @@ export default function DrinkLog() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editAmount, setEditAmount] = useState(0);
   const [editBeverage, setEditBeverage] = useState('');
+  const [editTime, setEditTime] = useState(''); // HH:mm
   const [undo, setUndo] = useState<UndoState | null>(null);
 
   // Countdown for undo
@@ -61,11 +62,27 @@ export default function DrinkLog() {
     setEditingId(entry.id);
     setEditAmount(entry.amountMl);
     setEditBeverage(entry.beverageTypeId);
+    // Pre-fill time from existing timestamp (HH:mm)
+    const d = new Date(entry.timestamp);
+    const hh = String(d.getHours()).padStart(2, '0');
+    const mm = String(d.getMinutes()).padStart(2, '0');
+    setEditTime(`${hh}:${mm}`);
   };
 
   const saveEdit = async () => {
     if (!editingId) return;
-    await updateDrink(editingId, editBeverage, editAmount);
+    // Build new ISO timestamp: today's date + edited time
+    const today = new Date();
+    const [hh, mm] = editTime.split(':').map(Number);
+    const newDate = new Date(today.getFullYear(), today.getMonth(), today.getDate(), hh, mm, 0, 0);
+    // Validation: must be today and not in the future beyond now
+    const todayStr = today.toISOString().slice(0, 10);
+    const newTimestamp = newDate.toISOString();
+    if (newTimestamp.slice(0, 10) !== todayStr) {
+      // Should not happen with type="time", but guard anyway
+      return;
+    }
+    await updateDrink(editingId, editBeverage, editAmount, newTimestamp);
     setEditingId(null);
   };
 
@@ -132,6 +149,14 @@ export default function DrinkLog() {
                   className="flex-1 p-2.5 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-sm focus:outline-none focus:border-blue-400"
                 />
                 <span className="text-xs text-gray-400 font-medium">{t('common.ml')}</span>
+              </div>
+              <div className="flex items-center gap-2">
+                <input
+                  type="time"
+                  value={editTime}
+                  onChange={e => setEditTime(e.target.value)}
+                  className="flex-1 p-2.5 rounded-xl bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 text-sm focus:outline-none focus:border-blue-400"
+                />
                 <button
                   onClick={saveEdit}
                   className="p-2 rounded-xl bg-green-50 dark:bg-green-900/30 text-green-600 hover:bg-green-100 transition-colors"

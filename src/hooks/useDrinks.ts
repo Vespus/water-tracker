@@ -83,16 +83,22 @@ export function useDeleteDrink() {
 }
 
 export function useUpdateDrink() {
-  return useCallback(async (id: string, beverageTypeId: string, amountMl: number) => {
+  return useCallback(async (id: string, beverageTypeId: string, amountMl: number, newTimestamp?: string) => {
     const bev = await resolveBeverage(beverageTypeId);
     if (!bev) throw new Error(`Unknown beverage: ${beverageTypeId}`);
-    await db.drinkEntries.update(id, {
+    const update: Partial<DrinkEntry> = {
       beverageTypeId,
       amountMl,
       hydrationFactor: bev.hydrationFactor,
       waterEquivalentMl: calcWaterEquivalent(amountMl, bev.hydrationFactor),
       updatedAt: new Date().toISOString(),
-    });
+    };
+    if (newTimestamp) {
+      update.timestamp = newTimestamp;
+      update.customTimestamp = newTimestamp;
+      update.date = newTimestamp.slice(0, 10);
+    }
+    await db.drinkEntries.update(id, update);
   }, []);
 }
 
